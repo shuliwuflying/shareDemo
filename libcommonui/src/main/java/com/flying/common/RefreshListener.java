@@ -3,7 +3,7 @@ package com.flying.common;
 /**
  * Created by aspsine on 16/3/7.
  */
-public interface RefreshTrigger {
+public interface RefreshListener {
 
     void onStart(boolean automatic, int headerHeight, int finalHeight);
 

@@ -4,33 +4,32 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.aspsine.irecyclerview.IRecyclerView;
-import com.aspsine.irecyclerview.OnLoadMoreListener;
-import com.aspsine.irecyclerview.OnRefreshListener;
-import com.aspsine.irecyclerview.demo.R;
-import com.aspsine.irecyclerview.demo.model.Image;
-import com.aspsine.irecyclerview.demo.network.NetworkAPI;
-import com.aspsine.irecyclerview.demo.ui.adapter.ImageAdapter;
-import com.aspsine.irecyclerview.demo.ui.adapter.OnItemClickListener;
-import com.aspsine.irecyclerview.demo.ui.widget.BannerView;
-import com.aspsine.irecyclerview.demo.ui.widget.footer.LoadMoreFooterView;
-import com.aspsine.irecyclerview.demo.ui.widget.header.BatVsSupperHeaderView;
-import com.aspsine.irecyclerview.demo.ui.widget.header.ClassicRefreshHeaderView;
-import com.aspsine.irecyclerview.demo.utils.DensityUtils;
-import com.aspsine.irecyclerview.demo.utils.ListUtils;
+
+import com.flying.common.RefreshRecyclerView;
+import com.flying.common.OnLoadMoreListener;
+import com.flying.common.OnRefreshListener;
+import com.slive.demo.R;
+import com.slive.demo.model.Image;
+import com.slive.demo.network.NetworkAPI;
+import com.slive.demo.ui.adapter.ImageAdapter;
+import com.slive.demo.ui.adapter.OnItemClickListener;
+import com.slive.demo.ui.widget.BannerView;
+import com.slive.demo.ui.widget.footer.LoadMoreFooterView;
+import com.slive.demo.ui.widget.header.BatVsSupperHeaderView;
+import com.slive.demo.ui.widget.header.ClassicRefreshHeaderView;
+import com.slive.demo.utils.DensityUtils;
+import com.slive.demo.utils.ListUtils;
 
 import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements OnItemClickListener<Image>, OnRefreshListener, OnLoadMoreListener {
 
-    private IRecyclerView iRecyclerView;
+    private RefreshRecyclerView refreshRecyclerView;
     private BannerView bannerView;
     private LoadMoreFooterView loadMoreFooterView;
 
@@ -42,44 +41,30 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        iRecyclerView = (IRecyclerView) findViewById(R.id.iRecyclerView);
-        iRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        refreshRecyclerView = (RefreshRecyclerView) findViewById(R.id.iRecyclerView);
+        refreshRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        bannerView = (BannerView) LayoutInflater.from(this).inflate(R.layout.layout_banner_view, iRecyclerView.getHeaderContainer(), false);
-        iRecyclerView.addHeaderView(bannerView);
+        bannerView = (BannerView) LayoutInflater.from(this).inflate(R.layout.layout_banner_view, refreshRecyclerView.getHeaderContainer(), false);
+        refreshRecyclerView.addHeaderView(bannerView);
 
-        loadMoreFooterView = (LoadMoreFooterView) iRecyclerView.getLoadMoreFooterView();
+        loadMoreFooterView = (LoadMoreFooterView) refreshRecyclerView.getLoadMoreFooterView();
 
         mAdapter = new ImageAdapter();
-        iRecyclerView.setIAdapter(mAdapter);
+        refreshRecyclerView.setIAdapter(mAdapter);
 
-        iRecyclerView.setOnRefreshListener(this);
-        iRecyclerView.setOnLoadMoreListener(this);
+        refreshRecyclerView.setOnRefreshListener(this);
+        refreshRecyclerView.setOnLoadMoreListener(this);
 
         mAdapter.setOnItemClickListener(this);
 
-        iRecyclerView.post(new Runnable() {
+        refreshRecyclerView.post(new Runnable() {
             @Override
             public void run() {
-                iRecyclerView.setRefreshing(true);
+                refreshRecyclerView.setRefreshing(true);
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_change_header, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_toggle_header) {
-            toggleRefreshHeader();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onItemClick(int position, Image image, View v) {
@@ -103,15 +88,15 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     }
 
     private void toggleRefreshHeader() {
-        if (iRecyclerView.getRefreshHeaderView() instanceof BatVsSupperHeaderView) {
+        if (refreshRecyclerView.getRefreshHeaderView() instanceof BatVsSupperHeaderView) {
             ClassicRefreshHeaderView classicRefreshHeaderView = new ClassicRefreshHeaderView(this);
             classicRefreshHeaderView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtils.dip2px(this, 80)));
             // we can set view
-            iRecyclerView.setRefreshHeaderView(classicRefreshHeaderView);
+            refreshRecyclerView.setRefreshHeaderView(classicRefreshHeaderView);
             Toast.makeText(this, "Classic style", Toast.LENGTH_SHORT).show();
-        } else if (iRecyclerView.getRefreshHeaderView() instanceof ClassicRefreshHeaderView) {
+        } else if (refreshRecyclerView.getRefreshHeaderView() instanceof ClassicRefreshHeaderView) {
             // we can also set layout
-            iRecyclerView.setRefreshHeaderView(R.layout.layout_irecyclerview_refresh_header);
+            refreshRecyclerView.setRefreshHeaderView(R.layout.layout_irecyclerview_refresh_header);
             Toast.makeText(this, "Bat man vs Super man style", Toast.LENGTH_SHORT).show();
         }
     }
@@ -137,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         NetworkAPI.requestImages(mPage, new NetworkAPI.Callback<List<Image>>() {
             @Override
             public void onSuccess(List<Image> images) {
-                iRecyclerView.setRefreshing(false);
+                refreshRecyclerView.setRefreshing(false);
                 if (ListUtils.isEmpty(images)) {
                     mAdapter.clear();
                 } else {
@@ -149,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             @Override
             public void onFailure(Exception e) {
                 e.printStackTrace();
-                iRecyclerView.setRefreshing(false);
+                refreshRecyclerView.setRefreshing(false);
                 Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });

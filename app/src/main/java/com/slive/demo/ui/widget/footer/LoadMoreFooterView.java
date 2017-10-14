@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.aspsine.irecyclerview.demo.R;
+import com.slive.demo.R;
 
 /**
  * Created by aspsine on 16/3/14.

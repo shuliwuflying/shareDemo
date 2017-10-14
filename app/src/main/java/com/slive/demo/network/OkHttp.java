@@ -2,7 +2,7 @@ package com.slive.demo.network;
 
 import android.content.Context;
 
-import com.aspsine.irecyclerview.demo.utils.FileUtils;
+import com.slive.demo.utils.FileUtils;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;

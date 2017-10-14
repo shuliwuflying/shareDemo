@@ -1,13 +1,13 @@
 package com.slive.demo.network;
 
 
-import com.aspsine.irecyclerview.demo.Constants;
-import com.aspsine.irecyclerview.demo.model.Image;
 import com.google.gson.reflect.TypeToken;
+import com.slive.demo.Constants;
+import com.slive.demo.model.Image;
+import com.slive.demo.okhttp3.GsonCallbackWrapper;
 
 import java.util.List;
 
-import okhttp3.GsonCallbackWrapper;
 import okhttp3.Request;
 
 /**

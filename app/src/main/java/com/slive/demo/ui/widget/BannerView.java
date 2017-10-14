@@ -12,9 +12,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.aspsine.irecyclerview.demo.R;
-import com.aspsine.irecyclerview.demo.model.Image;
 import com.bumptech.glide.Glide;
+import com.slive.demo.R;
+import com.slive.demo.model.Image;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.util.ArrayList;

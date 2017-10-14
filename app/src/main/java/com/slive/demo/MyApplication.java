@@ -2,7 +2,8 @@ package com.slive.demo;
 
 import android.app.Application;
 
-import com.aspsine.irecyclerview.demo.network.OkHttp;
+import com.slive.demo.network.OkHttp;
+
 
 /**
  * @author:shuliwu

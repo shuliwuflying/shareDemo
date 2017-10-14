@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.aspsine.irecyclerview.IViewHolder;
-import com.aspsine.irecyclerview.demo.R;
-import com.aspsine.irecyclerview.demo.model.Image;
 import com.bumptech.glide.Glide;
+import com.flying.common.IViewHolder;
+import com.slive.demo.R;
+import com.slive.demo.model.Image;
 
 import java.util.ArrayList;
 import java.util.List;
