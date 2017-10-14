@@ -1,0 +1,122 @@
+apply plugin: 'com.android.application'
+//apply plugin: "slive"
+
+
+def bakPath = file("${buildDir}/bakFile/")
+def bakFiles = ["mapping.txt","resources.txt","seeds.txt","usage.txt"]
+
+//获取产品的名字
+def getProductName() {
+    return "shareDemo_"+ rootProject.ext.app.versionName + "${getJenkinsBuild()}"
+}
+
+//获取当前系统的时间
+def releaseTime() {
+    return new Date().format("yyyyMMddHHmmss")
+}
+
+boolean isInJeknins() {
+    Map<String, String> map =  System.getenv()
+    if(map == null) {
+        return false
+    }
+//    printf('env=%s\n',map.toMapString())
+    String str
+    Iterator it = map.iterator();
+    while(it.hasNext()) {
+        str = it.next();
+        if(str.contains("jenkins")){
+            return true
+        }
+    }
+    return false;
+}
+//获取jenkins build number
+def getJenkinsBuild() {
+    boolean  flag = isInJeknins();
+    if(flag){
+        ext.env = System.getenv()
+        ext.buildNumber = env.get("BUILD_NUMBER");
+        return "#" + "$buildNumber"
+    }else{
+        return ""
+    }
+}
+
+android {
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.slive.demo"
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.app.versionCode
+        versionName rootProject.ext.app.versionName
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    android.applicationVariants.all{ variant->
+        def taskName = variant.name
+        tasks.all{
+            if("assemble${taskName}".equalsIgnoreCase(it.name)){
+                it.doLast{
+                    copy{
+                        def fileName = getProductName() + "_${releaseTime()}"
+                        if(variant.productFlavors != null && variant.productFlavors[0] != null){
+                            fileName += "_"+variant.productFlavors[0].name
+                        }
+
+                        if(variant.buildType != null){
+                            fileName += "_"+variant.buildType.name
+                        }
+                        def destPath = bakPath;
+                        def apkName = fileName+".apk"
+                        def sourceApk = variant.outputs.outputFile
+                        def sourceApkName = sourceApk[0].getName()
+                        from sourceApk
+                        into destPath
+
+                        //备份 apk
+                        include(sourceApkName)
+                        rename(sourceApkName,apkName)
+
+                        //备份混淆文件
+                        from "${buildDir}/outputs/mapping/${variant.dirName}/"
+                        into destPath
+                        for(bakFileName in bakFiles){
+                            include(bakFileName)
+                            rename(bakFileName,fileName+"_"+bakFileName)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+}
+
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile rootProject.ext.dependencies.supportV4
+    compile rootProject.ext.dependencies.appCompatV7
+    compile project(':libcommonui')
+    compile 'com.slive.test:test:1.0.1'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+}

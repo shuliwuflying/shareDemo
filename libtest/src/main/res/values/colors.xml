@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#7BDBFD</color>
+    <color name="colorPrimaryDark">#bd000000</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="appColor">#6BE2FF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+
+
+    <!--alpha black-->
+    <color name="tenBlack">#1A000000</color>
+    <color name="twentyFiveBlack">#40000000</color>
+    <color name="thirtyBlack">#4C000000</color>
+    <color name="fortyBlack">#66000000</color>
+    <color name="eightyBlack">#CC000000</color>
+
+    <color name="itemPress">#fff9f9f9</color>
+    <color name="editTypeTextColor">#00B5F1</color>
+    <color name="editTypeLineColor">#02BFFF</color>
+
+    <color name="headItemPressColor">#d7f4fe</color>
+    <color name="green">#00FF00</color>
+
+    <color name="background_window">#FFFFFF</color>
+    
+</resources>

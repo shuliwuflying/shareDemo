@@ -1,0 +1,39 @@
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+
+dependencies {
+    //gradle sdk
+    compile gradleApi()
+    //groovy sdk
+    compile localGroovy()
+}
+
+
+repositories {
+    mavenCentral()
+}
+//以上都为固定写法
+
+//group和version
+group='com.slive.plugin'
+version='1.0.1'
+
+//打包到本地或者远程Maven库
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url:"http://localhost:8081/nexus/content/repositories/slive_repo") {
+                authentication(userName: 'admin', password: 'admin123')
+            }
+
+        }
+    }
+
+//    pom.project {
+//        version '1.0.0'
+//        artifactId 'SlivePlugin'
+//        groupId 'com.slive.plugin'
+//        packaging 'jar'
+//    }
+}
