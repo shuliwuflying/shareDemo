@@ -44,13 +44,10 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         refreshRecyclerView = (RefreshRecyclerView) findViewById(R.id.iRecyclerView);
         refreshRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        bannerView = (BannerView) LayoutInflater.from(this).inflate(R.layout.layout_banner_view, refreshRecyclerView.getHeaderContainer(), false);
-        refreshRecyclerView.addHeaderView(bannerView);
-
         loadMoreFooterView = (LoadMoreFooterView) refreshRecyclerView.getLoadMoreFooterView();
 
         mAdapter = new ImageAdapter();
-        refreshRecyclerView.setIAdapter(mAdapter);
+        refreshRecyclerView.setAdapter(mAdapter);
 
         refreshRecyclerView.setOnRefreshListener(this);
         refreshRecyclerView.setOnLoadMoreListener(this);
@@ -74,15 +71,14 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     @Override
     public void onRefresh() {
-        loadBanner();
-        loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+        loadMoreFooterView.setStatus(LoadMoreFooterView.LOAD_GONE);
         refresh();
     }
 
     @Override
     public void onLoadMore() {
         if (loadMoreFooterView.canLoadMore() && mAdapter.getItemCount() > 0) {
-            loadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
+            loadMoreFooterView.setStatus(LoadMoreFooterView.LOADING);
             loadMore();
         }
     }
@@ -96,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             Toast.makeText(this, "Classic style", Toast.LENGTH_SHORT).show();
         } else if (refreshRecyclerView.getRefreshHeaderView() instanceof ClassicRefreshHeaderView) {
             // we can also set layout
-            refreshRecyclerView.setRefreshHeaderView(R.layout.layout_irecyclerview_refresh_header);
+            refreshRecyclerView.setRefreshHeaderView(R.layout.recyclerview_refresh_header_layout);
             Toast.makeText(this, "Bat man vs Super man style", Toast.LENGTH_SHORT).show();
         }
     }
@@ -145,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             @Override
             public void onSuccess(final List<Image> images) {
                 if (ListUtils.isEmpty(images)) {
-                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                    loadMoreFooterView.setStatus(LoadMoreFooterView.LOAD_END);
                 } else {
 
 //                    mPage++;
@@ -158,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                         @Override
                         public void run() {
                             mPage++;
-                            loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                            loadMoreFooterView.setStatus(LoadMoreFooterView.LOAD_GONE);
                             mAdapter.append(images);
                         }
                     }, 2000);
@@ -168,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             @Override
             public void onFailure(Exception e) {
                 e.printStackTrace();
-                loadMoreFooterView.setStatus(LoadMoreFooterView.Status.ERROR);
+                loadMoreFooterView.setStatus(LoadMoreFooterView.LOAD_ERROR);
                 Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });

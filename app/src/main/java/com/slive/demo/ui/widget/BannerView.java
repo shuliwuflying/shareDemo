@@ -21,8 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by aspsine on 16/4/5.
- */
+ * @author: liwushu
+ * @description:
+ * @created: 2017/10/15
+ * @version: 1.0
+ * @modify: liwushu
+*/
 public class BannerView extends FrameLayout {
 
     private ViewPager viewPager;

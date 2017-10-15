@@ -1,6 +1,7 @@
 package com.slive.demo.ui.widget.footer;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +10,24 @@ import android.widget.FrameLayout;
 import com.slive.demo.R;
 
 /**
- * Created by aspsine on 16/3/14.
- */
+ * @author: liwushu
+ * @description:
+ * @created: 2017/10/15
+ * @version: 1.0
+ * @modify: liwushu
+*/
 public class LoadMoreFooterView extends FrameLayout {
-
-    private Status mStatus;
+    
+    public static final int LOAD_GONE = 0;
+    public static final int LOADING = 1;
+    public static final int LOAD_ERROR = 2;
+    public static final int LOAD_END = 3;
+    
+    @IntDef({LOAD_GONE,LOADING, LOAD_ERROR,LOAD_END})
+    @interface Status{}
+    
+    @Status
+    private int mStatus ;
 
     private View mLoadingView;
 
@@ -35,9 +49,9 @@ public class LoadMoreFooterView extends FrameLayout {
         super(context, attrs, defStyleAttr);
         LayoutInflater.from(context).inflate(R.layout.layout_irecyclerview_load_more_footer_view, this, true);
 
-        mLoadingView = findViewById(R.id.loadingView);
-        mErrorView = findViewById(R.id.errorView);
-        mTheEndView = findViewById(R.id.theEndView);
+        mLoadingView = findViewById(R.id.loading_view);
+        mErrorView = findViewById(R.id.load_error_view);
+        mTheEndView = findViewById(R.id.load_end_view);
 
         mErrorView.setOnClickListener(new OnClickListener() {
             @Override
@@ -48,58 +62,55 @@ public class LoadMoreFooterView extends FrameLayout {
             }
         });
 
-        setStatus(Status.GONE);
+        setStatus(LOAD_GONE);
     }
 
     public void setOnRetryListener(OnRetryListener listener) {
         this.mOnRetryListener = listener;
     }
 
-    public Status getStatus() {
+    public int getStatus() {
         return mStatus;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(int status) {
         this.mStatus = status;
         change();
     }
 
     public boolean canLoadMore() {
-        return mStatus == Status.GONE || mStatus == Status.ERROR;
+        return mStatus == LOAD_GONE || mStatus == LOAD_ERROR;
     }
 
     private void change() {
         switch (mStatus) {
-            case GONE:
-                mLoadingView.setVisibility(GONE);
-                mErrorView.setVisibility(GONE);
-                mTheEndView.setVisibility(GONE);
+            case LOAD_GONE:
+                mLoadingView.setVisibility(View.GONE);
+                mErrorView.setVisibility(View.GONE);
+                mTheEndView.setVisibility(View.GONE);
                 break;
 
             case LOADING:
                 mLoadingView.setVisibility(VISIBLE);
-                mErrorView.setVisibility(GONE);
-                mTheEndView.setVisibility(GONE);
+                mErrorView.setVisibility(View.GONE);
+                mTheEndView.setVisibility(View.GONE);
                 break;
 
-            case ERROR:
-                mLoadingView.setVisibility(GONE);
+            case LOAD_ERROR:
+                mLoadingView.setVisibility(View.GONE);
                 mErrorView.setVisibility(VISIBLE);
-                mTheEndView.setVisibility(GONE);
+                mTheEndView.setVisibility(View.GONE);
                 break;
 
-            case THE_END:
-                mLoadingView.setVisibility(GONE);
-                mErrorView.setVisibility(GONE);
+            case LOAD_END:
+                mLoadingView.setVisibility(View.GONE);
+                mErrorView.setVisibility(View.GONE);
                 mTheEndView.setVisibility(VISIBLE);
                 break;
         }
     }
 
-    public enum Status {
-        GONE, LOADING, ERROR, THE_END
-    }
-
+    
     public interface OnRetryListener {
         void onRetry(LoadMoreFooterView view);
     }

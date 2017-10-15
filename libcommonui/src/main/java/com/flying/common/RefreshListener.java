@@ -1,8 +1,12 @@
 package com.flying.common;
 
 /**
- * Created by aspsine on 16/3/7.
- */
+ * @author: liwushu
+ * @description:
+ * @created: 2017/10/15
+ * @version: 1.0
+ * @modify: liwushu
+*/
 public interface RefreshListener {
 
     void onStart(boolean automatic, int headerHeight, int finalHeight);

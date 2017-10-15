@@ -9,23 +9,22 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 /**
- * Created by aspsine on 16/3/12.
- */
+ * @author: liwushu
+ * @description:
+ * @created: 2017/10/15
+ * @version: 1.0
+ * @modify: liwushu
+*/
 public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected static final int REFRESH_HEADER = Integer.MIN_VALUE;
-    protected static final int HEADER = Integer.MIN_VALUE + 1;
-    protected static final int FOOTER = Integer.MAX_VALUE - 1;
     protected static final int LOAD_MORE_FOOTER = Integer.MAX_VALUE;
+    protected static final int START_OFFSET = 1;
 
     private final RecyclerView.Adapter mAdapter;
 
     private final RefreshHeaderLayout mRefreshHeaderContainer;
 
     private final FrameLayout mLoadMoreFooterContainer;
-
-    private final LinearLayout mHeaderContainer;
-
-    private final LinearLayout mFooterContainer;
 
     private RecyclerView.AdapterDataObserver mObserver = new RecyclerView.AdapterDataObserver() {
         @Override
@@ -35,22 +34,22 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount) {
-            WrapperAdapter.this.notifyItemRangeChanged(positionStart + 2, itemCount);
+            WrapperAdapter.this.notifyItemRangeChanged(positionStart + 1, itemCount);
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
-            WrapperAdapter.this.notifyItemRangeChanged(positionStart + 2, itemCount, payload);
+            WrapperAdapter.this.notifyItemRangeChanged(positionStart + 1, itemCount, payload);
         }
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
-            WrapperAdapter.this.notifyItemRangeInserted(positionStart + 2, itemCount);
+            WrapperAdapter.this.notifyItemRangeInserted(positionStart + 1, itemCount);
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
-            WrapperAdapter.this.notifyItemRangeRemoved(positionStart + 2, itemCount);
+            WrapperAdapter.this.notifyItemRangeRemoved(positionStart + 1, itemCount);
         }
 
         @Override
@@ -59,13 +58,10 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     };
 
-    public WrapperAdapter(RecyclerView.Adapter adapter, RefreshHeaderLayout refreshHeaderContainer, LinearLayout headerContainer, LinearLayout footerContainer, FrameLayout loadMoreFooterContainer) {
+    public WrapperAdapter(RecyclerView.Adapter adapter, RefreshHeaderLayout refreshHeaderContainer, FrameLayout loadMoreFooterContainer) {
         this.mAdapter = adapter;
         this.mRefreshHeaderContainer = refreshHeaderContainer;
-        this.mHeaderContainer = headerContainer;
-        this.mFooterContainer = footerContainer;
         this.mLoadMoreFooterContainer = loadMoreFooterContainer;
-
         mAdapter.registerAdapterDataObserver(mObserver);
     }
 
@@ -109,25 +105,21 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     private boolean isFullSpanType(int type) {
-        return type == REFRESH_HEADER || type == HEADER || type == FOOTER || type == LOAD_MORE_FOOTER;
+        return type == REFRESH_HEADER || type == LOAD_MORE_FOOTER;
     }
 
     @Override
     public int getItemCount() {
-        return mAdapter.getItemCount() + 4;
+        return mAdapter.getItemCount() + 2;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return REFRESH_HEADER;
-        } else if (position == 1) {
-            return HEADER;
-        } else if (1 < position && position < mAdapter.getItemCount() + 2) {
-            return mAdapter.getItemViewType(position - 2);
-        } else if (position == mAdapter.getItemCount() + 2) {
-            return FOOTER;
-        } else if (position == mAdapter.getItemCount() + 3) {
+        } else if (0 < position && position < mAdapter.getItemCount() + START_OFFSET) {
+            return mAdapter.getItemViewType(position - START_OFFSET);
+        } else if (position == mAdapter.getItemCount() + START_OFFSET) {
             return LOAD_MORE_FOOTER;
         }
 
@@ -138,10 +130,6 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == REFRESH_HEADER) {
             return new RefreshHeaderContainerViewHolder(mRefreshHeaderContainer);
-        } else if (viewType == HEADER) {
-            return new HeaderContainerViewHolder(mHeaderContainer);
-        } else if (viewType == FOOTER) {
-            return new FooterContainerViewHolder(mFooterContainer);
         } else if (viewType == LOAD_MORE_FOOTER) {
             return new LoadMoreFooterContainerViewHolder(mLoadMoreFooterContainer);
         } else {
@@ -151,28 +139,14 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (1 < position && position < mAdapter.getItemCount() + 2) {
-            mAdapter.onBindViewHolder(holder, position - 2);
+        if (0 < position && position < mAdapter.getItemCount() + 1) {
+            mAdapter.onBindViewHolder(holder, position - 1);
         }
     }
 
     static class RefreshHeaderContainerViewHolder extends RecyclerView.ViewHolder {
 
         public RefreshHeaderContainerViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
-    static class HeaderContainerViewHolder extends RecyclerView.ViewHolder {
-
-        public HeaderContainerViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
-    static class FooterContainerViewHolder extends RecyclerView.ViewHolder {
-
-        public FooterContainerViewHolder(View itemView) {
             super(itemView);
         }
     }

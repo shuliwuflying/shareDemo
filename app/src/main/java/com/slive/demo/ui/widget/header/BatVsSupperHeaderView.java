@@ -10,8 +10,12 @@ import com.flying.common.RefreshListener;
 import com.slive.demo.R;
 
 /**
- * Created by aspsine on 16/4/7.
- */
+ * @author: liwushu
+ * @description:
+ * @created: 2017/10/15
+ * @version: 1.0
+ * @modify: liwushu
+*/
 public class BatVsSupperHeaderView extends FrameLayout implements RefreshListener {
 
     private ImageView ivBatMan;
