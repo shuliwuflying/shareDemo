@@ -6,7 +6,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 /**
  * @author: liwushu
@@ -15,7 +14,7 @@ import android.widget.LinearLayout;
  * @version: 1.0
  * @modify: liwushu
 */
-public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class RefreshWrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected static final int REFRESH_HEADER = Integer.MIN_VALUE;
     protected static final int LOAD_MORE_FOOTER = Integer.MAX_VALUE;
     protected static final int START_OFFSET = 1;
@@ -29,36 +28,36 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private RecyclerView.AdapterDataObserver mObserver = new RecyclerView.AdapterDataObserver() {
         @Override
         public void onChanged() {
-            WrapperAdapter.this.notifyDataSetChanged();
+            RefreshWrapperAdapter.this.notifyDataSetChanged();
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount) {
-            WrapperAdapter.this.notifyItemRangeChanged(positionStart + 1, itemCount);
+            RefreshWrapperAdapter.this.notifyItemRangeChanged(positionStart + 1, itemCount);
         }
 
         @Override
         public void onItemRangeChanged(int positionStart, int itemCount, Object payload) {
-            WrapperAdapter.this.notifyItemRangeChanged(positionStart + 1, itemCount, payload);
+            RefreshWrapperAdapter.this.notifyItemRangeChanged(positionStart + 1, itemCount, payload);
         }
 
         @Override
         public void onItemRangeInserted(int positionStart, int itemCount) {
-            WrapperAdapter.this.notifyItemRangeInserted(positionStart + 1, itemCount);
+            RefreshWrapperAdapter.this.notifyItemRangeInserted(positionStart + 1, itemCount);
         }
 
         @Override
         public void onItemRangeRemoved(int positionStart, int itemCount) {
-            WrapperAdapter.this.notifyItemRangeRemoved(positionStart + 1, itemCount);
+            RefreshWrapperAdapter.this.notifyItemRangeRemoved(positionStart + 1, itemCount);
         }
 
         @Override
         public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
-            WrapperAdapter.this.notifyDataSetChanged();
+            RefreshWrapperAdapter.this.notifyDataSetChanged();
         }
     };
 
-    public WrapperAdapter(RecyclerView.Adapter adapter, RefreshHeaderLayout refreshHeaderContainer, FrameLayout loadMoreFooterContainer) {
+    public RefreshWrapperAdapter(RecyclerView.Adapter adapter, RefreshHeaderLayout refreshHeaderContainer, FrameLayout loadMoreFooterContainer) {
         this.mAdapter = adapter;
         this.mRefreshHeaderContainer = refreshHeaderContainer;
         this.mLoadMoreFooterContainer = loadMoreFooterContainer;
@@ -78,8 +77,8 @@ public class WrapperAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
-                    WrapperAdapter wrapperAdapter = (WrapperAdapter) recyclerView.getAdapter();
-                    if (isFullSpanType(wrapperAdapter.getItemViewType(position))) {
+                    RefreshWrapperAdapter refreshWrapperAdapter = (RefreshWrapperAdapter) recyclerView.getAdapter();
+                    if (isFullSpanType(refreshWrapperAdapter.getItemViewType(position))) {
                         return gridLayoutManager.getSpanCount();
                     } else if (spanSizeLookup != null) {
                         return spanSizeLookup.getSpanSize(position - 2);

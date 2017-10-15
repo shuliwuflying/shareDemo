@@ -3,6 +3,7 @@ package com.slive.demo.ui.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     @Override
     public void onLoadMore() {
+        Log.e("TAG","onLoadMore");
         if (loadMoreFooterView.canLoadMore() && mAdapter.getItemCount() > 0) {
             loadMoreFooterView.setStatus(LoadMoreFooterView.LOADING);
             loadMore();
@@ -142,8 +144,9 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             public void onSuccess(final List<Image> images) {
                 if (ListUtils.isEmpty(images)) {
                     loadMoreFooterView.setStatus(LoadMoreFooterView.LOAD_END);
+                    Log.e("TAG","images isEmpty");
                 } else {
-
+                    Log.e("TAG","images not Empty");
 //                    mPage++;
 //                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
 //                    mAdapter.append(images);

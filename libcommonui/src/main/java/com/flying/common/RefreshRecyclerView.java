@@ -19,7 +19,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 /**
  * @author: liwushu
@@ -197,15 +196,15 @@ public class RefreshRecyclerView extends RecyclerView {
     }
 
 
-    public RecyclerView.Adapter getAdapter() {
-        final WrapperAdapter wrapperAdapter = (WrapperAdapter) super.getAdapter();
-        return wrapperAdapter.getAdapter();
-    }
+//    public RecyclerView.Adapter getAdapter() {
+//        final RefreshWrapperAdapter refreshWrapperAdapter = (RefreshWrapperAdapter) super.getAdapter();
+//        return refreshWrapperAdapter.getAdapter();
+//    }
 
     public void setAdapter(Adapter adapter) {
         ensureRefreshHeaderContainer();
         ensureLoadMoreFooterContainer();
-        super.setAdapter(new WrapperAdapter(adapter, mRefreshHeaderContainer, mLoadMoreFooterContainer));
+        super.setAdapter(new RefreshWrapperAdapter(adapter, mRefreshHeaderContainer, mLoadMoreFooterContainer));
     }
 
     private void ensureRefreshHeaderContainer() {
@@ -618,6 +617,7 @@ public class RefreshRecyclerView extends RecyclerView {
     private OnLoadMoreScrollListener mOnLoadMoreScrollListener = new OnLoadMoreScrollListener() {
         @Override
         public void onLoadMore(RecyclerView recyclerView) {
+            print("onLoadMore");
             if (mOnLoadMoreListener != null && mStatus == STATUS_DEFAULT) {
                 mOnLoadMoreListener.onLoadMore();
             }

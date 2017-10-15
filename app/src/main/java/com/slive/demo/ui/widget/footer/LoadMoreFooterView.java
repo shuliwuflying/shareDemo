@@ -75,14 +75,14 @@ public class LoadMoreFooterView extends FrameLayout {
 
     public void setStatus(int status) {
         this.mStatus = status;
-        change();
+        updateStatusUI();
     }
 
     public boolean canLoadMore() {
         return mStatus == LOAD_GONE || mStatus == LOAD_ERROR;
     }
 
-    private void change() {
+    private void updateStatusUI() {
         switch (mStatus) {
             case LOAD_GONE:
                 mLoadingView.setVisibility(View.GONE);

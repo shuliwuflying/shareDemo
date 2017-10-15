@@ -1,6 +1,7 @@
 package com.flying.common;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -25,7 +26,7 @@ public abstract class OnLoadMoreScrollListener extends RecyclerView.OnScrollList
         boolean triggerCondition = visibleItemCount > 0
                 && newState == RecyclerView.SCROLL_STATE_IDLE
                 && canTriggerLoadMore(recyclerView);
-
+        Log.e("OnLoad","triggerCondition: "+triggerCondition);
         if (triggerCondition) {
             onLoadMore(recyclerView);
         }
@@ -36,6 +37,7 @@ public abstract class OnLoadMoreScrollListener extends RecyclerView.OnScrollList
         int position = recyclerView.getChildLayoutPosition(lastChild);
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         int totalItemCount = layoutManager.getItemCount();
+        Log.e("onLoad","totalItemCount - 1: "+(totalItemCount - 1)+" position: "+position);
         return totalItemCount - 1 == position;
     }
 
