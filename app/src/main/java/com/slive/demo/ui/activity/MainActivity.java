@@ -1,5 +1,6 @@
 package com.slive.demo.ui.activity;
 
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         NetworkAPI.requestImages(mPage, new NetworkAPI.Callback<List<Image>>() {
             @Override
             public void onSuccess(List<Image> images) {
+                Log.e("TAG","refresh images: "+images);
                 refreshRecyclerView.setRefreshing(false);
                 if (ListUtils.isEmpty(images)) {
                     mAdapter.clear();
@@ -142,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         NetworkAPI.requestImages(mPage, new NetworkAPI.Callback<List<Image>>() {
             @Override
             public void onSuccess(final List<Image> images) {
+                Log.e("TAG","loadMore images: "+images);
                 if (ListUtils.isEmpty(images)) {
                     loadMoreFooterView.setStatus(LoadMoreFooterView.LOAD_END);
                     Log.e("TAG","images isEmpty");

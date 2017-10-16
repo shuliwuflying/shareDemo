@@ -6,4 +6,13 @@ package com.slive.demo.model;
 public class Image {
     public String image;
     public String title;
+
+
+    @Override
+    public String toString() {
+        return "Image{" +
+                "image='" + image + '\'' +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }
