@@ -9,14 +9,14 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.flying.common.RefreshListener;
+import com.flying.common.RefreshStatusListener;
 import com.slive.demo.R;
 
 
 /**
  * Created by aspsine on 16/3/14.
  */
-public class ClassicRefreshHeaderView extends RelativeLayout implements RefreshListener {
+public class ClassicRefreshStatusHeaderView extends RelativeLayout implements RefreshStatusListener {
     private ImageView ivArrow;
 
     private ImageView ivSuccess;
@@ -33,15 +33,15 @@ public class ClassicRefreshHeaderView extends RelativeLayout implements RefreshL
 
     private int mHeight;
 
-    public ClassicRefreshHeaderView(Context context) {
+    public ClassicRefreshStatusHeaderView(Context context) {
         this(context, null);
     }
 
-    public ClassicRefreshHeaderView(Context context, AttributeSet attrs) {
+    public ClassicRefreshStatusHeaderView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public ClassicRefreshHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public ClassicRefreshStatusHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         inflate(context, R.layout.layout_irecyclerview_classic_refresh_header_view, this);

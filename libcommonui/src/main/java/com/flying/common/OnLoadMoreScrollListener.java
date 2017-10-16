@@ -6,7 +6,7 @@ import android.view.View;
 
 /**
  * @author: liwushu
- * @description:
+ * @description: recyclerview scrollListener
  * @created: 2017/10/15
  * @version: 1.0
  * @modify: liwushu
@@ -22,22 +22,24 @@ public abstract class OnLoadMoreScrollListener extends RecyclerView.OnScrollList
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         int visibleItemCount = layoutManager.getChildCount();
 
-
         boolean triggerCondition = visibleItemCount > 0
                 && newState == RecyclerView.SCROLL_STATE_IDLE
                 && canTriggerLoadMore(recyclerView);
-        Log.e("OnLoad","triggerCondition: "+triggerCondition);
         if (triggerCondition) {
             onLoadMore(recyclerView);
         }
     }
 
-    public boolean canTriggerLoadMore(RecyclerView recyclerView) {
+    /**
+     * @description: 是否触发加载更多
+     * @param:
+     * @return:
+     */
+    private boolean canTriggerLoadMore(RecyclerView recyclerView) {
         View lastChild = recyclerView.getChildAt(recyclerView.getChildCount() - 1);
         int position = recyclerView.getChildLayoutPosition(lastChild);
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         int totalItemCount = layoutManager.getItemCount();
-        Log.e("onLoad","totalItemCount - 1: "+(totalItemCount - 1)+" position: "+position);
         return totalItemCount - 1 == position;
     }
 

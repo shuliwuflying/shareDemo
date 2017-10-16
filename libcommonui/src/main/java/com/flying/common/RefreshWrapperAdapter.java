@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
 
 /**
  * @author: liwushu
- * @description:
+ * @description: refresh recycler view 的装饰Adapter
  * @created: 2017/10/15
  * @version: 1.0
  * @modify: liwushu

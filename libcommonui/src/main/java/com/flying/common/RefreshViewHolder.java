@@ -5,7 +5,7 @@ import android.view.View;
 
 /**
  * @author: liwushu
- * @description:
+ * @description: refresh view holder
  * @created: 2017/10/15
  * @version: 1.0
  * @modify: liwushu

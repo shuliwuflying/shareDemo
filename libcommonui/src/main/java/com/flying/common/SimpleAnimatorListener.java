@@ -4,7 +4,7 @@ import android.animation.Animator;
 
 /**
  * @author: liwushu
- * @description:
+ * @description: recycler view item 动画
  * @created: 2017/10/15
  * @version: 1.0
  * @modify: liwushu

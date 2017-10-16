@@ -8,7 +8,7 @@ import android.view.animation.Animation;
 
 /**
  * @author: liwushu
- * @description:
+ * @description: 下拉刷新 layout
  * @created: 2017/10/15
  * @version: 1.0
  * @modify: liwushu

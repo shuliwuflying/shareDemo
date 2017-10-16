@@ -146,8 +146,8 @@ public class RefreshRecyclerView extends RecyclerView {
     }
 
     public void setRefreshHeaderView(View refreshHeaderView) {
-        if (!(refreshHeaderView instanceof RefreshListener)) {
-            throw new ClassCastException("Refresh header view must be an implement of RefreshListener");
+        if (!(refreshHeaderView instanceof RefreshStatusListener)) {
+            throw new ClassCastException("Refresh header view must be an implement of RefreshStatusListener");
         }
 
         if (mRefreshHeaderView != null) {
@@ -292,7 +292,7 @@ public class RefreshRecyclerView extends RecyclerView {
 
                     if (dy > 0 && mStatus == STATUS_DEFAULT) {
                         setStatus(STATUS_SWIPING_TO_REFRESH);
-                        mRefreshListener.onStart(false, refreshHeaderViewHeight, mRefreshFinalMoveOffset);
+                        mRefreshStatusListener.onStart(false, refreshHeaderViewHeight, mRefreshFinalMoveOffset);
                     } else if (dy < 0) {
                         if (mStatus == STATUS_SWIPING_TO_REFRESH && refreshHeaderContainerHeight <= 0) {
                             setStatus(STATUS_DEFAULT);
@@ -433,7 +433,7 @@ public class RefreshRecyclerView extends RecyclerView {
         if (dy != 0) {
             int height = mRefreshHeaderContainer.getMeasuredHeight() + dy;
             setRefreshHeaderContainerHeight(height);
-            mRefreshListener.onMove(false, false, height);
+            mRefreshStatusListener.onMove(false, false, height);
         }
     }
 
@@ -443,7 +443,7 @@ public class RefreshRecyclerView extends RecyclerView {
     }
 
     private void startScrollDefaultStatusToRefreshingStatus() {
-        mRefreshListener.onStart(true, mRefreshHeaderView.getMeasuredHeight(), mRefreshFinalMoveOffset);
+        mRefreshStatusListener.onStart(true, mRefreshHeaderView.getMeasuredHeight(), mRefreshFinalMoveOffset);
 
         int targetHeight = mRefreshHeaderView.getMeasuredHeight();
         int currentHeight = mRefreshHeaderContainer.getMeasuredHeight();
@@ -457,7 +457,7 @@ public class RefreshRecyclerView extends RecyclerView {
     }
 
     private void startScrollReleaseStatusToRefreshingStatus() {
-        mRefreshListener.onRelease();
+        mRefreshStatusListener.onRelease();
 
         final int targetHeight = mRefreshHeaderView.getMeasuredHeight();
         final int currentHeight = mRefreshHeaderContainer.getMeasuredHeight();
@@ -465,7 +465,7 @@ public class RefreshRecyclerView extends RecyclerView {
     }
 
     private void startScrollRefreshingStatusToDefaultStatus() {
-        mRefreshListener.onComplete();
+        mRefreshStatusListener.onComplete();
 
         final int targetHeight = 0;
         final int currentHeight = mRefreshHeaderContainer.getMeasuredHeight();
@@ -499,17 +499,17 @@ public class RefreshRecyclerView extends RecyclerView {
             setRefreshHeaderContainerHeight(height);
             switch (mStatus) {
                 case STATUS_SWIPING_TO_REFRESH: {
-                    mRefreshListener.onMove(false, true, height);
+                    mRefreshStatusListener.onMove(false, true, height);
                 }
                 break;
 
                 case STATUS_RELEASE_TO_REFRESH: {
-                    mRefreshListener.onMove(false, true, height);
+                    mRefreshStatusListener.onMove(false, true, height);
                 }
                 break;
 
                 case STATUS_REFRESHING: {
-                    mRefreshListener.onMove(true, true, height);
+                    mRefreshStatusListener.onMove(true, true, height);
                 }
                 break;
             }
@@ -530,7 +530,7 @@ public class RefreshRecyclerView extends RecyclerView {
                         setStatus(STATUS_REFRESHING);
                         if (mOnRefreshListener != null) {
                             mOnRefreshListener.onRefresh();
-                            mRefreshListener.onRefresh();
+                            mRefreshStatusListener.onRefresh();
                         }
                     } else {
                         mRefreshHeaderContainer.getLayoutParams().height = 0;
@@ -546,7 +546,7 @@ public class RefreshRecyclerView extends RecyclerView {
                     setStatus(STATUS_REFRESHING);
                     if (mOnRefreshListener != null) {
                         mOnRefreshListener.onRefresh();
-                        mRefreshListener.onRefresh();
+                        mRefreshStatusListener.onRefresh();
                     }
                 }
                 break;
@@ -556,7 +556,7 @@ public class RefreshRecyclerView extends RecyclerView {
                     mRefreshHeaderContainer.getLayoutParams().height = 0;
                     mRefreshHeaderContainer.requestLayout();
                     setStatus(STATUS_DEFAULT);
-                    mRefreshListener.onReset();
+                    mRefreshStatusListener.onReset();
                 }
                 break;
             }
@@ -564,51 +564,51 @@ public class RefreshRecyclerView extends RecyclerView {
         }
     };
 
-    private RefreshListener mRefreshListener = new RefreshListener() {
+    private RefreshStatusListener mRefreshStatusListener = new RefreshStatusListener() {
         @Override
         public void onStart(boolean automatic, int headerHeight, int finalHeight) {
-            if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshListener) {
-                RefreshListener trigger = (RefreshListener) mRefreshHeaderView;
+            if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshStatusListener) {
+                RefreshStatusListener trigger = (RefreshStatusListener) mRefreshHeaderView;
                 trigger.onStart(automatic, headerHeight, finalHeight);
             }
         }
 
         @Override
         public void onMove(boolean finished, boolean automatic, int moved) {
-            if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshListener) {
-                RefreshListener trigger = (RefreshListener) mRefreshHeaderView;
+            if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshStatusListener) {
+                RefreshStatusListener trigger = (RefreshStatusListener) mRefreshHeaderView;
                 trigger.onMove(finished, automatic, moved);
             }
         }
 
         @Override
         public void onRefresh() {
-            if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshListener) {
-                RefreshListener trigger = (RefreshListener) mRefreshHeaderView;
+            if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshStatusListener) {
+                RefreshStatusListener trigger = (RefreshStatusListener) mRefreshHeaderView;
                 trigger.onRefresh();
             }
         }
 
         @Override
         public void onRelease() {
-            if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshListener) {
-                RefreshListener trigger = (RefreshListener) mRefreshHeaderView;
+            if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshStatusListener) {
+                RefreshStatusListener trigger = (RefreshStatusListener) mRefreshHeaderView;
                 trigger.onRelease();
             }
         }
 
         @Override
         public void onComplete() {
-            if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshListener) {
-                RefreshListener trigger = (RefreshListener) mRefreshHeaderView;
+            if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshStatusListener) {
+                RefreshStatusListener trigger = (RefreshStatusListener) mRefreshHeaderView;
                 trigger.onComplete();
             }
         }
 
         @Override
         public void onReset() {
-            if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshListener) {
-                RefreshListener trigger = (RefreshListener) mRefreshHeaderView;
+            if (mRefreshHeaderView != null && mRefreshHeaderView instanceof RefreshStatusListener) {
+                RefreshStatusListener trigger = (RefreshStatusListener) mRefreshHeaderView;
                 trigger.onReset();
             }
         }
@@ -617,7 +617,6 @@ public class RefreshRecyclerView extends RecyclerView {
     private OnLoadMoreScrollListener mOnLoadMoreScrollListener = new OnLoadMoreScrollListener() {
         @Override
         public void onLoadMore(RecyclerView recyclerView) {
-            print("onLoadMore");
             if (mOnLoadMoreListener != null && mStatus == STATUS_DEFAULT) {
                 mOnLoadMoreListener.onLoadMore();
             }

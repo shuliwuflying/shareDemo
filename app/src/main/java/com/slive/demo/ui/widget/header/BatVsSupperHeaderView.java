@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.flying.common.RefreshListener;
+import com.flying.common.RefreshStatusListener;
 import com.slive.demo.R;
 
 /**
@@ -16,7 +16,7 @@ import com.slive.demo.R;
  * @version: 1.0
  * @modify: liwushu
 */
-public class BatVsSupperHeaderView extends FrameLayout implements RefreshListener {
+public class BatVsSupperHeaderView extends FrameLayout implements RefreshStatusListener {
 
     private ImageView ivBatMan;
 

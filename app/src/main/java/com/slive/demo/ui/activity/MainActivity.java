@@ -1,11 +1,9 @@
 package com.slive.demo.ui.activity;
 
-import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -22,7 +20,7 @@ import com.slive.demo.ui.adapter.OnItemClickListener;
 import com.slive.demo.ui.widget.BannerView;
 import com.slive.demo.ui.widget.footer.LoadMoreFooterView;
 import com.slive.demo.ui.widget.header.BatVsSupperHeaderView;
-import com.slive.demo.ui.widget.header.ClassicRefreshHeaderView;
+import com.slive.demo.ui.widget.header.ClassicRefreshStatusHeaderView;
 import com.slive.demo.utils.DensityUtils;
 import com.slive.demo.utils.ListUtils;
 
@@ -88,12 +86,12 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     private void toggleRefreshHeader() {
         if (refreshRecyclerView.getRefreshHeaderView() instanceof BatVsSupperHeaderView) {
-            ClassicRefreshHeaderView classicRefreshHeaderView = new ClassicRefreshHeaderView(this);
+            ClassicRefreshStatusHeaderView classicRefreshHeaderView = new ClassicRefreshStatusHeaderView(this);
             classicRefreshHeaderView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtils.dip2px(this, 80)));
             // we can set view
             refreshRecyclerView.setRefreshHeaderView(classicRefreshHeaderView);
             Toast.makeText(this, "Classic style", Toast.LENGTH_SHORT).show();
-        } else if (refreshRecyclerView.getRefreshHeaderView() instanceof ClassicRefreshHeaderView) {
+        } else if (refreshRecyclerView.getRefreshHeaderView() instanceof ClassicRefreshStatusHeaderView) {
             // we can also set layout
             refreshRecyclerView.setRefreshHeaderView(R.layout.recyclerview_refresh_header_layout);
             Toast.makeText(this, "Bat man vs Super man style", Toast.LENGTH_SHORT).show();
