@@ -6,13 +6,13 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.flying.common.RefreshListener;
+import com.lemon.faceu.refresh.RefreshStateListener;
 import com.slive.demo.R;
 
 /**
  * Created by aspsine on 16/4/7.
  */
-public class BatVsSupperHeaderView extends FrameLayout implements RefreshListener {
+public class BatVsSupperHeaderView extends FrameLayout implements RefreshStateListener {
 
     private ImageView ivBatMan;
 

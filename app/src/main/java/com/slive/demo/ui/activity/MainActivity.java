@@ -9,9 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
-import com.flying.common.RefreshRecyclerView;
-import com.flying.common.OnLoadMoreListener;
-import com.flying.common.OnRefreshListener;
+import com.lemon.faceu.refresh.RefreshRecyclerView;
+import com.lemon.faceu.refresh.OnLoadMoreListener;
+import com.lemon.faceu.refresh.OnRefreshListener;
 import com.slive.demo.R;
 import com.slive.demo.model.Image;
 import com.slive.demo.network.NetworkAPI;
@@ -20,7 +20,7 @@ import com.slive.demo.ui.adapter.OnItemClickListener;
 import com.slive.demo.ui.widget.BannerView;
 import com.slive.demo.ui.widget.footer.LoadMoreFooterView;
 import com.slive.demo.ui.widget.header.BatVsSupperHeaderView;
-import com.slive.demo.ui.widget.header.ClassicRefreshHeaderView;
+import com.slive.demo.ui.widget.header.ClassicRefreshStateHeaderView;
 import com.slive.demo.utils.DensityUtils;
 import com.slive.demo.utils.ListUtils;
 
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     @Override
     public void onItemClick(int position, Image image, View v) {
-        mAdapter.remove(position);
+        //mAdapter.remove(position);
         Toast.makeText(this, String.valueOf(position), Toast.LENGTH_SHORT).show();
     }
 
@@ -89,12 +89,12 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     private void toggleRefreshHeader() {
         if (refreshRecyclerView.getRefreshHeaderView() instanceof BatVsSupperHeaderView) {
-            ClassicRefreshHeaderView classicRefreshHeaderView = new ClassicRefreshHeaderView(this);
+            ClassicRefreshStateHeaderView classicRefreshHeaderView = new ClassicRefreshStateHeaderView(this);
             classicRefreshHeaderView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, DensityUtils.dip2px(this, 80)));
             // we can set view
             refreshRecyclerView.setRefreshHeaderView(classicRefreshHeaderView);
             Toast.makeText(this, "Classic style", Toast.LENGTH_SHORT).show();
-        } else if (refreshRecyclerView.getRefreshHeaderView() instanceof ClassicRefreshHeaderView) {
+        } else if (refreshRecyclerView.getRefreshHeaderView() instanceof ClassicRefreshStateHeaderView) {
             // we can also set layout
             refreshRecyclerView.setRefreshHeaderView(R.layout.layout_irecyclerview_refresh_header);
             Toast.makeText(this, "Bat man vs Super man style", Toast.LENGTH_SHORT).show();

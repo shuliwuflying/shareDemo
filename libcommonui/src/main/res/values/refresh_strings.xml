@@ -1,0 +1,9 @@
+<resources>
+    <string name="refresh_back_title">返回</string>
+    <string name="refresh_load_complete_title">加载完成</string>
+    <string name="refresh_load_error_title">网络错误，请重试</string>
+    <string name="refresh_load_pull_down_title">下拉刷新</string>
+    <string name="refresh_load_release_title">松开刷新</string>
+    <string name="refresh_load_loading_title">正在加载</string>
+    <string name="refresh_load_end_title">没有更多数据了，请尝试下拉刷新</string>
+</resources>

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.flying.common.IViewHolder;
+import com.lemon.faceu.refresh.RefreshViewHolder;
 import com.slive.demo.R;
 import com.slive.demo.model.Image;
 
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by aspsine on 16/4/5.
  */
-public class ImageAdapter extends RecyclerView.Adapter<IViewHolder> {
+public class ImageAdapter extends RecyclerView.Adapter<RefreshViewHolder> {
 
     private List<Image> mImages;
 
@@ -58,7 +58,7 @@ public class ImageAdapter extends RecyclerView.Adapter<IViewHolder> {
     }
 
     @Override
-    public IViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RefreshViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ImageView imageView = (ImageView) LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_image_item, parent, false);
 
         final ViewHolder holder = new ViewHolder(imageView);
@@ -68,10 +68,10 @@ public class ImageAdapter extends RecyclerView.Adapter<IViewHolder> {
                 /**
                  * Note:
                  * in order to get the right position, you must use the method with i- prefix in
-                 * {@link IViewHolder} eg:
-                 * {@code IViewHolder.getIPosition()}
-                 * {@code IViewHolder.getILayoutPosition()}
-                 * {@code IViewHolder.getIAdapterPosition()}
+                 * {@link RefreshViewHolder} eg:
+                 * {@code RefreshViewHolder.getIPosition()}
+                 * {@code RefreshViewHolder.getILayoutPosition()}
+                 * {@code RefreshViewHolder.getIAdapterPosition()}
                  */
                 final int position = holder.getIAdapterPosition();
                 final Image image = mImages.get(position);
@@ -84,10 +84,12 @@ public class ImageAdapter extends RecyclerView.Adapter<IViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(IViewHolder holder, int position) {
+    public void onBindViewHolder(RefreshViewHolder holder, int position) {
         ImageView imageView = (ImageView) holder.itemView;
         Image image = mImages.get(position);
-        Glide.with(imageView.getContext()).load(image.image).dontAnimate().into(imageView);
+        Glide.with(imageView.getContext()).load(image.image).dontAnimate()
+                .placeholder(R.mipmap.ic_launcher)
+                .into(imageView);
     }
 
     @Override
@@ -95,7 +97,7 @@ public class ImageAdapter extends RecyclerView.Adapter<IViewHolder> {
         return mImages.size();
     }
 
-    static class ViewHolder extends IViewHolder {
+    static class ViewHolder extends RefreshViewHolder {
 
         public ViewHolder(View itemView) {
             super(itemView);

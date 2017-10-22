@@ -12,6 +12,8 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/libcommonui" />
             <option value="$PROJECT_DIR$/libtest" />
+            <option value="$PROJECT_DIR$/multitype" />
+            <option value="$PROJECT_DIR$/multitypedemo" />
             <option value="$PROJECT_DIR$/pager" />
           </set>
         </option>
