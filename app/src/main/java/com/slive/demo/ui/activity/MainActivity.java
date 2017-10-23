@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         refreshRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         bannerView = (BannerView) LayoutInflater.from(this).inflate(R.layout.layout_banner_view, refreshRecyclerView.getHeaderContainer(), false);
-        refreshRecyclerView.addHeaderView(bannerView);
+        //refreshRecyclerView.addHeaderView(bannerView);
 
         loadMoreFooterView = (LoadMoreFooterView) refreshRecyclerView.getLoadMoreFooterView();
 

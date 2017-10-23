@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.lemon.faceu.refresh.RefreshDefaultHeaderView
+<com.lemon.faceu.refresh.DefaultHeaderView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    xmlns:round="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="90dp"
     android:gravity="center"
+    android:background="@color/refresh_header_bg_color"
     >
 
     <com.lemon.faceu.refresh.RoundProgressBar
         android:id="@+id/refresh_loading_bar"
         android:layout_width="30dp"
         android:layout_height="30dp"
+        round:roundColor="@color/refresh_header_bg_color"
+        round:roundProgressColor="@color/refresh_header_bar_color"
         />
 
     <TextView
         android:id="@+id/refresh_loading_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:textColor="@color/refresh_header_bar_color"
         />
 
-</com.lemon.faceu.refresh.RefreshDefaultHeaderView>
+</com.lemon.faceu.refresh.DefaultHeaderView>

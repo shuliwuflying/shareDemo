@@ -122,7 +122,7 @@ public class RoundProgressBar extends View {
         switch (style) {
             case STROKE:{
                 paint.setStyle(Paint.Style.STROKE);
-                canvas.drawArc(oval, -90, 360 * progress / max-90, false, paint);  //根据进度画圆弧
+                canvas.drawArc(oval, -45, 360 * progress / max-90, false, paint);  //根据进度画圆弧
                 break;
             }
             case FILL:{

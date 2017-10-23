@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flying.common.R;
@@ -18,7 +17,7 @@ import com.flying.common.R;
  * @version: 1.0
  * @modify: liwushu
 */
-public class RefreshDefaultHeaderView extends LinearLayout implements RefreshStateListener {
+public class DefaultHeaderView extends LinearLayout implements RefreshStateListener {
 
     private TextView mRefreshLoadingTitle;
 
@@ -30,15 +29,15 @@ public class RefreshDefaultHeaderView extends LinearLayout implements RefreshSta
 
     private int mHeight;
 
-    public RefreshDefaultHeaderView(Context context) {
+    public DefaultHeaderView(Context context) {
         this(context, null);
     }
 
-    public RefreshDefaultHeaderView(Context context, AttributeSet attrs) {
+    public DefaultHeaderView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public RefreshDefaultHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DefaultHeaderView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 

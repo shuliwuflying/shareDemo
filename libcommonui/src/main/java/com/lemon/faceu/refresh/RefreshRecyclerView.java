@@ -91,7 +91,7 @@ public class RefreshRecyclerView extends RecyclerView {
             refreshEnabled = a.getBoolean(R.styleable.RefreshRecyclerView_refreshEnabled, false);
             loadMoreEnabled = a.getBoolean(R.styleable.RefreshRecyclerView_loadMoreEnabled, false);
             refreshHeaderLayoutRes = a.getResourceId(R.styleable.RefreshRecyclerView_refreshHeaderLayout, R.layout.refresh_default_header_layout);
-            loadMoreFooterLayoutRes = a.getResourceId(R.styleable.RefreshRecyclerView_loadMoreFooterLayout, -1);
+            loadMoreFooterLayoutRes = a.getResourceId(R.styleable.RefreshRecyclerView_loadMoreFooterLayout, R.layout.refresh_default_footer_layout);
             refreshFinalMoveOffset = a.getDimensionPixelOffset(R.styleable.RefreshRecyclerView_refreshFinalMoveOffset, -1);
         } finally {
             a.recycle();

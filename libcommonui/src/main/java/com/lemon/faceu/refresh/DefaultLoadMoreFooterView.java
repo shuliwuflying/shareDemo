@@ -2,9 +2,10 @@ package com.lemon.faceu.refresh;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+
+import com.flying.common.R;
 
 /**
  * @author: liwushu
@@ -13,7 +14,7 @@ import android.widget.FrameLayout;
  * @version: 1.0
  * @modify: liwushu
  */
-public class RefreshDefaultLoadMoreFooterView extends FrameLayout {
+public class DefaultLoadMoreFooterView extends FrameLayout {
 
     private Status mStatus;
 
@@ -25,19 +26,26 @@ public class RefreshDefaultLoadMoreFooterView extends FrameLayout {
 
     private OnRetryListener mOnRetryListener;
 
-    public LoadMoreFooterView(Context context, AttributeSet attrs) {
+    public DefaultLoadMoreFooterView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        LayoutInflater.from(context).inflate(R.layout.layout_irecyclerview_load_more_footer_view, this, true);
+    }
 
-        mLoadingView = findViewById(R.id.loadingView);
-        mErrorView = findViewById(R.id.errorView);
-        mTheEndView = findViewById(R.id.theEndView);
+    @Override
+    public void onFinishInflate() {
+        super.onFinishInflate();
+        initViews();
+    }
+
+    private void initViews() {
+        mLoadingView = findViewById(R.id.loading_layout);
+        mErrorView = findViewById(R.id.load_error);
+        mTheEndView = findViewById(R.id.load_end);
 
         mErrorView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mOnRetryListener != null) {
-                    mOnRetryListener.onRetry(RefreshDefaultLoadMoreFooterView.this);
+                    mOnRetryListener.onRetry(DefaultLoadMoreFooterView.this);
                 }
             }
         });
@@ -95,6 +103,6 @@ public class RefreshDefaultLoadMoreFooterView extends FrameLayout {
     }
 
     public interface OnRetryListener {
-        void onRetry(RefreshDefaultLoadMoreFooterView view);
+        void onRetry(DefaultLoadMoreFooterView view);
     }
 }
