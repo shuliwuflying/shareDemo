@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+<com.lemon.faceu.refresh.RoundProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:round="http://schemas.android.com/apk/res-auto"
     android:id="@+id/load_progress"
-    style="?android:progressBarStyleInverse"
     android:layout_width="36dp"
     android:layout_height="36dp"
-    android:layout_gravity="center" />
+    android:layout_gravity="center"
+    round:roundWidth="3dp"
+    round:roundProgressColor="@color/refresh_header_bar_color"
+    round:roundColor="@color/refresh_round_bar_round_color"
+    />

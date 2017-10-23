@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="refresh_header_bg_color">#FFFFFF</color>
-    <color name="refresh_header_bar_color">#808080</color>
+    <color name="refresh_header_bar_color">#CCCCCC</color>
+    <color name="refresh_round_bar_round_color">#00000000</color>
 </resources>

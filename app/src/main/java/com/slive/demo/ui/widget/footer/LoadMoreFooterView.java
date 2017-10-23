@@ -6,14 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.lemon.faceu.refresh.ILoadMoreFooter;
+import com.lemon.faceu.refresh.LoadMoreStatus;
 import com.slive.demo.R;
 
 /**
  * Created by aspsine on 16/3/14.
  */
-public class LoadMoreFooterView extends FrameLayout {
+public class LoadMoreFooterView extends FrameLayout implements ILoadMoreFooter{
 
-    private Status mStatus;
+    private LoadMoreStatus mStatus;
 
     private View mLoadingView;
 
@@ -48,24 +50,24 @@ public class LoadMoreFooterView extends FrameLayout {
             }
         });
 
-        setStatus(Status.GONE);
+        setStatus(LoadMoreStatus.GONE);
     }
 
     public void setOnRetryListener(OnRetryListener listener) {
         this.mOnRetryListener = listener;
     }
 
-    public Status getStatus() {
+    public LoadMoreStatus getStatus() {
         return mStatus;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(LoadMoreStatus status) {
         this.mStatus = status;
         change();
     }
 
     public boolean canLoadMore() {
-        return mStatus == Status.GONE || mStatus == Status.ERROR;
+        return mStatus == LoadMoreStatus.GONE || mStatus == LoadMoreStatus.ERROR;
     }
 
     private void change() {
@@ -96,9 +98,6 @@ public class LoadMoreFooterView extends FrameLayout {
         }
     }
 
-    public enum Status {
-        GONE, LOADING, ERROR, THE_END
-    }
 
     public interface OnRetryListener {
         void onRetry(LoadMoreFooterView view);

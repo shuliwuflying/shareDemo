@@ -3,6 +3,8 @@ package com.lemon.faceu.refresh;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 
 import com.flying.common.R;
@@ -14,17 +16,19 @@ import com.flying.common.R;
  * @version: 1.0
  * @modify: liwushu
  */
-public class DefaultLoadMoreFooterView extends FrameLayout {
+public class DefaultLoadMoreFooterView extends FrameLayout implements ILoadMoreFooter{
 
-    private Status mStatus;
+    private LoadMoreStatus mStatus;
 
-    private View mLoadingView;
+    private RoundProgressBar mLoadingView;
 
     private View mErrorView;
 
     private View mTheEndView;
 
     private OnRetryListener mOnRetryListener;
+
+    private Animation mRotateAnimation;
 
     public DefaultLoadMoreFooterView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -37,10 +41,11 @@ public class DefaultLoadMoreFooterView extends FrameLayout {
     }
 
     private void initViews() {
-        mLoadingView = findViewById(R.id.loading_layout);
+        mLoadingView = (RoundProgressBar) findViewById(R.id.loading_layout);
+        mLoadingView.setProgress(75);
+        mRotateAnimation = AnimationUtils.loadAnimation(getContext(),R.anim.refresh_loading_rotate_anim);
         mErrorView = findViewById(R.id.load_error);
         mTheEndView = findViewById(R.id.load_end);
-
         mErrorView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,24 +55,26 @@ public class DefaultLoadMoreFooterView extends FrameLayout {
             }
         });
 
-        setStatus(Status.GONE);
+        setStatus(LoadMoreStatus.GONE);
     }
 
     public void setOnRetryListener(OnRetryListener listener) {
         this.mOnRetryListener = listener;
     }
 
-    public Status getStatus() {
+    public LoadMoreStatus getStatus() {
         return mStatus;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(LoadMoreStatus status) {
         this.mStatus = status;
         change();
     }
 
+
+    @Override
     public boolean canLoadMore() {
-        return mStatus == Status.GONE || mStatus == Status.ERROR;
+        return mStatus == LoadMoreStatus.GONE || mStatus == LoadMoreStatus.ERROR;
     }
 
     private void change() {
@@ -80,6 +87,8 @@ public class DefaultLoadMoreFooterView extends FrameLayout {
 
             case LOADING:
                 mLoadingView.setVisibility(VISIBLE);
+                mLoadingView.setAnimation(mRotateAnimation);
+                mLoadingView.startAnimation(mRotateAnimation);
                 mErrorView.setVisibility(GONE);
                 mTheEndView.setVisibility(GONE);
                 break;
@@ -98,9 +107,6 @@ public class DefaultLoadMoreFooterView extends FrameLayout {
         }
     }
 
-    public enum Status {
-        GONE, LOADING, ERROR, THE_END
-    }
 
     public interface OnRetryListener {
         void onRetry(DefaultLoadMoreFooterView view);

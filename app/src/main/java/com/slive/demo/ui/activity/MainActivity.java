@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
+import com.lemon.faceu.refresh.ILoadMoreFooter;
+import com.lemon.faceu.refresh.LoadMoreStatus;
 import com.lemon.faceu.refresh.RefreshRecyclerView;
 import com.lemon.faceu.refresh.OnLoadMoreListener;
 import com.lemon.faceu.refresh.OnRefreshListener;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     private RefreshRecyclerView refreshRecyclerView;
     private BannerView bannerView;
-    private LoadMoreFooterView loadMoreFooterView;
+    private ILoadMoreFooter loadMoreFooter;
 
     private ImageAdapter mAdapter;
 
@@ -47,8 +49,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         bannerView = (BannerView) LayoutInflater.from(this).inflate(R.layout.layout_banner_view, refreshRecyclerView.getHeaderContainer(), false);
         //refreshRecyclerView.addHeaderView(bannerView);
 
-        loadMoreFooterView = (LoadMoreFooterView) refreshRecyclerView.getLoadMoreFooterView();
-
+        loadMoreFooter = (ILoadMoreFooter) refreshRecyclerView.getLoadMoreFooterView();
         mAdapter = new ImageAdapter();
         refreshRecyclerView.setIAdapter(mAdapter);
 
@@ -75,16 +76,12 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
     @Override
     public void onRefresh() {
         loadBanner();
-        loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
         refresh();
     }
 
     @Override
     public void onLoadMore() {
-        if (loadMoreFooterView.canLoadMore() && mAdapter.getItemCount() > 0) {
-            loadMoreFooterView.setStatus(LoadMoreFooterView.Status.LOADING);
-            loadMore();
-        }
+        loadMore();
     }
 
     private void toggleRefreshHeader() {
@@ -145,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             @Override
             public void onSuccess(final List<Image> images) {
                 if (ListUtils.isEmpty(images)) {
-                    loadMoreFooterView.setStatus(LoadMoreFooterView.Status.THE_END);
+                    loadMoreFooter.setStatus(LoadMoreStatus.THE_END);
                 } else {
 
 //                    mPage++;
@@ -154,11 +151,12 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
                     /**
                      * FIXME here we post delay to see more animation, you don't need to do this.
                      */
-                    loadMoreFooterView.postDelayed(new Runnable() {
+
+                    refreshRecyclerView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             mPage++;
-                            loadMoreFooterView.setStatus(LoadMoreFooterView.Status.GONE);
+                            loadMoreFooter.setStatus(LoadMoreStatus.GONE);
                             mAdapter.append(images);
                         }
                     }, 2000);
@@ -168,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             @Override
             public void onFailure(Exception e) {
                 e.printStackTrace();
-                loadMoreFooterView.setStatus(LoadMoreFooterView.Status.ERROR);
+                loadMoreFooter.setStatus(LoadMoreStatus.ERROR);
                 Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });

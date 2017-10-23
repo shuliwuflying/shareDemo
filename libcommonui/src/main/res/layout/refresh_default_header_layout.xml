@@ -4,8 +4,9 @@
     xmlns:round="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
-    android:gravity="center"
+    android:layout_height="wrap_content"
+    android:gravity="center|bottom"
+    android:padding="10dp"
     android:background="@color/refresh_header_bg_color"
     >
 
@@ -15,6 +16,7 @@
         android:layout_height="30dp"
         round:roundColor="@color/refresh_header_bg_color"
         round:roundProgressColor="@color/refresh_header_bar_color"
+        round:roundWidth="3dp"
         />
 
     <TextView

@@ -1,6 +1,7 @@
 package com.lemon.faceu.refresh;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -65,18 +66,20 @@ public class DefaultHeaderView extends LinearLayout implements RefreshStateListe
                 if (rotated) {
                     rotated = false;
                 }
-                int rate = moved*100/mHeight;
-                mRefreshLoadingProgressBar.setProgress(rate);
+                int rate = (moved-getPaddingBottom()-getPaddingTop())*100/mHeight;
                 mRefreshLoadingTitle.setText(R.string.refresh_load_pull_down_title);
-            } else {
+                if(rate <= 75 && rate >=0)
+                    mRefreshLoadingProgressBar.setProgress(rate);
+            } else{
                 mRefreshLoadingTitle.setText(R.string.refresh_load_release_title);
                 if (!rotated) {
                     rotated = true;
                 }
-                mRefreshLoadingProgressBar.setProgress(100);
+                mRefreshLoadingProgressBar.setProgress(75);
             }
         }
     }
+
 
     @Override
     public void onRefresh() {
@@ -95,6 +98,7 @@ public class DefaultHeaderView extends LinearLayout implements RefreshStateListe
         rotated = false;
         mRefreshLoadingTitle.setText(R.string.refresh_load_complete_title);
         mRefreshLoadingProgressBar.clearAnimation();
+        mRefreshLoadingProgressBar.setProgress(100);
     }
 
     @Override

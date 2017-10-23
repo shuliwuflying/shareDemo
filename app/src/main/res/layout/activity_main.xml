@@ -5,7 +5,7 @@
     android:id="@+id/iRecyclerView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     app:loadMoreEnabled="true"
-    app:loadMoreFooterLayout="@layout/layout_irecyclerview_load_more_footer"
     app:refreshEnabled="true"
     />
