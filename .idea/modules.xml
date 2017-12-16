@@ -3,12 +3,13 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/libcommonui/libcommonui.iml" filepath="$PROJECT_DIR$/libcommonui/libcommonui.iml" />
       <module fileurl="file://$PROJECT_DIR$/libtest/libtest.iml" filepath="$PROJECT_DIR$/libtest/libtest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/multitype/multitype.iml" filepath="$PROJECT_DIR$/multitype/multitype.iml" />
+      <module fileurl="file://$PROJECT_DIR$/live/live.iml" filepath="$PROJECT_DIR$/live/live.iml" />
       <module fileurl="file://$PROJECT_DIR$/multitype/multitype.iml" filepath="$PROJECT_DIR$/multitype/multitype.iml" />
       <module fileurl="file://$PROJECT_DIR$/multitypedemo/multitypedemo.iml" filepath="$PROJECT_DIR$/multitypedemo/multitypedemo.iml" />
-      <module fileurl="file://$PROJECT_DIR$/multitypedemo/multitypedemo.iml" filepath="$PROJECT_DIR$/multitypedemo/multitypedemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/myapplication/myapplication.iml" filepath="$PROJECT_DIR$/myapplication/myapplication.iml" />
       <module fileurl="file://$PROJECT_DIR$/pager/pager.iml" filepath="$PROJECT_DIR$/pager/pager.iml" />
       <module fileurl="file://$PROJECT_DIR$/shareDemo.iml" filepath="$PROJECT_DIR$/shareDemo.iml" />
     </modules>

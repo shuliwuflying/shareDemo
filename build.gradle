@@ -7,6 +7,10 @@ buildscript {
         maven {
             url "http://localhost:8081/nexus/content/repositories/slive_repo"
         }
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
+        }
     }
     dependencies {
 //        classpath 'com.slive.plugin:slive_plugin:1.0.1'
@@ -19,6 +23,10 @@ allprojects {
         jcenter()
         maven{
             url "http://localhost:8081/nexus/content/repositories/slive_repo"
+        }
+        maven {
+            url 'https://maven.google.com/'
+            name 'Google'
         }
     }
 }

@@ -9,7 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.lemon.faceu.refresh.RefreshStateListener;
+import com.lemon.faceu.uimodule.refresh.RefreshStateListener;
 import com.slive.demo.R;
 
 

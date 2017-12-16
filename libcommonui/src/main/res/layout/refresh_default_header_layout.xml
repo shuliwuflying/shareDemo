@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.lemon.faceu.refresh.DefaultHeaderView
+<com.lemon.faceu.uimodule.refresh.DefaultHeaderView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:round="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
@@ -10,7 +10,7 @@
     android:background="@color/refresh_header_bg_color"
     >
 
-    <com.lemon.faceu.refresh.RoundProgressBar
+    <com.lemon.faceu.uimodule.refresh.RoundProgressBar
         android:id="@+id/refresh_loading_bar"
         android:layout_width="30dp"
         android:layout_height="30dp"
@@ -26,4 +26,4 @@
         android:textColor="@color/refresh_header_bar_color"
         />
 
-</com.lemon.faceu.refresh.DefaultHeaderView>
+</com.lemon.faceu.uimodule.refresh.DefaultHeaderView>

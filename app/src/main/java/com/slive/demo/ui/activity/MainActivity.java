@@ -9,18 +9,18 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
-import com.lemon.faceu.refresh.ILoadMoreFooter;
-import com.lemon.faceu.refresh.LoadMoreStatus;
-import com.lemon.faceu.refresh.RefreshRecyclerView;
-import com.lemon.faceu.refresh.OnLoadMoreListener;
-import com.lemon.faceu.refresh.OnRefreshListener;
+import com.lemon.faceu.uimodule.refresh.DefaultHeaderView;
+import com.lemon.faceu.uimodule.refresh.ILoadMoreFooter;
+import com.lemon.faceu.uimodule.refresh.LoadMoreStatus;
+import com.lemon.faceu.uimodule.refresh.RefreshRecyclerView;
+import com.lemon.faceu.uimodule.refresh.OnLoadMoreListener;
+import com.lemon.faceu.uimodule.refresh.OnRefreshListener;
 import com.slive.demo.R;
 import com.slive.demo.model.Image;
 import com.slive.demo.network.NetworkAPI;
 import com.slive.demo.ui.adapter.ImageAdapter;
 import com.slive.demo.ui.adapter.OnItemClickListener;
 import com.slive.demo.ui.widget.BannerView;
-import com.slive.demo.ui.widget.footer.LoadMoreFooterView;
 import com.slive.demo.ui.widget.header.BatVsSupperHeaderView;
 import com.slive.demo.ui.widget.header.ClassicRefreshStateHeaderView;
 import com.slive.demo.utils.DensityUtils;
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
         //refreshRecyclerView.addHeaderView(bannerView);
 
         loadMoreFooter = (ILoadMoreFooter) refreshRecyclerView.getLoadMoreFooterView();
+        final DefaultHeaderView defaultHeaderView = (DefaultHeaderView) refreshRecyclerView.getRefreshHeaderView();
         mAdapter = new ImageAdapter();
         refreshRecyclerView.setIAdapter(mAdapter);
 
@@ -62,8 +63,10 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
             @Override
             public void run() {
                 refreshRecyclerView.setRefreshing(true);
+                android.util.Log.e("TAG","defaultHeaderView:getParent: "+defaultHeaderView.getParent()+"  getParent222: "+defaultHeaderView.getParent().getParent());
             }
         });
+
     }
 
 
@@ -81,7 +84,10 @@ public class MainActivity extends AppCompatActivity implements OnItemClickListen
 
     @Override
     public void onLoadMore() {
-        loadMore();
+        if (loadMoreFooter.canLoadMore() && mAdapter.getItemCount() > 0) {
+            loadMoreFooter.setStatus(LoadMoreStatus.LOADING);
+            loadMore();
+        }
     }
 
     private void toggleRefreshHeader() {

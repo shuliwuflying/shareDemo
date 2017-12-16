@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.lemon.faceu.refresh.ILoadMoreFooter;
-import com.lemon.faceu.refresh.LoadMoreStatus;
+import com.lemon.faceu.uimodule.refresh.ILoadMoreFooter;
+import com.lemon.faceu.uimodule.refresh.LoadMoreStatus;
 import com.slive.demo.R;
 
 /**

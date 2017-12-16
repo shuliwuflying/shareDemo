@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.lemon.faceu.refresh.RefreshViewHolder;
+import com.lemon.faceu.uimodule.refresh.RefreshViewHolder;
 import com.slive.demo.R;
 import com.slive.demo.model.Image;
 

@@ -1,1 +1,1 @@
-include ':app', ':libtest', ':pager', ':libcommonui', ':multitype', ':multitypedemo'
+include ':app', ':libtest', ':pager', ':libcommonui', ':multitype', ':multitypedemo', ':myapplication', ':live', ':common'

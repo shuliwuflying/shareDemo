@@ -10,10 +10,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/libcommonui" />
             <option value="$PROJECT_DIR$/libtest" />
+            <option value="$PROJECT_DIR$/live" />
             <option value="$PROJECT_DIR$/multitype" />
             <option value="$PROJECT_DIR$/multitypedemo" />
+            <option value="$PROJECT_DIR$/myapplication" />
             <option value="$PROJECT_DIR$/pager" />
           </set>
         </option>

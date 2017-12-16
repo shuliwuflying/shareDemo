@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.lemon.faceu.refresh.RefreshStateListener;
+import com.lemon.faceu.uimodule.refresh.RefreshStateListener;
 import com.slive.demo.R;
 
 /**
