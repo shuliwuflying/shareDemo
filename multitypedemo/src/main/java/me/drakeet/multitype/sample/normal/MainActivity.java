@@ -19,6 +19,7 @@ package me.drakeet.multitype.sample.normal;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.flying.multi.MultiTypeAdapter;
 import com.flying.multi.TypeItem;
@@ -54,5 +55,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         recyclerView.setAdapter(new MultiTypeAdapter(typeItems));
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                Log.e("TAG","up: "+recyclerView.canScrollVertically(-1));
+                Log.e("TAG","down: "+recyclerView.canScrollVertically(1));
+            }
+        });
     }
 }

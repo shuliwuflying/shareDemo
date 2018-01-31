@@ -9,15 +9,13 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/buildsrc" />
             <option value="$PROJECT_DIR$/common" />
-            <option value="$PROJECT_DIR$/libcommonui" />
-            <option value="$PROJECT_DIR$/libtest" />
+            <option value="$PROJECT_DIR$/libprocessor" />
             <option value="$PROJECT_DIR$/live" />
-            <option value="$PROJECT_DIR$/multitype" />
-            <option value="$PROJECT_DIR$/multitypedemo" />
-            <option value="$PROJECT_DIR$/myapplication" />
-            <option value="$PROJECT_DIR$/pager" />
+            <option value="$PROJECT_DIR$/plugintest" />
+            <option value="$PROJECT_DIR$/processor" />
+            <option value="$PROJECT_DIR$/slive_plugin" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

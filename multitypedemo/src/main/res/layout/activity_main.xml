@@ -24,7 +24,7 @@
     tools:context="me.drakeet.multitype.sample.normal.MainActivity"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
+    <me.drakeet.multitype.sample.view.MyRecyclerView
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

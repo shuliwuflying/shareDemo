@@ -1,1 +1,3 @@
-include ':app', ':libtest', ':pager', ':libcommonui', ':multitype', ':multitypedemo', ':myapplication', ':live', ':common'
+//include ':app', ':libtest', ':pager', ':libcommonui', ':multitype', ':multitypedemo', ':myapplication', ':live', ':common', ':processor', ':libprocessor', ':libjava'
+include ':slive_plugin', ':plugintest', ':buildsrc'
+include ':processor', ':libprocessor',':live',':common'

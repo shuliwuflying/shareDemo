@@ -17,18 +17,26 @@ repositories {
 
 //group和version
 group='com.slive.plugin'
-version='1.0.1'
+version='1.0.4'
 
 //打包到本地或者远程Maven库
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url:"http://localhost:8081/nexus/content/repositories/slive_repo") {
+//                authentication(userName: 'admin', password: 'admin123')
+//            }
+//
+//        }
+//    }
+
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url:"http://localhost:8081/nexus/content/repositories/slive_repo") {
-                authentication(userName: 'admin', password: 'admin123')
-            }
-
+            repository(url:uri('/Users/shuliwu/repositories'))
         }
     }
+
 
 //    pom.project {
 //        version '1.0.0'

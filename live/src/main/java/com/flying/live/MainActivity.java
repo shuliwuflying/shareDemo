@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.flying.common.ConstantUtils;
 import com.flying.live.receiver.Receiver1;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         initViews();
         bindListener();
         getRunTask();
+
     }
 
     private void initViews() {
@@ -56,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
         otherApp = (TextView) findViewById(R.id.other);
         String contentStr = "taskId:"+getTaskId();
         contentTv.setText(contentStr);
+        contentTv.post(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(),"test",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void getRunTask() {

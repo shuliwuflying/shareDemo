@@ -13,7 +13,6 @@ buildscript {
         }
     }
     dependencies {
-//        classpath 'com.slive.plugin:slive_plugin:1.0.1'
         classpath 'com.android.tools.build:gradle:2.2.2'
     }
 }
@@ -21,9 +20,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven{
-            url "http://localhost:8081/nexus/content/repositories/slive_repo"
-        }
+
         maven {
             url 'https://maven.google.com/'
             name 'Google'
@@ -34,3 +31,5 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+//apply plugin: 'com.slive.plugin'
