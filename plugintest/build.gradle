@@ -1,6 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.slive.plugin'
-apply plugin: 'com.flying.plugin'
 
 
 buildscript {
@@ -9,9 +7,6 @@ buildscript {
         maven {
             url uri('/Users/shuliwu/repositories')
         }
-    }
-    dependencies {
-        classpath 'com.slive.plugin:slive_plugin:1.0.4'
     }
 }
 
@@ -23,7 +18,7 @@ android {
     defaultConfig {
         applicationId "com.flying.plugintest"
         minSdkVersion 15
-        targetSdkVersion 26
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
 
@@ -43,7 +38,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile rootProject.ext.dependencies.appCompatV7
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     //compile project(':buildsrc')
 }

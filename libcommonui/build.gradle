@@ -25,5 +25,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile rootProject.ext.dependencies.appCompatV7;
     compile rootProject.ext.dependencies.recyclerviewV7;
-    testCompile 'junit:junit:4.12'
+
 }

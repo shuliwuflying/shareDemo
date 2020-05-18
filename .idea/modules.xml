@@ -3,12 +3,20 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/buildsrc/buildsrc.iml" filepath="$PROJECT_DIR$/buildsrc/buildsrc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/buildsrc/buildsrc.iml" filepath="$PROJECT_DIR$/buildsrc/buildsrc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/common/common.iml" filepath="$PROJECT_DIR$/common/common.iml" />
       <module fileurl="file://$PROJECT_DIR$/libprocessor/libprocessor.iml" filepath="$PROJECT_DIR$/libprocessor/libprocessor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libprocessor/libprocessor.iml" filepath="$PROJECT_DIR$/libprocessor/libprocessor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/live/live.iml" filepath="$PROJECT_DIR$/live/live.iml" />
       <module fileurl="file://$PROJECT_DIR$/live/live.iml" filepath="$PROJECT_DIR$/live/live.iml" />
       <module fileurl="file://$PROJECT_DIR$/plugintest/plugintest.iml" filepath="$PROJECT_DIR$/plugintest/plugintest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/plugintest/plugintest.iml" filepath="$PROJECT_DIR$/plugintest/plugintest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/processor/processor.iml" filepath="$PROJECT_DIR$/processor/processor.iml" />
       <module fileurl="file://$PROJECT_DIR$/processor/processor.iml" filepath="$PROJECT_DIR$/processor/processor.iml" />
       <module fileurl="file://$PROJECT_DIR$/shareDemo.iml" filepath="$PROJECT_DIR$/shareDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shareDemo.iml" filepath="$PROJECT_DIR$/shareDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/slive_plugin/slive_plugin.iml" filepath="$PROJECT_DIR$/slive_plugin/slive_plugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/slive_plugin/slive_plugin.iml" filepath="$PROJECT_DIR$/slive_plugin/slive_plugin.iml" />
     </modules>
   </component>
