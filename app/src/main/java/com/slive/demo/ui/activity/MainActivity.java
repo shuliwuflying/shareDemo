@@ -1,13 +1,14 @@
 package com.slive.demo.ui.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lemon.faceu.uimodule.refresh.DefaultHeaderView;
 import com.lemon.faceu.uimodule.refresh.ILoadMoreFooter;
