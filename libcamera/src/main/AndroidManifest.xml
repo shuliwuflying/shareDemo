@@ -1,2 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.libcamera" />
+    package="com.android.libcamera" >
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    
+    <application>
+        <activity android:name=".CameraActivity"/>
+    </application>
+</manifest>

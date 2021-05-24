@@ -1,0 +1,3 @@
+[armeabi] Compile thumb  : yahfa <= HookMain.c
+[armeabi] Compile thumb  : yahfa <= trampoline.c
+[armeabi] SharedLibrary  : libyahfa.so

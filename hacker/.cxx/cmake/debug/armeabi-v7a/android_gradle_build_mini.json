@@ -1,0 +1,16 @@
+{
+  "buildFiles": [
+    "/Users/liwushu/project/bak/shareDemo/hacker/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/liwushu/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Users/liwushu/project/bak/shareDemo/hacker/.cxx/cmake/debug/armeabi-v7a --target clean"
+  ],
+  "libraries": {
+    "hacker-Debug-armeabi-v7a": {
+      "artifactName": "hacker",
+      "buildCommand": "/Users/liwushu/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Users/liwushu/project/bak/shareDemo/hacker/.cxx/cmake/debug/armeabi-v7a --target hacker",
+      "abi": "armeabi-v7a",
+      "output": "/Users/liwushu/project/bak/shareDemo/hacker/build/intermediates/cmake/debug/obj/armeabi-v7a/libhacker.so"
+    }
+  }
+}

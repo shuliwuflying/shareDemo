@@ -2,14 +2,25 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'me.ele.lancet'
 
+apply from: 'http://tosv.byted.org/obj/ttclient-android/bits_publish.gradle'
+
+
+//apply plugin: 'com.bytedance.rheaplugin'
+//
+//rheaTrace {
+//    //其他配置参数，后面3.2小结详细介绍
+//    useSystrace=true
+//    traceAll=true
+//}
 
 def bakPath = file("${buildDir}/bakFile/")
-def bakFiles = ["mapping.txt","resources.txt","seeds.txt","usage.txt"]
+def bakFiles = ["mapping.txt", "resources.txt", "seeds.txt", "usage.txt"]
 
 //获取产品的名字
 def getProductName() {
-    return "shareDemo_"+ rootProject.ext.app.versionName + "${getJenkinsBuild()}"
+    return "shareDemo_" + rootProject.ext.app.versionName + "${getJenkinsBuild()}"
 }
 
 //获取当前系统的时间
@@ -18,16 +29,16 @@ def releaseTime() {
 }
 
 boolean isInJeknins() {
-    Map<String, String> map =  System.getenv()
-    if(map == null) {
+    Map<String, String> map = System.getenv()
+    if (map == null) {
         return false
     }
 //    printf('env=%s\n',map.toMapString())
     String str
     Iterator it = map.iterator();
-    while(it.hasNext()) {
+    while (it.hasNext()) {
         str = it.next();
-        if(str.contains("jenkins")){
+        if (str.contains("jenkins")) {
             return true
         }
     }
@@ -35,12 +46,12 @@ boolean isInJeknins() {
 }
 //获取jenkins build number
 def getJenkinsBuild() {
-    boolean  flag = isInJeknins();
-    if(flag){
+    boolean flag = isInJeknins();
+    if (flag) {
         ext.env = System.getenv()
         ext.buildNumber = env.get("BUILD_NUMBER");
         return "#" + "$buildNumber"
-    }else{
+    } else {
         return ""
     }
 }
@@ -55,6 +66,49 @@ android {
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.app.versionCode
         versionName rootProject.ext.app.versionName
+
+        externalNativeBuild {
+            cmake {
+                arguments "-DBITS_HEADER_DIR=" + bitsDepend.headerDir
+                arguments "-DBITS_SO_DIR=" + bitsDepend.soDir
+            }
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
+
+    }
+
+    signingConfigs {
+        releaseSigning {
+            storeFile file('beauty.keystore')
+            storePassword 'beauty'
+            keyAlias 'beautykey'
+            keyPassword 'beauty'
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.releaseSigning
+        }
+
+        debug {
+            signingConfig signingConfigs.releaseSigning
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+        }
     }
 
     buildTypes {
@@ -69,8 +123,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+//    packagingOptions {
+//        exclude '**/libbytehook.so'
+//    }
 //
-    android.applicationVariants.all{ variant->
+    android.applicationVariants.all { variant ->
 //        def taskName = variant.name
 //        tasks.all{
 //            if("assemble${taskName}".equalsIgnoreCase(it.name)){
@@ -111,17 +169,36 @@ android {
 
 
 dependencies {
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.navigation:navigation-fragment:2.3.1'
+    implementation 'androidx.navigation:navigation-ui:2.3.1'
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':libcommonui')
-    compile 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.google.code.gson:gson:2.6.2'
     compile rootProject.ext.dependencies.okhttp
     compile rootProject.ext.dependencies.okio
-    compile 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
-    compile 'com.airbnb.android:lottie:2.1.2'
+    implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+//    implementation project(":perf_monitor")
+
+    compileOnly 'de.robv.android.xposed:api:82'
+    compileOnly 'de.robv.android.xposed:api:82:sources'
+    compileOnly "com.bytedance.android:lancet-base:1.1.8"
+    implementation 'com.creation:ultrasonic:1.8.9'
+    implementation 'com.airbnb.android:lottie:3.1.0'
+
+//    implementation "com.bytedance.android:bytehook:0.0.1-alpha.18"
+//    bitsDependSo "com.bytedance.android:bytehook:0.0.1-alpha.18"
+//    implementation project(':hacker')
+    implementation 'com.alibaba:arouter-api:1.5.1'
+    kapt 'com.alibaba:arouter-compiler:1.5.1'
+    implementation project(':libcamera')
+    implementation 'com.bytedance.hubble:library:0.0.1-alpha.15'
 }
 
 configurations.all {

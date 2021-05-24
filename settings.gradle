@@ -1,5 +1,11 @@
-//include ':app', ':libtest', ':pager', ':libcommonui', ':multitype', ':multitypedemo', ':myapplication', ':live', ':common', ':processor', ':libprocessor', ':libjava'
-include ':slive_plugin', ':plugintest', ':buildsrc', ':libcamera'
+include ':testUnit'//include ':app', ':libtest', ':pager', ':libcommonui', ':multitype', ':multitypedemo', ':myapplication', ':live', ':common', ':processor', ':libprocessor', ':libjava'
+//include ':slive_plugin', ':plugintest',
+include ':libcamera'
 include ':processor', ':libprocessor',':live',':common'
 include ':app'
 include ':libcommonui'
+
+include ':fphook'
+include ':perf_monitor'
+include ':library'
+include ':hacker'

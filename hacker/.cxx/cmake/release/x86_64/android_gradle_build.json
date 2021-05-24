@@ -1,0 +1,41 @@
+
+{
+	"buildFiles" : 
+	[
+		"/Users/liwushu/project/bak/shareDemo/hacker/src/main/cpp/CMakeLists.txt"
+	],
+	"cleanCommands" : 
+	[
+		"/Users/liwushu/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Users/liwushu/project/bak/shareDemo/hacker/.cxx/cmake/release/x86_64 --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"hacker-Release-x86_64" : 
+		{
+			"abi" : "x86_64",
+			"artifactName" : "hacker",
+			"buildCommand" : "/Users/liwushu/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Users/liwushu/project/bak/shareDemo/hacker/.cxx/cmake/release/x86_64 --target hacker",
+			"buildType" : "release",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=x86_64-none-linux-android21 --gcc-toolchain=/Users/liwushu/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/liwushu/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot  -Dhacker_EXPORTS -I/Users/liwushu/project/bak/shareDemo/hacker/build/bitsDepend/headerDir -I/Users/liwushu/project/bak/shareDemo/hacker/src/main/cpp/.  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -std=c++14 -O2 -DNDEBUG  -fPIC   -w -Weverything -Werror -Wno-c++98-compat-pedantic -Wno-old-style-cast  -c ",
+					"src" : "/Users/liwushu/project/bak/shareDemo/hacker/src/main/cpp/hacker.cpp",
+					"workingDirectory" : "/Users/liwushu/project/bak/shareDemo/hacker/.cxx/cmake/release/x86_64"
+				}
+			],
+			"output" : "/Users/liwushu/project/bak/shareDemo/hacker/build/intermediates/cmake/release/obj/x86_64/libhacker.so",
+			"toolchain" : "18044834867185695917"
+		}
+	},
+	"toolchains" : 
+	{
+		"18044834867185695917" : 
+		{
+			"cCompilerExecutable" : "/Users/liwushu/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang",
+			"cppCompilerExecutable" : "/Users/liwushu/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+		}
+	}
+}

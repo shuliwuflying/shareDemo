@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:gravity="center"
+    android:id="@+id/container_test"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="300dp"
         android:clipToPadding="false"
         android:clipChildren="false"
         >
@@ -17,27 +18,73 @@
             android:clipChildren="false"
             >
             <ImageView
-                android:id="@+id/image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorAccent"
+                android:id="@+id/image_view1"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="80dp"
+                android:layout_marginTop="80dp"
+                android:src="@drawable/test"
+                />
+
+            <ImageView
+                android:id="@+id/image_view2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/test"
+                />
+
+            <ImageView
+                android:id="@+id/image_view3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/test"
                 />
         </FrameLayout>
     </FrameLayout>
 
 
-    <Button
+    <TextView
         android:id="@+id/play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="play"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="playaaaaaa"
         />
 
     <Button
         android:id="@+id/watch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="italic"
         android:text="watch"
+        />
+
+    <TextureView
+        android:id="@+id/texture_view"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        />
+
+    <com.slive.demo.CustomTextView
+        android:id="@+id/test"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:text="test"
+        />
+
+    <TextView
+        android:id="@+id/test111"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text=" aaaaaaaa"
         />
 
 </LinearLayout>

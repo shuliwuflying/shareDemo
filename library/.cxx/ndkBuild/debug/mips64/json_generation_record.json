@@ -1,0 +1,20 @@
+[
+  {
+    "level": "INFO",
+    "message": "Start JSON generation. Platform version: 21 min SDK version: mips64",
+    "file": "/Users/liwushu/project/new/YAHFA-master/library/src/main/jni/Android.mk",
+    "tag": "debug|mips64"
+  },
+  {
+    "level": "INFO",
+    "message": "JSON \u0027/Users/liwushu/project/new/YAHFA-master/library/.cxx/ndkBuild/debug/mips64/android_gradle_build.json\u0027 was up-to-date",
+    "file": "/Users/liwushu/project/new/YAHFA-master/library/src/main/jni/Android.mk",
+    "tag": "debug|mips64"
+  },
+  {
+    "level": "INFO",
+    "message": "JSON generation completed without problems",
+    "file": "/Users/liwushu/project/new/YAHFA-master/library/src/main/jni/Android.mk",
+    "tag": "debug|mips64"
+  }
+]

@@ -1,0 +1,16 @@
+Executable : /Users/liwushu/Library/Android/sdk/cmake/3.6.4111459/bin/cmake
+arguments : 
+-H/Users/liwushu/project/bak/shareDemo/hacker/src/main/cpp
+-B/Users/liwushu/project/bak/shareDemo/hacker/.cxx/cmake/debug/x86_64
+-DANDROID_ABI=x86_64
+-DANDROID_PLATFORM=android-16
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=/Users/liwushu/project/bak/shareDemo/hacker/build/intermediates/cmake/debug/obj/x86_64
+-DCMAKE_BUILD_TYPE=Debug
+-DANDROID_NDK=/Users/liwushu/Library/Android/sdk/ndk-bundle
+-DCMAKE_TOOLCHAIN_FILE=/Users/liwushu/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=/Users/liwushu/Library/Android/sdk/cmake/3.6.4111459/bin/ninja
+-GAndroid Gradle - Ninja
+-DBITS_HEADER_DIR=/Users/liwushu/project/bak/shareDemo/hacker/build/bitsDepend/headerDir
+-DBITS_SO_DIR=/Users/liwushu/project/bak/shareDemo/hacker/build/bitsDepend/soDir
+jvmArgs : 
+

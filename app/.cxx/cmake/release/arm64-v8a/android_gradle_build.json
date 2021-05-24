@@ -1,0 +1,42 @@
+{
+  "stringTable": {
+    "0": "/Users/liwushu/project/bak/shareDemo/app/.cxx/cmake/release/arm64-v8a",
+    "1": "--target=aarch64-none-linux-android21 --gcc-toolchain=/Users/liwushu/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/liwushu/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot -Dloop_hook_EXPORTS -I/Users/liwushu/project/bak/shareDemo/app/build/bitsDepend/headerDir -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security -std=c++14 -O2 -DNDEBUG -fPIC -Weverything -Wunused-variable -Wunneeded-internal-declaration -Wno-c++98-compat-pedantic -Wno-old-style-cast"
+  },
+  "buildFiles": [
+    "/Users/liwushu/Library/Android/sdk/ndk-bundle/build/cmake/platforms.cmake",
+    "/Users/liwushu/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake",
+    "/Users/liwushu/project/bak/shareDemo/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/liwushu/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/liwushu/project/bak/shareDemo/app/.cxx/cmake/release/arm64-v8a\" clean"
+  ],
+  "buildTargetsCommand": "/Users/liwushu/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/liwushu/project/bak/shareDemo/app/.cxx/cmake/release/arm64-v8a\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "loop_hook-Release-arm64-v8a": {
+      "buildCommand": "/Users/liwushu/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/liwushu/project/bak/shareDemo/app/.cxx/cmake/release/arm64-v8a\" loop_hook",
+      "buildType": "release",
+      "toolchain": "3279724622",
+      "abi": "arm64-v8a",
+      "artifactName": "loop_hook",
+      "files": [
+        {
+          "src": "/Users/liwushu/project/bak/shareDemo/app/src/main/cpp/loop_hook.cpp",
+          "flagsOrdinal": 1,
+          "workingDirectoryOrdinal": 0
+        }
+      ],
+      "headers": [],
+      "output": "/Users/liwushu/project/bak/shareDemo/app/build/intermediates/cmake/release/obj/arm64-v8a/libloop_hook.so"
+    }
+  },
+  "toolchains": {
+    "3279724622": {
+      "cppCompilerExecutable": "/Users/liwushu/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

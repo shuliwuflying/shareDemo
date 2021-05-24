@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!--Context.getExternalFilesDir(null) Android/data/packageName/files-->
+    <external-files-path
+        name="external_files_path"
+        path="."/>
+
+    <!--Context.getExternalFilesDir(null) Android/data/packageName-->
+    <external-files-path
+        name="external_package"
+        path="./../"/>
+
+    <!--Context.getFilesDir() /data/data/packageName/files-->
+    <files-path
+        name="files_path"
+        path="."/>
+
+    <!-- name名字必须为sdcard，否则系统分享调用微信时分享多张图片会失败 -->
+    <!--Environment.getExternalStorageDirectory() /sdcard-->
+    <external-path
+        name="sdcard"
+        path="."/>
+
+    <root-path name="root_path"
+        path="" />
+
+</paths>

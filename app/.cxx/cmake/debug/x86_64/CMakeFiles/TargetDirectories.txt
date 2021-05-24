@@ -1,0 +1,3 @@
+/Users/liwushu/project/bak/shareDemo/app/.cxx/cmake/debug/x86_64/CMakeFiles/rebuild_cache.dir
+/Users/liwushu/project/bak/shareDemo/app/.cxx/cmake/debug/x86_64/CMakeFiles/edit_cache.dir
+/Users/liwushu/project/bak/shareDemo/app/.cxx/cmake/debug/x86_64/CMakeFiles/loop_hook.dir

@@ -1,0 +1,7 @@
+Executable : /Users/liwushu/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja
+arguments : 
+-C
+/Users/liwushu/project/bak/shareDemo/app/.cxx/cmake/debug/arm64-v8a
+loop_hook
+jvmArgs : 
+

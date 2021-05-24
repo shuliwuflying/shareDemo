@@ -1,0 +1,19 @@
+{
+  "buildFiles": [
+    "/Users/liwushu/Library/Android/sdk/ndk-bundle/build/cmake/platforms.cmake",
+    "/Users/liwushu/Library/Android/sdk/ndk-bundle/build/cmake/android.toolchain.cmake",
+    "/Users/liwushu/project/bak/shareDemo/app/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/liwushu/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/liwushu/project/bak/shareDemo/app/.cxx/cmake/release/x86\" clean"
+  ],
+  "buildTargetsCommand": "/Users/liwushu/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja  -C \"/Users/liwushu/project/bak/shareDemo/app/.cxx/cmake/release/x86\" {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "loop_hook-Release-x86": {
+      "artifactName": "loop_hook",
+      "buildCommand": "/Users/liwushu/Library/Android/sdk/cmake/3.10.2.4988404/bin/ninja -C \"/Users/liwushu/project/bak/shareDemo/app/.cxx/cmake/release/x86\" loop_hook",
+      "abi": "x86",
+      "output": "/Users/liwushu/project/bak/shareDemo/app/build/intermediates/cmake/release/obj/x86/libloop_hook.so"
+    }
+  }
+}

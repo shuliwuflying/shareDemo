@@ -1,0 +1,12 @@
+[1/2] Building CXX object CMakeFiles/loop_hook.dir/loop_hook.cpp.o
+/Users/liwushu/project/bak/shareDemo/app/src/main/cpp/loop_hook.cpp:44:63: warning: data argument not used by format string [-Wformat-extra-args]
+    __android_log_print(ANDROID_LOG_DEBUG, SAMPLE_TAG, "c: ", c);
+                                                       ~~~~~  ^
+/Users/liwushu/project/bak/shareDemo/app/src/main/cpp/loop_hook.cpp:48:49: warning: unused parameter 'thiz' [-Wunused-parameter]
+static void sample_test_add(JNIEnv *env, jclass thiz)
+                                                ^
+/Users/liwushu/project/bak/shareDemo/app/src/main/cpp/loop_hook.cpp:18:9: warning: macro is not used [-Wunused-macros]
+#define HACKER_JNI_VERSION    JNI_VERSION_1_6
+        ^
+3 warnings generated.
+[2/2] Linking CXX shared library /Users/liwushu/project/bak/shareDemo/app/build/intermediates/cmake/release/obj/armeabi-v7a/libloop_hook.so

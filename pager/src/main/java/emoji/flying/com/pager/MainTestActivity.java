@@ -1,9 +1,9 @@
 package emoji.flying.com.pager;
 
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -12,7 +12,7 @@ import com.flying.common.ConstantUtils;
 
 import java.util.List;
 
-public class MainTestActivity extends AppCompatActivity {
+public class MainTestActivity extends Activity {
 
     TextView contentTv;
     TextView standard;

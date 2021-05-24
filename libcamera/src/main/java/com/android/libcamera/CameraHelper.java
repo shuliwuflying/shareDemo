@@ -14,6 +14,7 @@ public class CameraHelper {
     private static final String TAG = "CameraHelper";
     private static Camera camera;
     private static Handler sHandler;
+    private static boolean isFirstPreview = true;
 
     public static void init() {
         HandlerThread handlerThread = new HandlerThread("cameraV1");
@@ -47,7 +48,9 @@ public class CameraHelper {
         sHandler.post(new Runnable() {
             @Override
             public void run() {
+                long startTime = System.currentTimeMillis();
                 openCamera(holder);
+                android.util.Log.e(TAG,"open cost: "+(System.currentTimeMillis() - startTime));
                 android.util.Log.e(TAG,"startPreview: "+holder.getSurface());
                 if (holder.getSurface() == null) {
                     return;
@@ -63,7 +66,7 @@ public class CameraHelper {
                         mSupportedPreviewSizes, height, width);
                 Camera.Size optimalSize = CameraHelper.getOptimalVideoSize(mSupportedVideoSizes,
                         mSupportedPreviewSizes, height, width);
-                parameters.setPreviewSize(optimalSize.width, optimalSize.height); // 设置预览图像大小
+//                parameters.setPreviewSize(optimalSize.width, optimalSize.height); // 设置预览图像大小
 
                 parameters.set("orientation", "portrait");
                 List<String> focusModes = parameters.getSupportedFocusModes();
@@ -80,10 +83,14 @@ public class CameraHelper {
                     for (int i=0;i<3;i++) {
                         camera.addCallbackBuffer(buffer[i]);
                     }
+                    final long previewStartTime = System.currentTimeMillis();
                     camera.setPreviewCallbackWithBuffer(new Camera.PreviewCallback() {
                         @Override
                         public void onPreviewFrame(byte[] bytes, Camera camera) {
-                            android.util.Log.e(TAG,"onPreviewFrame");
+                            if (isFirstPreview) {
+                                isFirstPreview = false;
+                                android.util.Log.e(TAG, "onPreviewFrame cost: "+(System.currentTimeMillis() - previewStartTime));
+                            }
                             camera.addCallbackBuffer(bytes);
                         }
                     });

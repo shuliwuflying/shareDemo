@@ -1,0 +1,16 @@
+{
+  "buildFiles": [
+    "/Users/liwushu/project/bak/shareDemo/hacker/src/main/cpp/CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "/Users/liwushu/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Users/liwushu/project/bak/shareDemo/hacker/.cxx/cmake/release/x86 --target clean"
+  ],
+  "libraries": {
+    "hacker-Release-x86": {
+      "artifactName": "hacker",
+      "buildCommand": "/Users/liwushu/Library/Android/sdk/cmake/3.6.4111459/bin/cmake --build /Users/liwushu/project/bak/shareDemo/hacker/.cxx/cmake/release/x86 --target hacker",
+      "abi": "x86",
+      "output": "/Users/liwushu/project/bak/shareDemo/hacker/build/intermediates/cmake/release/obj/x86/libhacker.so"
+    }
+  }
+}

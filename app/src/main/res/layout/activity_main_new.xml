@@ -12,48 +12,130 @@
     >
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:clipToPadding="false"
-        android:clipChildren="false"
+        android:layout_marginTop="100dp"
+        android:layout_height="200dp"
         >
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:clipChildren="false"
-            >
-            <ImageView
-                android:id="@+id/image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorAccent"
-                />
-        </FrameLayout>
+        <com.slive.demo.OverlayImageView
+            android:id="@+id/image_view1"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/test"
+            android:background="@color/colorAccent"
+            />
+
+        <com.slive.demo.OverlayImageView
+            android:id="@+id/image_view2"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="40dp"
+            android:background="@color/colorAccent"
+            android:src="@drawable/test" />
+
+        <com.slive.demo.OverlayImageView
+            android:id="@+id/image_view3"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@color/colorAccent"
+            android:src="@drawable/test"
+            />
+
+        <com.slive.demo.NoneOverlayImageView
+            android:id="@+id/image_view4"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="330dp"
+            android:layout_marginLeft="80dp"
+            android:background="@color/colorAccent"
+            android:src="@drawable/test"
+            />
+
+        <com.slive.demo.NoneOverlayImageView
+            android:id="@+id/image_view5"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="290dp"
+            android:background="@color/colorAccent"
+            android:src="@drawable/test" />
+
+        <com.slive.demo.NoneOverlayImageView
+            android:id="@+id/image_view6"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="250dp"
+            android:background="@color/colorAccent"
+            android:src="@drawable/test"
+            />
+
     </FrameLayout>
+
+
+
+
+    <ImageView
+        android:id="@+id/test_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="200dp"
+        android:visibility="gone"
+        />
+
+    <com.slive.demo.NoneOverlayImageView
+        android:id="@+id/test_image2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@color/colorAccent"
+        android:layout_marginTop="150dp"
+        android:visibility="gone"
+        />
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/create_room_animation_view"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginTop="100dp"
-        android:visibility="gone"
-        app:lottie_fileName="livesign.json"
+        android:layout_marginTop="400dp"
+        android:layout_marginLeft="300dp"
         app:lottie_loop="true"
         app:lottie_autoPlay="false"
         />
 
-    <Button
+    <TextView
         android:id="@+id/play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="play"
+        android:text="用户反馈QQ群：940203841"
         />
 
-    <Button
+    <com.slive.demo.CustomTextView
         android:id="@+id/watch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="200dp"
         android:text="watch"
         />
+
+    <TextView
+        android:id="@+id/create_file"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="create_file"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        />
+
+
+    <TextView
+        android:id="@+id/delete_file"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="delete_file"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="200dp"
+        />
+
 </com.slive.demo.MainLayout>

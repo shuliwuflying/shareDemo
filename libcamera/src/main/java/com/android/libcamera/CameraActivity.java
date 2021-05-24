@@ -1,6 +1,9 @@
 package com.android.libcamera;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.net.MailTo;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
