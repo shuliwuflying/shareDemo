@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context="com.lm.hook.MainActivity">
+
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="fps hook 只能监控TextureView的刷新帧率"
+        />
+
+    <EditText
+        android:id="@+id/pkg_input"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="50dp"
+        android:hint="输入需要监控app的包名"
+        />
+
+    <Button
+        android:id="@+id/add_pkg"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="添加"/>
+</LinearLayout>

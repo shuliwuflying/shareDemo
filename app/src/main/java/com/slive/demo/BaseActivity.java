@@ -1,5 +1,6 @@
 package com.slive.demo;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -46,5 +47,35 @@ public class BaseActivity extends AppCompatActivity {
             isDown = false;
         }
         return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    protected void onStop() {
+        android.util.Log.e("sliver", "onStop: "+this);
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        android.util.Log.e("sliver", "onResume: "+this);
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        android.util.Log.e("sliver", "onPause: "+this);
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        android.util.Log.e("sliver", "onDestroy: "+this);
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        android.util.Log.e("sliver", "onNewIntent: "+this);
+        super.onNewIntent(intent);
     }
 }

@@ -67,7 +67,11 @@ public class MainActivity extends BaseActivity {
             }
         }).start();
         long startTime = System.currentTimeMillis();
-        WebView.setDataDirectorySuffix("aaa");
+        try {
+            System.loadLibrary("aaa");
+        } catch (Throwable e){
+            e.printStackTrace();
+        }
         android.util.Log.e("sliver", "setDataDirectorySuffix cost: "+(System.currentTimeMillis() - startTime));
         SharedPreferences sp = getSharedPreferences("sp_test", Context.MODE_PRIVATE);
 //        try {
@@ -248,7 +252,8 @@ public class MainActivity extends BaseActivity {
         watchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(MainActivity.this, MVVMActivity.class);
+                startActivity(intent);
             }
         });
         testImage1 = findViewById(R.id.test_image);

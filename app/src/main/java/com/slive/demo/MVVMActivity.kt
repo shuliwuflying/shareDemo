@@ -5,20 +5,12 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
-import android.provider.Settings
-import android.text.TextUtils
 import android.util.Log
 import android.view.SurfaceHolder
-import com.slive.demo.services.MyAccessibility
-import com.slive.demo.utils.NativeHook
 import kotlinx.android.synthetic.main.mvvm_layout.image_view1
-import kotlinx.android.synthetic.main.mvvm_layout.play
 import kotlinx.android.synthetic.main.mvvm_layout.test
 import kotlinx.android.synthetic.main.mvvm_layout.watch
 import java.io.File
-import java.io.FileInputStream
-import java.io.InputStream
-import java.io.RandomAccessFile
 
 class MVVMActivity: BaseActivity(){
 //    private lateinit var mModel: MyViewModel
@@ -66,6 +58,7 @@ class MVVMActivity: BaseActivity(){
                 }
             }
         }
+        test<Int>(1,2)
     }
 
 
@@ -80,8 +73,8 @@ class MVVMActivity: BaseActivity(){
             android.util.Log.e("sliver","testValue: ${testValue!!}")
         }
         test.setOnClickListener {
-            NativeHook.nativeTestAdd()
-            android.util.Log.e("sliver","test onClick")
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
 
@@ -160,7 +153,11 @@ class MVVMActivity: BaseActivity(){
 
     override fun onDestroy() {
         super.onDestroy()
-        android.util.Log.e("sliver", "onDestroy this: ${MVVMActivity@this}")
+        android.util.Log.e("sliver", "onDestroy this: ${MVVMActivity@ this}")
+    }
+
+    private fun <T> test(t1: T, t2: T) {
+        android.util.Log.e("sliver", "t1: $t1  t2: $t2")
     }
 }
 

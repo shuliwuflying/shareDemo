@@ -34,11 +34,11 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Splash">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity> <!-- <activity -->
         <!-- android:name=".MainActivity" -->
         <!-- android:screenOrientation="portrait" -->
@@ -78,12 +78,13 @@
                 android:resource="@xml/accessibility" />
         </service>
 
-        <activity android:name=".MVVMActivity">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".MVVMActivity"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

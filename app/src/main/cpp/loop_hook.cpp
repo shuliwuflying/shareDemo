@@ -29,6 +29,7 @@ static void sample_strlen(JNIEnv *env, jclass thiz)
     __android_log_print(ANDROID_LOG_DEBUG, SAMPLE_TAG, "pre strlen()");
     ::strlen("my-password-12345678");
     __android_log_print(ANDROID_LOG_DEBUG, SAMPLE_TAG, "post strlen()");
+    (*env)->GetObjectClass()
 }
 
 

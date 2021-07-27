@@ -5,7 +5,7 @@ include ':processor', ':libprocessor',':live',':common'
 include ':app'
 include ':libcommonui'
 
-include ':fphook'
+include ':appHook'
 include ':perf_monitor'
 include ':library'
 include ':hacker'
