@@ -8,21 +8,45 @@ import com.lm.hook.base.BaseHookImpl;
 import com.lm.hook.meiyan.CameraAnalysis;
 import com.lm.hook.utils.LogUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import de.robv.android.xposed.XC_MethodHook;
 
 public class ParamsHookImpl extends BaseHookImpl {
     private static final String TAG = "ParamsHookImpl";
+    private static final List<String> filterParamList = new ArrayList<>();
+    private static final List<String> keepParamList = new ArrayList<>();
+
+    private static final Map<String, String> lastValueMap = new HashMap<>();
 
 
     public ParamsHookImpl() {
+        initFilterList();
+        initKeepList();
         hookEntityList.add(getDefaultBufferSizeMethod());
         hookEntityList.add(getPreviewSize());
         hookEntityList.add(setParametersHook());
         hookEntityList.add(parametersPutHook());
-//        hookEntityList.add(setPictureSize());
         hookEntityList.add(setFlashMode());
         hookEntityList.add(setPictureSizeForCamera2());
         hookEntityList.add(captureRequestHook());
+    }
+
+    private void initFilterList() {
+        filterParamList.add("preview-size");
+        filterParamList.add("antibanding");
+        filterParamList.add("picture-size");
+        filterParamList.add("rotation");
+    }
+
+    private void initKeepList() {
+        keepParamList.add("aeMode");
+        keepParamList.add("afMode");
+        keepParamList.add("aeExposure");
+        keepParamList.add("flash.mode");
     }
 
     private MethodSignature getDefaultBufferSizeMethod() {
@@ -34,19 +58,7 @@ public class ParamsHookImpl extends BaseHookImpl {
                         new XC_MethodHook() {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                StringBuilder sb = new StringBuilder();
-                                for(int i =0;i< param.args.length; i++) {
-                                    sb.append(param.args[i]);
-                                    if (i != param.args.length -1) {
-                                        sb.append(",");
-                                    }
-                                }
-                                CameraAnalysis.printPreviewSize("CameraV2 setPreviewSize: "+sb.toString());
-                            }
-
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
+                                CameraAnalysis.printPreviewSize(String.format("preview-size:%s,%s",param.args[1], param.args[0]));
                             }
                         }
                 });
@@ -61,19 +73,7 @@ public class ParamsHookImpl extends BaseHookImpl {
                         new XC_MethodHook() {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                StringBuilder sb = new StringBuilder();
-                                for(int i =0;i< param.args.length; i++) {
-                                    sb.append(param.args[i]);
-                                    if (i != param.args.length -1) {
-                                        sb.append(",");
-                                    }
-                                }
-                                CameraAnalysis.printPreviewSize("CameraV1 setPreviewSize: "+sb.toString());
-                            }
-
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
+                                CameraAnalysis.printPreviewSize("preview-size: " + param.args[0] + "," + param.args[1]);
                             }
                         }
                 });
@@ -89,17 +89,17 @@ public class ParamsHookImpl extends BaseHookImpl {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                                 StringBuilder sb = new StringBuilder();
-                                for(int i =0;i< param.args.length; i++) {
+                                for (int i = 0; i < param.args.length; i++) {
                                     sb.append(param.args[i]);
-                                    if (i != param.args.length -1) {
+                                    if (i != param.args.length - 1) {
                                         sb.append(": ");
                                     }
                                 }
-                                CameraAnalysis.printPreviewSize(sb.toString());
-                            }
-
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                if (filterParamList.contains(param.args[0])) {
+                                    CameraAnalysis.print(sb.toString());
+                                } else {
+                                    CameraAnalysis.printPreviewSize(sb.toString());
+                                }
 
                             }
                         }
@@ -120,11 +120,6 @@ public class ParamsHookImpl extends BaseHookImpl {
                                     }
                                 }
                             }
-
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
-                            }
                         }
                 });
     }
@@ -143,22 +138,13 @@ public class ParamsHookImpl extends BaseHookImpl {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                                 StringBuilder sb = new StringBuilder();
-                                for(int i =0;i< 2; i++) {
-                                    int value = (Integer)param.args[i];
+                                for (int i = 0; i < 2; i++) {
+                                    int value = (Integer) param.args[i];
                                     if (value < 500) {
                                         return;
                                     }
-                                    sb.append(param.args[i]);
-                                    if (i != param.args.length -1) {
-                                        sb.append(",");
-                                    }
                                 }
-                                CameraAnalysis.print("setPictureSize: "+sb.toString());
-                            }
-
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
+                                LogUtils.recordLog(TAG, String.format("picture-size: %s,%s",param.args[1],param.args[0]));
                             }
                         }
                 });
@@ -175,18 +161,13 @@ public class ParamsHookImpl extends BaseHookImpl {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                                 StringBuilder sb = new StringBuilder();
-                                for(int i =0;i< param.args.length; i++) {
+                                for (int i = 0; i < param.args.length; i++) {
                                     sb.append(param.args[i]);
-                                    if (i != param.args.length -1) {
+                                    if (i != param.args.length - 1) {
                                         sb.append(",");
                                     }
                                 }
-                                CameraAnalysis.print("setFlashMode: "+sb.toString());
-                            }
-
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
+                                LogUtils.recordLog(TAG, "flash-mode: " + sb.toString());
                             }
                         }
                 });
@@ -205,18 +186,30 @@ public class ParamsHookImpl extends BaseHookImpl {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                                 StringBuilder sb = new StringBuilder();
-                                for(int i =0;i< param.args.length; i++) {
-                                    sb.append(param.args[i]);
-                                    if (i != param.args.length -1) {
-                                        sb.append(",");
+                                boolean isKeepValue = false;
+                                String key = null;
+                                for(String value: keepParamList) {
+                                    if (param.args[0].toString().contains(value)) {
+                                        sb.append(value);
+                                        key = value;
+                                        isKeepValue = true;
+                                        break;
                                     }
                                 }
-                                CameraAnalysis.printCameraCharacters("CameraV2 set: "+sb.toString());
-                            }
+                                if (!isKeepValue) {
+                                    sb.append(param.args[0]);
+                                }
+                                sb.append(":");
+                                sb.append(param.args[1]);
 
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
+                                if (!isKeepValue) {
+                                    CameraAnalysis.print(sb.toString());
+                                } else {
+                                    if (!param.args[1].toString().equals(lastValueMap.get(key))) {
+                                        lastValueMap.put(key, param.args[1].toString());
+                                        CameraAnalysis.printPreviewSize(sb.toString());
+                                    }
+                                }
                             }
                         }
                 });

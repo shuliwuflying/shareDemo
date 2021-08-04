@@ -1,6 +1,7 @@
 package com.lm.hook.meiyan;
 
 
+import android.graphics.SurfaceTexture;
 import android.opengl.GLES20;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -37,6 +38,8 @@ class RenderFpsHookImpl extends BaseHookImpl {
     public RenderFpsHookImpl() {
         hookEntityList.add(getHandlerThreadHook());
         hookEntityList.add(getScissorHook());
+        hookEntityList.add(getUpdateImaTxt());
+//        hookEntityList.add(getCreateGLContext());
     }
 
     private MethodSignature getDispatchHook(String clazz) {
@@ -89,6 +92,50 @@ class RenderFpsHookImpl extends BaseHookImpl {
         return new MethodSignature(targetClz, methodName, params);
     }
 
+    private MethodSignature getUpdateImaTxt() {
+        final String targetClz = SurfaceTexture.class.getName();
+        final String methodName = "updateTexImage";
+        final Object[] params = new Object[] {
+                new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+
+                    }
+
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        sCount1++;
+                        if (sCount1 % 500 ==1) {
+                            LogUtils.e(TAG, "updateTexImage  thread: "+Thread.currentThread());
+                        }
+                    }
+                }
+        };
+        return new MethodSignature(targetClz, methodName, params);
+    }
+
+    private MethodSignature getCreateGLContext() {
+        final String targetClz = "com.meitu.core.mbccore.MTProcessor";
+        final String methodName = "createGLContext";
+        final Object[] params = new Object[] {
+                int.class,
+                int.class,
+                new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+
+                    }
+
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        LogUtils.e(TAG, "createGLContext  thread: "+Thread.currentThread());
+                    }
+                }
+        };
+        return new MethodSignature(targetClz, methodName, params);
+    }
+
+
     private MethodSignature getScissorHook() {
         final String targetClz = GLES20.class.getName();
         final String methodName = "glScissor";
@@ -105,7 +152,6 @@ class RenderFpsHookImpl extends BaseHookImpl {
 
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                        LogUtils.e(TAG, "glScissor11111 width: ");
                         printRenderFps();
                     }
                 }
@@ -178,7 +224,7 @@ class RenderFpsHookImpl extends BaseHookImpl {
         long timeDuration = System.currentTimeMillis() - sRecordLastFpsTs;
         if (Math.abs(timeDuration - ConstantUtils.TIME_DURATION_PRINT_FPS) < 15 || timeDuration >= ConstantUtils.TIME_DURATION_PRINT_FPS) {
             CameraAnalysis.printRenderFps(String.format("%.2f",sDrawFrameCount*1.0/ConstantUtils.TIME_STAMP_COUNT));
-            android.util.Log.e(TAG, "sCount1: "+sCount1+"  sCount2: "+sCount2+"   sCount3: "+sCount3);
+            android.util.Log.e(TAG, "sRenderThread.getId: "+sRenderThread.getId() +"  currentThreadId: "+Thread.currentThread().getId());
             sRecordLastFpsTs = System.currentTimeMillis();
             sDrawFrameCount = 0;
         }

@@ -3,12 +3,10 @@ package com.lm.hook;
 import android.text.TextUtils;
 
 import com.lm.hook.bcamera.BCameraHookManager;
-import com.lm.hook.fucamera.FuCameraHookManager;
+import com.lm.hook.kw.KWCameraHookManager;
 import com.lm.hook.meiyan.MeiYanHookManager;
-import com.lm.hook.utils.HookUtils;
 import com.lm.hook.utils.LogUtils;
 import com.lm.hook.utils.RecordLogUtils;
-import com.lm.hook.yyb.YYBHookManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,7 +22,7 @@ public class XposedHookImpl implements IXposedHook {
     private static final String PATH = "/sdcard/hook/file.txt";
     private static final String SNOW = "com.campmobile.snowcamera";
     private static final String MY_CAMERA = "com.meitu.meiyancamera";
-    private static final String FU_CAMERA = "com.lemon.fucamera";
+    private static final String FU_CAMERA = "com.kwai.m2u";
     private static final String YYB = "com.tencent.android.qqdownloader";
     private List<String> pkgList = new ArrayList<>();
     boolean isInit = false;
@@ -94,20 +92,17 @@ public class XposedHookImpl implements IXposedHook {
         printList(pkgList);
         if (pkgList.contains(param.packageName)) {
             printLog("invokeHook pkg: "+param.packageName +"  processName: "+param.processName);
-            if (YYB.equals(param.packageName)) {
-                YYBHookManager.hook(param);
-            }
-            if (!param.packageName.equals(param.processName)) {
+            if (!param.processName.equals(param.packageName)) {
                 return;
             }
+            RecordLogUtils.init(param.packageName);
             if (MY_CAMERA.equals(param.packageName)) {
                 MeiYanHookManager.hook(param);
             } else if(SNOW.equals(param.packageName)) {
                 BCameraHookManager.hook(param);
             } else if (FU_CAMERA.equals(param.packageName)) {
-                FuCameraHookManager.hook(param);
+                KWCameraHookManager.hook(param);
             }
-            RecordLogUtils.init(param.packageName);
         }
     }
 

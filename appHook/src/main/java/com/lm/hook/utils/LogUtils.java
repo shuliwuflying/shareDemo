@@ -21,7 +21,7 @@ public class LogUtils {
     }
 
     public static void recordLog(String tag, String msg) {
-        android.util.Log.w(tag, msg);
+        android.util.Log.w(ConstantUtils.RECORD_TAG, msg);
         RecordLogUtils.recordMsg(msg);
     }
 }

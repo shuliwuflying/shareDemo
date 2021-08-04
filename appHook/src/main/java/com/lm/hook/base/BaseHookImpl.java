@@ -20,6 +20,7 @@ public class BaseHookImpl {
     public void init(XC_LoadPackage.LoadPackageParam param) {
         try {
             this.hookParam = param;
+            prepare(hookParam);
             hook(param);
         } catch (Exception e) {
             e.printStackTrace();
@@ -32,6 +33,10 @@ public class BaseHookImpl {
             method.doHook(param);
         }
         hookImpl();
+    }
+
+    protected void prepare(XC_LoadPackage.LoadPackageParam hookParam) {
+
     }
 
     protected void hookImpl() {
@@ -54,16 +59,17 @@ public class BaseHookImpl {
         }
 
         public void doHook(XC_LoadPackage.LoadPackageParam param) {
-            LogUtils.e("HookImpl", "method: " + methodName);
+            String methodStr = clzName+"#"+methodName;
+            LogUtils.e("HookImpl", "method: " + methodStr);
             try {
                 if(methodName.equals("<init>")) {
                      findAndHookConstructor(clzName, param.classLoader, params);
                 } else {
                     findAndHookMethod(clzName, param.classLoader, methodName, params);
                 }
-                LogUtils.e("HookImpl", "method: " + methodName +" success");
+                LogUtils.e("HookImpl", "method: " + methodStr +" success");
             } catch (Exception e) {
-                LogUtils.e("HookImpl", "method: " + methodName + " failed2222  cause: " + e.getCause());
+                LogUtils.e("HookImpl", "method: " + methodStr + " failed2222  cause: " + e.getCause());
             }
         }
     }

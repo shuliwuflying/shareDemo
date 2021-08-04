@@ -1,8 +1,9 @@
-package com.lm.hook.base;
+package com.lm.hook.camera;
 
 import android.graphics.SurfaceTexture;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
 
@@ -111,6 +112,7 @@ public class PreviewFpsHookImpl extends BaseHookImpl {
             count++;
             long timeDuration = System.currentTimeMillis() - monitor.startTime;
             if (Math.abs(timeDuration - ConstantUtils.TIME_DURATION_PRINT_FPS) < 15 || timeDuration >= ConstantUtils.TIME_DURATION_PRINT_FPS) {
+                LogUtils.e(TAG,"onFrameAvailable thread: "+Thread.currentThread());
                 CameraAnalysis.printPreviewFps(String.format("%.2f",monitor.count/5.0));
                 CameraAnalysis.isPreviewParamsSet = true;
                 monitor.count = 0;

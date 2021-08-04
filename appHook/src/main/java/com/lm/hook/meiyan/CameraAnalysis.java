@@ -43,22 +43,22 @@ public class CameraAnalysis {
         Matcher m=p.matcher(msg);
         if (m.find()) {
             sTakePictureCost = m.group();
-            LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "takePicture cost: "+sTakePictureCost);
+            LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "capture-cost: "+sTakePictureCost);
         }
     }
 
     public static void filterPictureSize(String msg) {
-        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "Hd capture "+isHdCapture);
+        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "hd-capture "+isHdCapture);
         Pattern p=Pattern.compile(SIZE_REX);
         Matcher m=p.matcher(msg);
         if (m.find()) {
             String valueStr = m.group();
             if (!TextUtils.isEmpty(valueStr) && valueStr.contains(",")) {
                 String[] values = valueStr.split(",");
-                sTakePictureSize = "width: "+values[0]+", height: "+values[1];
-                LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "takePicture size: "+sTakePictureSize);
+                sTakePictureSize = ""+values[0]+","+values[1];
+                LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "capture-size: "+sTakePictureSize);
             } else {
-                LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "takePicture size: " + valueStr);
+                LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "capture-size: " + valueStr);
             }
         }
         isHdCapture = false;
@@ -69,16 +69,16 @@ public class CameraAnalysis {
         Matcher m=p.matcher(msg);
         if (m.find()) {
             String valueStr = m.group();
-            LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "savePicture cost: "+valueStr);
+            LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "save-cost: "+valueStr);
         }
     }
 
     public static void printPreviewFps(String fps) {
-        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "preview fps: "+fps);
+        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "preview-fps: "+fps);
     }
 
     public static void printRenderFps(String fps) {
-        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "render fps: "+fps);
+        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "render-fps: "+fps);
     }
 
     public static void filterVideoSize(String msg) {
@@ -133,6 +133,6 @@ public class CameraAnalysis {
     }
 
     public static void print(String msg) {
-        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, msg);
+        LogUtils.e(ConstantUtils.MY_LOG_TAG, msg);
     }
 }
