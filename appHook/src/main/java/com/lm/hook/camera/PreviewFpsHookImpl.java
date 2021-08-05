@@ -15,8 +15,6 @@ import com.lm.hook.utils.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.microedition.khronos.opengles.GL10;
-
 import de.robv.android.xposed.XC_MethodHook;
 
 public class PreviewFpsHookImpl extends BaseHookImpl {
@@ -72,7 +70,7 @@ public class PreviewFpsHookImpl extends BaseHookImpl {
 
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
+                                LogUtils.e(TAG, "SurfaceTexture#OnFrameAvailableListener after");
                             }
                         }
                 }));
@@ -103,6 +101,9 @@ public class PreviewFpsHookImpl extends BaseHookImpl {
             }
             if (startTime == 0) {
                 startTime = System.currentTimeMillis();
+            }
+            if(count == 0) {
+                CameraStageHookImpl.recordFirstFrameReceive();
             }
 
             if (monitor.count == 0) {
@@ -189,4 +190,6 @@ public class PreviewFpsHookImpl extends BaseHookImpl {
         }
         return sb.toString();
     }
+
+
 }

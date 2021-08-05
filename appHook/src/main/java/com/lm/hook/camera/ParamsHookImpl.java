@@ -3,6 +3,7 @@ package com.lm.hook.camera;
 import android.hardware.Camera;
 import android.hardware.camera2.CaptureRequest;
 import android.media.ImageReader;
+import android.util.Log;
 
 import com.lm.hook.base.BaseHookImpl;
 import com.lm.hook.meiyan.CameraAnalysis;
@@ -19,8 +20,9 @@ public class ParamsHookImpl extends BaseHookImpl {
     private static final String TAG = "ParamsHookImpl";
     private static final List<String> filterParamList = new ArrayList<>();
     private static final List<String> keepParamList = new ArrayList<>();
-
     private static final Map<String, String> lastValueMap = new HashMap<>();
+    public static int previewWidth = 0;
+    public static int previewHeight =0;
 
 
     public ParamsHookImpl() {
@@ -58,7 +60,9 @@ public class ParamsHookImpl extends BaseHookImpl {
                         new XC_MethodHook() {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                CameraAnalysis.printPreviewSize(String.format("preview-size:%s,%s",param.args[1], param.args[0]));
+                                previewWidth = Integer.parseInt(param.args[1].toString());
+                                previewHeight = Integer.parseInt(param.args[0].toString());
+                                CameraAnalysis.printPreviewSize(String.format("preview-size:%d,%d",previewWidth, previewHeight));
                             }
                         }
                 });
@@ -73,7 +77,9 @@ public class ParamsHookImpl extends BaseHookImpl {
                         new XC_MethodHook() {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                CameraAnalysis.printPreviewSize("preview-size: " + param.args[0] + "," + param.args[1]);
+                                previewWidth = Integer.parseInt(param.args[0].toString());
+                                previewHeight = Integer.parseInt(param.args[1].toString());
+                                CameraAnalysis.printPreviewSize(String.format("preview-size:%d,%d",previewWidth, previewHeight));
                             }
                         }
                 });
@@ -136,14 +142,15 @@ public class ParamsHookImpl extends BaseHookImpl {
                         int.class,
                         new XC_MethodHook() {
                             @Override
-                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                StringBuilder sb = new StringBuilder();
+                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                 for (int i = 0; i < 2; i++) {
                                     int value = (Integer) param.args[i];
-                                    if (value < 500) {
+                                    if (value < previewWidth) {
                                         return;
                                     }
                                 }
+                                LogUtils.e("CameraStageHookImpl", "ImageReader width: "+param.args[1]+"   height"+param.args[0]);
+                                LogUtils.e("CameraStageHookImpl", "ImageReader: "+ param.getResult());
                                 LogUtils.recordLog(TAG, String.format("picture-size: %s,%s",param.args[1],param.args[0]));
                             }
                         }

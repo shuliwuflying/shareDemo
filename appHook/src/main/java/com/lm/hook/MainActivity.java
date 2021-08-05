@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,6 +21,10 @@ import com.lm.hook.utils.HookUtils;
 import com.lm.hook.utils.RecordLogUtils;
 import com.meitu.secret.SigEntity;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         String value = getSignatures();
         android.util.Log.e("sliver", "getSignatures: "+value);
         isPmsHook();
+//        scanFiles();
     }
 
     private void initViews() {
@@ -101,4 +107,36 @@ public class MainActivity extends AppCompatActivity {
     private void isPmsHook() {
         HookUtils.init(getClassLoader());
     }
+
+    private void scanFiles() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                File dataRoot = getDataDir();
+                File androidDataRoot = getExternalCacheDir().getParentFile();
+                try {
+                    Log.e("sliver111", "dataRoot: "+dataRoot.getAbsolutePath());
+                    Log.e("sliver111", "androidDataRoot: "+androidDataRoot.getAbsolutePath());
+                    recordFile(null, dataRoot);
+                    recordFile(null, androidDataRoot);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    private void recordFile(RandomAccessFile raf, File file) throws IOException {
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+            for(File f: files) {
+                recordFile(raf,f);
+            }
+        }else {
+            String value = file.length()+"\t"+file.getAbsolutePath()+"\n";
+//            raf.writeBytes(value));
+            Log.e("sliver", value);
+        }
+    }
+
 }

@@ -3,6 +3,7 @@ package com.lm.hook;
 import android.text.TextUtils;
 
 import com.lm.hook.bcamera.BCameraHookManager;
+import com.lm.hook.beautyme.BeautyMeHookManager;
 import com.lm.hook.kw.KWCameraHookManager;
 import com.lm.hook.meiyan.MeiYanHookManager;
 import com.lm.hook.utils.LogUtils;
@@ -22,8 +23,9 @@ public class XposedHookImpl implements IXposedHook {
     private static final String PATH = "/sdcard/hook/file.txt";
     private static final String SNOW = "com.campmobile.snowcamera";
     private static final String MY_CAMERA = "com.meitu.meiyancamera";
-    private static final String FU_CAMERA = "com.kwai.m2u";
+    private static final String KW_CAMERA = "com.kwai.m2u";
     private static final String YYB = "com.tencent.android.qqdownloader";
+    private static final String BEAUTY_ME = "com.gorgeous.lite";
     private List<String> pkgList = new ArrayList<>();
     boolean isInit = false;
 
@@ -32,8 +34,8 @@ public class XposedHookImpl implements IXposedHook {
     private XposedHookImpl() {
         pkgList.add(SNOW);
         pkgList.add(MY_CAMERA);
-        pkgList.add(FU_CAMERA);
-        pkgList.add(YYB);
+        pkgList.add(KW_CAMERA);
+        pkgList.add(BEAUTY_ME);
     }
 
     public static IXposedHook  getInstance() {
@@ -96,12 +98,19 @@ public class XposedHookImpl implements IXposedHook {
                 return;
             }
             RecordLogUtils.init(param.packageName);
-            if (MY_CAMERA.equals(param.packageName)) {
-                MeiYanHookManager.hook(param);
-            } else if(SNOW.equals(param.packageName)) {
-                BCameraHookManager.hook(param);
-            } else if (FU_CAMERA.equals(param.packageName)) {
-                KWCameraHookManager.hook(param);
+            switch (param.packageName) {
+                case MY_CAMERA:
+                    MeiYanHookManager.hook(param);
+                    break;
+                case SNOW:
+                    BCameraHookManager.hook(param);
+                    break;
+                case KW_CAMERA:
+                    KWCameraHookManager.hook(param);
+                    break;
+                case BEAUTY_ME:
+                    BeautyMeHookManager.hook(param);
+                    break;
             }
         }
     }
