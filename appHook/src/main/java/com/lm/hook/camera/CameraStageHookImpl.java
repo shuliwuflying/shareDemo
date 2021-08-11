@@ -14,9 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.lm.hook.base.BaseHookImpl;
+import com.lm.hook.base.LaunchHookBaseImpl;
 import com.lm.hook.meiyan.CameraAnalysis;
-import com.lm.hook.meiyan.MeiYanHookManager;
-import com.lm.hook.meiyan.MeiYanLaunchHookImpl;
 import com.lm.hook.utils.ConstantUtils;
 import com.lm.hook.utils.HookUtils;
 import com.lm.hook.utils.LogUtils;
@@ -24,6 +23,7 @@ import com.lm.hook.utils.LogUtils;
 import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 /**
  * camera 各阶段hook
@@ -37,11 +37,22 @@ public class CameraStageHookImpl extends BaseHookImpl {
     private static long sFirstFrameReceive = 0;
     private static CameraStateCallback sCameraStateCallback;
     private static CaptureCallback captureCallback = null;
+    private static Object cameraObj = null;
 
-    public CameraStageHookImpl() {
+    private LaunchHookBaseImpl mLaunchHookBase;
+
+    public CameraStageHookImpl(LaunchHookBaseImpl launchHookBase) {
+        mLaunchHookBase = launchHookBase;
+    }
+
+    @Override
+    protected void prepare(XC_LoadPackage.LoadPackageParam hookParam) {
         hookEntityList.add(openCameraV1Hook());
         hookEntityList.add(openCameraV2Hook());
         hookEntityList.add(startPreviewV1Hook());
+        if(hookParam.packageName.equals(ConstantUtils.PkgName.KW_CAMERA)) {
+            hookEntityList.add(previewCallbackHook());
+        }
         hookEntityList.add(stopPreviewV1Hook());
         hookEntityList.add(createSessionHook());
         hookEntityList.add(startPreviewV2Hook());
@@ -50,7 +61,6 @@ public class CameraStageHookImpl extends BaseHookImpl {
         hookEntityList.add(closeCameraV1Hook());
         hookEntityList.add(closeCameraV2Hook());
     }
-
 
     private static MethodSignature openCameraV1Hook() {
         return new MethodSignature(Camera.class.getName(), "open",
@@ -68,6 +78,7 @@ public class CameraStageHookImpl extends BaseHookImpl {
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                 onOpenCameraFinish();
+                                cameraObj = param.getResult();
                             }
                         }
                 });
@@ -84,7 +95,11 @@ public class CameraStageHookImpl extends BaseHookImpl {
 
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                onCloseCameraFinish();
+                                Object camera = param.thisObject;
+                                if (camera == cameraObj) {
+                                    onCloseCameraFinish();
+                                    cameraObj = null;
+                                }
                             }
                         }
                 });
@@ -116,14 +131,26 @@ public class CameraStageHookImpl extends BaseHookImpl {
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                                 onStartPreviewBefore(param);
                             }
-
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                onStartPreviewFinish();
-                            }
                         }
                 });
     }
+
+    private MethodSignature previewCallbackHook() {
+        final String targetClz = Camera.class.getName();
+        final String method = "setPreviewCallbackWithBuffer";
+        final Object[] methodParams = new Object[] {
+                Camera.PreviewCallback.class,
+                new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        PreviewCallback listener = new PreviewCallback((Camera.PreviewCallback) param.args[0]);
+                        param.args[0] = listener;
+                    }
+                }
+        };
+        return new MethodSignature(targetClz, method, methodParams);
+    }
+
 
     private static MethodSignature stopPreviewV1Hook() {
         return new MethodSignature(Camera.class.getName(), "stopPreview",
@@ -206,7 +233,7 @@ public class CameraStageHookImpl extends BaseHookImpl {
     private static MethodSignature startPreviewV2Hook() {
         final String targetClz = "android.hardware.camera2.impl.CameraCaptureSessionImpl";
         final String method = "setRepeatingRequest";
-        final Object[] params = new Object[] {
+        final Object[] params = new Object[]{
                 CaptureRequest.class,
                 CameraCaptureSession.CaptureCallback.class,
                 Handler.class,
@@ -242,7 +269,7 @@ public class CameraStageHookImpl extends BaseHookImpl {
         return new MethodSignature(targetClz, method, params);
     }
 
-    private static MethodSignature imageReaderFrameHook() {
+    private MethodSignature imageReaderFrameHook() {
         final String targetClz = "android.media.ImageReader";
         final String methodName = "setOnImageAvailableListener";
         final Object[] params = new Object[] {
@@ -323,10 +350,11 @@ public class CameraStageHookImpl extends BaseHookImpl {
         }
     }
 
-    private static void onStartPreviewFinish() {
+    private void onStartPreviewFinish() {
         LogUtils.e(TAG, "onStartPreviewFinish: "+(System.currentTimeMillis() - sPreviewStart));
         LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "start-preview-cost: " + (System.currentTimeMillis() - sPreviewStart));
         sPreviewStart = 0;
+        mLaunchHookBase.setFirstReceiveFrame();
     }
 
     private static void onStopPreviewBefore(XC_MethodHook.MethodHookParam param) {
@@ -337,10 +365,10 @@ public class CameraStageHookImpl extends BaseHookImpl {
         LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "stop-preview-cost: " + (System.currentTimeMillis() - sStopPreviewStart));
     }
 
-    public static void recordFirstFrameReceive() {
+    public void recordFirstFrameReceive() {
         if (sFirstFrameReceive ==0) {
             sFirstFrameReceive = System.currentTimeMillis();
-            MeiYanLaunchHookImpl.recordFirstFrame();
+            mLaunchHookBase.setFirstReceiveFrame();
             onStartPreviewFinish();
         }
     }
@@ -371,7 +399,7 @@ public class CameraStageHookImpl extends BaseHookImpl {
         return captureCallback;
     }
 
-    static class ImageOnFrameListener implements ImageReader.OnImageAvailableListener {
+    class ImageOnFrameListener implements ImageReader.OnImageAvailableListener {
         ImageReader.OnImageAvailableListener imageAvailableListener;
 
         public ImageOnFrameListener(ImageReader.OnImageAvailableListener listener) {
@@ -385,6 +413,41 @@ public class CameraStageHookImpl extends BaseHookImpl {
                 onStartPreviewFinish();
             }
             imageAvailableListener.onImageAvailable(reader);
+        }
+    }
+
+    private class PreviewCallback implements Camera.PreviewCallback {
+
+        Camera.PreviewCallback previewCallback;
+        private long startTime = 0;
+        private int count = 0;
+
+
+        PreviewCallback(Camera.PreviewCallback  callback) {
+            previewCallback = callback;
+        }
+
+        @Override
+        public void onPreviewFrame(byte[] data, Camera camera) {
+            if (startTime == 0) {
+                startTime = System.currentTimeMillis();
+            }
+            if(sPreviewStart > 0) {
+                onStartPreviewFinish();
+            }
+
+            count++;
+            long timeDuration = System.currentTimeMillis() - startTime;
+            if (Math.abs(timeDuration - ConstantUtils.TIME_DURATION_PRINT_FPS) < 15 || timeDuration >= ConstantUtils.TIME_DURATION_PRINT_FPS) {
+                LogUtils.e(TAG,"onFrameAvailable thread: "+Thread.currentThread());
+                CameraAnalysis.printPreviewFps(String.format("%.2f",count*1.0f/ConstantUtils.TIME_STAMP_COUNT));
+                CameraAnalysis.isPreviewParamsSet = true;
+                count = 0;
+                startTime = System.currentTimeMillis();
+            }
+            if (previewCallback != null) {
+                previewCallback.onPreviewFrame(data, camera);
+            }
         }
     }
 }

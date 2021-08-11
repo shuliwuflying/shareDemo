@@ -3,13 +3,14 @@ package com.lm.hook.bcamera;
 import android.hardware.Camera;
 import android.util.Log;
 
-import com.lm.hook.base.LaunchHookImpl;
 import com.lm.hook.base.BaseHookImpl;
+import com.lm.hook.base.LaunchHookBaseImpl;
 import com.lm.hook.utils.LogUtils;
 
 import javax.microedition.khronos.opengles.GL10;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 
 /**
@@ -20,8 +21,13 @@ class RenderFpsHookImpl extends BaseHookImpl {
     private static boolean sIsFirstFrame = false;
     private static long sDrawFrameCount = 0;
     private static long sRecordLastFpsTs = 0L;
+    private LaunchHookBaseImpl mLaunchHookBase;
 
-    public RenderFpsHookImpl() {
+    public RenderFpsHookImpl(LaunchHookBaseImpl launchHookBase) {
+        mLaunchHookBase = launchHookBase;
+    }
+
+    protected void prepare(XC_LoadPackage.LoadPackageParam hookParam) {
         hookEntityList.add(getRendFps());
         hookEntityList.add(getPreviewFpsMethod());
     }
@@ -49,7 +55,7 @@ class RenderFpsHookImpl extends BaseHookImpl {
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                 if (!sIsFirstFrame) {
                                     sIsFirstFrame = true;
-                                    LaunchHookImpl.recordFirstDrawFrame();
+                                    mLaunchHookBase.setFirstReceiveFrame();
                                     Log.e(TAG, android.util.Log.getStackTraceString(new Throwable("onDrawFrame")));
                                     sRecordLastFpsTs = System.currentTimeMillis();
                                 }

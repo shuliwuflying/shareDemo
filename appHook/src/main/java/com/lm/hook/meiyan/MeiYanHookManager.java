@@ -15,16 +15,17 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
  */
 public class MeiYanHookManager {
     public static void hook(XC_LoadPackage.LoadPackageParam param) {
-        new MeiYanLaunchHookImpl().init(param);
+        LaunchHookImpl launchHook = new LaunchHookImpl();
+        launchHook.init(param);
         new ParamsHookImpl().init(param);
-        new PreviewFpsHookImpl().init(param);
-        new CameraStageHookImpl().init(param);
+        new PreviewFpsHookImpl(launchHook).init(param);
+        new CameraStageHookImpl(launchHook).init(param);
         new HdCaptureHookImpl().init(param);
         new RenderFpsHookImpl().init(param);
         new AdHookImpl().init(param);
         new SoLoadLibraryHookImpl().init(param);
         new SignatureHookImpl().init(param);
-        new LogHookImpl().init(param);
+        new PictureHookImpl().init(param);
         new ReportHookImpl().init(param);
         new RecordHookImpl().init(param);
     }

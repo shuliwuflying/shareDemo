@@ -8,14 +8,14 @@ import de.robv.android.xposed.XC_MethodHook;
 import static de.robv.android.xposed.XposedHelpers.findAndHookConstructor;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
-class LogHookImpl extends BaseHookImpl {
+class PictureHookImpl extends BaseHookImpl {
     private static final String TAG = "LogHookImpl";
     private static final String TAG1 = "LogHookImpl111";
     private static final String TAG2 = "LogHookImpl222";
     private static final String TAG3 = "LogHookImpl3333";
 
 
-    public LogHookImpl() {
+    public PictureHookImpl() {
         hookEntityList.add(getDebugHook("a"));
         hookEntityList.add(getDebugHook("b"));
         hookEntityList.add(getDebugHook("c"));

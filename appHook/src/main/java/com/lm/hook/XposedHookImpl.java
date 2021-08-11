@@ -6,6 +6,7 @@ import com.lm.hook.bcamera.BCameraHookManager;
 import com.lm.hook.beautyme.BeautyMeHookManager;
 import com.lm.hook.kw.KWCameraHookManager;
 import com.lm.hook.meiyan.MeiYanHookManager;
+import com.lm.hook.utils.ConstantUtils;
 import com.lm.hook.utils.LogUtils;
 import com.lm.hook.utils.RecordLogUtils;
 
@@ -20,22 +21,18 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class XposedHookImpl implements IXposedHook {
     private static final String TAG = "XposedHook";
     private static final String SP_NAME = "xposed_hook";
-    private static final String PATH = "/sdcard/hook/file.txt";
-    private static final String SNOW = "com.campmobile.snowcamera";
-    private static final String MY_CAMERA = "com.meitu.meiyancamera";
-    private static final String KW_CAMERA = "com.kwai.m2u";
-    private static final String YYB = "com.tencent.android.qqdownloader";
-    private static final String BEAUTY_ME = "com.gorgeous.lite";
+    public static final String PATH = "/sdcard/hook/file.txt";
+
     private List<String> pkgList = new ArrayList<>();
     boolean isInit = false;
 
     private static IXposedHook hook = new XposedHookImpl();
 
     private XposedHookImpl() {
-        pkgList.add(SNOW);
-        pkgList.add(MY_CAMERA);
-        pkgList.add(KW_CAMERA);
-        pkgList.add(BEAUTY_ME);
+        pkgList.add(ConstantUtils.PkgName.SNOW);
+        pkgList.add(ConstantUtils.PkgName.MY_CAMERA);
+        pkgList.add(ConstantUtils.PkgName.KW_CAMERA);
+        pkgList.add(ConstantUtils.PkgName.BEAUTY_ME);
     }
 
     public static IXposedHook  getInstance() {
@@ -99,16 +96,16 @@ public class XposedHookImpl implements IXposedHook {
             }
             RecordLogUtils.init(param.packageName);
             switch (param.packageName) {
-                case MY_CAMERA:
+                case ConstantUtils.PkgName.MY_CAMERA:
                     MeiYanHookManager.hook(param);
                     break;
-                case SNOW:
+                case ConstantUtils.PkgName.SNOW:
                     BCameraHookManager.hook(param);
                     break;
-                case KW_CAMERA:
+                case ConstantUtils.PkgName.KW_CAMERA:
                     KWCameraHookManager.hook(param);
                     break;
-                case BEAUTY_ME:
+                case ConstantUtils.PkgName.BEAUTY_ME:
                     BeautyMeHookManager.hook(param);
                     break;
             }

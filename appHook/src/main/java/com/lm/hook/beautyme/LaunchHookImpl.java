@@ -1,5 +1,4 @@
-package com.lm.hook.kw;
-
+package com.lm.hook.beautyme;
 
 import com.lm.hook.base.LaunchHookBaseImpl;
 
@@ -7,6 +6,6 @@ class LaunchHookImpl extends LaunchHookBaseImpl {
 
     @Override
     protected String getApplicationClass() {
-        return "com.kwai.m2u.CameraApplication";
+        return "com.light.beauty.data.FuApplication";
     }
 }

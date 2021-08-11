@@ -31,11 +31,11 @@ public class RecordLogUtils {
             dir.mkdirs();
         }
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd_hh_mm_ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd");
         String format = simpleDateFormat.format(date);
-        Random random = new Random(System.currentTimeMillis());
-        int randomNum = random.nextInt() % 1000;
-        String fileName = packageName+"_"+format+"_"+randomNum+".txt";
+//        Random random = new Random(System.currentTimeMillis());
+//        int randomNum = random.nextInt() % 1000;
+        String fileName = packageName+"_"+format+".txt";
         File file = new File(dir, fileName);
         try {
             randomAccessFile = new RandomAccessFile(file, "rw");

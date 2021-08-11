@@ -8,6 +8,7 @@ import android.view.TextureView;
 import android.view.View;
 
 import com.lm.hook.base.BaseHookImpl;
+import com.lm.hook.base.LaunchHookBaseImpl;
 import com.lm.hook.meiyan.CameraAnalysis;
 import com.lm.hook.utils.ConstantUtils;
 import com.lm.hook.utils.LogUtils;
@@ -21,11 +22,10 @@ public class PreviewFpsHookImpl extends BaseHookImpl {
     private static final String TAG = "FpsHookImpl";
     private static List<FrameMonitor> monitorList = new ArrayList<>();
     private static List<TextureView> textureViewList = new ArrayList<>();
-    private static boolean sIsFirstFrame = false;
-    private static long sDrawFrameCount = 0;
-    private static long sRecordLastFpsTs = 0L;
+    private LaunchHookBaseImpl mLaunchHookBase;
 
-    public PreviewFpsHookImpl() {
+    public PreviewFpsHookImpl(LaunchHookBaseImpl launchHookBase) {
+        mLaunchHookBase = launchHookBase;
         hookEntityList.add(new MethodSignature(
                 "android.view.TextureView",
                 "onAttachedToWindow",
@@ -77,7 +77,7 @@ public class PreviewFpsHookImpl extends BaseHookImpl {
 
     }
 
-    private static class FrameAvailableListener implements SurfaceTexture.OnFrameAvailableListener {
+    private class FrameAvailableListener implements SurfaceTexture.OnFrameAvailableListener {
 
         SurfaceTexture.OnFrameAvailableListener mListener;
         String tag = "";
@@ -103,7 +103,7 @@ public class PreviewFpsHookImpl extends BaseHookImpl {
                 startTime = System.currentTimeMillis();
             }
             if(count == 0) {
-                CameraStageHookImpl.recordFirstFrameReceive();
+                mLaunchHookBase.setFirstReceiveFrame();
             }
 
             if (monitor.count == 0) {

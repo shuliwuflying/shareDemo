@@ -10,7 +10,6 @@ import android.os.Message;
 import android.util.Log;
 
 import com.lm.hook.base.BaseHookImpl;
-import com.lm.hook.base.LaunchHookImpl;
 import com.lm.hook.utils.ConstantUtils;
 import com.lm.hook.utils.LogUtils;
 
@@ -39,7 +38,6 @@ class RenderFpsHookImpl extends BaseHookImpl {
         hookEntityList.add(getHandlerThreadHook());
         hookEntityList.add(getScissorHook());
         hookEntityList.add(getUpdateImaTxt());
-//        hookEntityList.add(getCreateGLContext());
     }
 
     private MethodSignature getDispatchHook(String clazz) {
@@ -217,7 +215,7 @@ class RenderFpsHookImpl extends BaseHookImpl {
     private void printRenderFps() {
         if (!sIsFirstFrame) {
             sIsFirstFrame = true;
-            LaunchHookImpl.recordFirstDrawFrame();
+//            LaunchHookImpl.recordFirstDrawFrame();
             sRecordLastFpsTs = System.currentTimeMillis();
         }
         sDrawFrameCount++;

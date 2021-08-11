@@ -10,10 +10,10 @@ public class KWCameraHookManager {
     private static final String TAG = "xposedHook";
 
     public static void hook(XC_LoadPackage.LoadPackageParam param) {
-        android.util.Log.e(TAG, "FuCameraHookManager");
-        new CameraStageHookImpl().init(param);
+        LaunchHookImpl launchHook = new LaunchHookImpl();
+        launchHook.init(param);
+        new CameraStageHookImpl(launchHook).init(param);
         new ParamsHookImpl().init(param);
-        new HwPreviewFpsHookImpl().init(param);
         new HdCaptureHookImpl().init(param);
         new ContextHookImpl().init(param);
 //        new KwReportHook().init(param);
@@ -21,6 +21,6 @@ public class KWCameraHookManager {
         new RenderFpsHookImpl().init(param);
         new KWRecordHookImpl().init(param);
         new NormalCaptureHookImpl().init(param);
-        new LaunchHookImpl().init(param);
+
     }
 }
