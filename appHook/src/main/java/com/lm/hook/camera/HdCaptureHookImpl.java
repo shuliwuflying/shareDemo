@@ -24,6 +24,7 @@ public class HdCaptureHookImpl extends BaseHookImpl {
                         Camera.ShutterCallback.class,
                         Camera.PictureCallback.class,
                         Camera.PictureCallback.class,
+                        Camera.PictureCallback.class,
                         new XC_MethodHook() {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -31,9 +32,9 @@ public class HdCaptureHookImpl extends BaseHookImpl {
                                 sCaptureStart = System.currentTimeMillis();
                                 CameraAnalysis.isHdCapture = true;
                                 LogUtils.recordLog(TAG, "hd-capture:true");
-                                Camera.PictureCallback callback = (Camera.PictureCallback) param.args[2];
+                                Camera.PictureCallback callback = (Camera.PictureCallback) param.args[3];
                                 PictureCallback pictureCallback = new PictureCallback(callback);
-                                param.args[2] = pictureCallback;
+                                param.args[3] = pictureCallback;
                             }
 
                             @Override

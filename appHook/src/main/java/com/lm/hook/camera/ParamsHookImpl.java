@@ -60,8 +60,9 @@ public class ParamsHookImpl extends BaseHookImpl {
                         new XC_MethodHook() {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                previewWidth = Integer.parseInt(param.args[1].toString());
-                                previewHeight = Integer.parseInt(param.args[0].toString());
+                                LogUtils.e(TAG, "setDefaultBufferSize");
+                                previewWidth = Integer.parseInt(param.args[0].toString());
+                                previewHeight = Integer.parseInt(param.args[1].toString());
                                 CameraAnalysis.printPreviewSize(String.format("preview-size:%d,%d",previewWidth, previewHeight));
                             }
                         }
@@ -77,8 +78,9 @@ public class ParamsHookImpl extends BaseHookImpl {
                         new XC_MethodHook() {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                previewWidth = Integer.parseInt(param.args[0].toString());
-                                previewHeight = Integer.parseInt(param.args[1].toString());
+                                previewWidth = Integer.parseInt(param.args[1].toString());
+                                previewHeight = Integer.parseInt(param.args[0].toString());
+                                LogUtils.e(TAG, "getPreviewSize previewWidth: "+previewWidth +"  previewHeight: "+previewHeight);
                                 CameraAnalysis.printPreviewSize(String.format("preview-size:%d,%d",previewWidth, previewHeight));
                             }
                         }
@@ -145,12 +147,12 @@ public class ParamsHookImpl extends BaseHookImpl {
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                                 for (int i = 0; i < 2; i++) {
                                     int value = (Integer) param.args[i];
-                                    if (value < previewWidth) {
+                                    if (value < previewHeight) {
                                         return;
                                     }
                                 }
-                                LogUtils.e("CameraStageHookImpl", "ImageReader width: "+param.args[1]+"   height"+param.args[0]);
-                                LogUtils.e("CameraStageHookImpl", "ImageReader: "+ param.getResult());
+                                LogUtils.e(TAG, "ImageReader width: "+param.args[1]+"   height"+param.args[0]);
+                                LogUtils.e(TAG, "ImageReader: "+ param.getResult());
                                 LogUtils.recordLog(TAG, String.format("picture-size: %s,%s",param.args[1],param.args[0]));
                             }
                         }
