@@ -16,5 +16,7 @@ public class ConstantUtils {
         public static final String KW_CAMERA = "com.kwai.m2u";
         public static final String YYB = "com.tencent.android.qqdownloader";
         public static final String BEAUTY_ME = "com.gorgeous.lite";
+        public static final String LV_CAMERA = "com.lemon.lv";
+        public static final String DY_CAMERA = "com.ss.android.ugc.aweme";
     }
 }

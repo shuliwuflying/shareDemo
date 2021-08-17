@@ -354,7 +354,9 @@ public class CameraStageHookImpl extends BaseHookImpl {
         LogUtils.e(TAG, "onStartPreviewFinish: "+(System.currentTimeMillis() - sPreviewStart));
         LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "start-preview-cost: " + (System.currentTimeMillis() - sPreviewStart));
         sPreviewStart = 0;
-        mLaunchHookBase.setFirstReceiveFrame();
+        if (mLaunchHookBase != null) {
+            mLaunchHookBase.setFirstReceiveFrame();
+        }
     }
 
     private static void onStopPreviewBefore(XC_MethodHook.MethodHookParam param) {
@@ -368,7 +370,9 @@ public class CameraStageHookImpl extends BaseHookImpl {
     public void recordFirstFrameReceive() {
         if (sFirstFrameReceive ==0) {
             sFirstFrameReceive = System.currentTimeMillis();
-            mLaunchHookBase.setFirstReceiveFrame();
+            if (mLaunchHookBase != null) {
+                mLaunchHookBase.setFirstReceiveFrame();
+            }
             onStartPreviewFinish();
         }
     }

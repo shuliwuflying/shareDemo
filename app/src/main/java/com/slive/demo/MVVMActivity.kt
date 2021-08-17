@@ -7,12 +7,13 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
 import android.view.SurfaceHolder
+import android.view.View
 import kotlinx.android.synthetic.main.mvvm_layout.image_view1
 import kotlinx.android.synthetic.main.mvvm_layout.test
 import kotlinx.android.synthetic.main.mvvm_layout.watch
 import java.io.File
 
-class MVVMActivity: BaseActivity(){
+class MVVMActivity: BaseActivity(), View.OnClickListener{
 //    private lateinit var mModel: MyViewModel
     private val PATH = "/sdcard/相机/"
     private val TAG = "MVVMActivity"
@@ -69,9 +70,7 @@ class MVVMActivity: BaseActivity(){
         var value1 = "test1"
         var value2 = "test2"
 
-        watch.setOnClickListener {
-            android.util.Log.e("sliver","testValue: ${testValue!!}")
-        }
+        watch.setOnClickListener(this)
         test.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -158,6 +157,10 @@ class MVVMActivity: BaseActivity(){
 
     private fun <T> test(t1: T, t2: T) {
         android.util.Log.e("sliver", "t1: $t1  t2: $t2")
+    }
+
+    override fun onClick(v: View?) {
+
     }
 }
 

@@ -4,7 +4,9 @@ import android.text.TextUtils;
 
 import com.lm.hook.bcamera.BCameraHookManager;
 import com.lm.hook.beautyme.BeautyMeHookManager;
+import com.lm.hook.dy.DyCameraHookManager;
 import com.lm.hook.kw.KWCameraHookManager;
+import com.lm.hook.lv.LvCameraHookManager;
 import com.lm.hook.meiyan.MeiYanHookManager;
 import com.lm.hook.utils.ConstantUtils;
 import com.lm.hook.utils.LogUtils;
@@ -33,6 +35,9 @@ public class XposedHookImpl implements IXposedHook {
         pkgList.add(ConstantUtils.PkgName.MY_CAMERA);
         pkgList.add(ConstantUtils.PkgName.KW_CAMERA);
         pkgList.add(ConstantUtils.PkgName.BEAUTY_ME);
+        pkgList.add(ConstantUtils.PkgName.LV_CAMERA);
+        pkgList.add(ConstantUtils.PkgName.DY_CAMERA);
+
     }
 
     public static IXposedHook  getInstance() {
@@ -88,6 +93,7 @@ public class XposedHookImpl implements IXposedHook {
             isInit = true;
         }
         printLog("invokeHook pkg: "+param.packageName +"  pkgList.size: "+pkgList.size());
+        android.util.Log.e("sliver1111", android.util.Log.getStackTraceString(new Throwable("XposedHookImpl")));
         printList(pkgList);
         if (pkgList.contains(param.packageName)) {
             printLog("invokeHook pkg: "+param.packageName +"  processName: "+param.processName);
@@ -107,6 +113,12 @@ public class XposedHookImpl implements IXposedHook {
                     break;
                 case ConstantUtils.PkgName.BEAUTY_ME:
                     BeautyMeHookManager.hook(param);
+                    break;
+                case ConstantUtils.PkgName.LV_CAMERA:
+                    LvCameraHookManager.hook(param);
+                    break;
+                case ConstantUtils.PkgName.DY_CAMERA:
+                    DyCameraHookManager.hook(param);
                     break;
             }
         }

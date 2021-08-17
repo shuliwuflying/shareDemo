@@ -27,28 +27,6 @@ public class PreviewFpsHookImpl extends BaseHookImpl {
     public PreviewFpsHookImpl(LaunchHookBaseImpl launchHookBase) {
         mLaunchHookBase = launchHookBase;
         hookEntityList.add(new MethodSignature(
-                "android.view.TextureView",
-                "onAttachedToWindow",
-                new Object[]{new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        Object object = param.thisObject;
-                        LogUtils.e(TAG, "onAttachedToWindow: " + object);
-
-                        if (object instanceof TextureView) {
-                            TextureView view = (TextureView) object;
-                            textureViewList.add(view);
-                        }
-                    }
-
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
-                    }
-                }
-                }));
-
-        hookEntityList.add(new MethodSignature(
                 "android.graphics.SurfaceTexture",
                 "setOnFrameAvailableListener",
                 new Object[]{
@@ -102,7 +80,7 @@ public class PreviewFpsHookImpl extends BaseHookImpl {
             if (startTime == 0) {
                 startTime = System.currentTimeMillis();
             }
-            if(count == 0) {
+            if(count == 0 && mLaunchHookBase != null) {
                 mLaunchHookBase.setFirstReceiveFrame();
             }
 

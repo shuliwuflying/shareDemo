@@ -1,6 +1,7 @@
 package com.lm.hook.bcamera;
 
-import android.util.Log;
+
+import android.graphics.SurfaceTexture;
 
 import com.lm.hook.base.BaseHookImpl;
 import com.lm.hook.base.LaunchHookBaseImpl;
@@ -36,7 +37,8 @@ class RenderFpsHookImpl extends BaseHookImpl {
     }
 
     protected void prepare(XC_LoadPackage.LoadPackageParam hookParam) {
-        hookEntityList.add(getOpenGlHook());
+//        hookEntityList.add(getOpenGlHook());
+        hookEntityList.add(getUpdateImaTxt());
     }
 
 //    /**
@@ -74,32 +76,50 @@ class RenderFpsHookImpl extends BaseHookImpl {
 //                });
 //    }
 
-    private MethodSignature getOpenGlHook() {
-        final String targetClz = "android.opengl.GLES20";
-        final String method = "glViewport";
-        final Object[] params = new Object[]{
-                int.class,
-                int.class,
-                int.class,
-                int.class,
+//    private MethodSignature getOpenGlHook() {
+//        final String targetClz = "android.opengl.GLES20";
+//        final String method = "glViewport";
+//        final Object[] params = new Object[]{
+//                int.class,
+//                int.class,
+//                int.class,
+//                int.class,
+//                new XC_MethodHook() {
+//                    @Override
+//                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//                        int height = Integer.parseInt(param.args[3].toString());
+//                        if (height == ParamsHookImpl.previewHeight) {
+////                            printRenderFps();
+//                        }
+//                    }
+//
+//                    @Override
+//                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//
+//                    }
+//                }
+//        };
+//        return new MethodSignature(targetClz, method, params);
+//
+//    }
+
+    private MethodSignature getUpdateImaTxt() {
+        final String targetClz = SurfaceTexture.class.getName();
+        final String methodName = "updateTexImage";
+        final Object[] params = new Object[] {
                 new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        int height = Integer.parseInt(param.args[3].toString());
-                        if (height == ParamsHookImpl.previewHeight) {
-                            printRenderFps();
-                        }
-                    }
 
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
+//                        LogUtils.e(TAG, "updateTexImage  thread: "+Thread.currentThread().getName());
+                        printRenderFps();
                     }
                 }
         };
-        return new MethodSignature(targetClz, method, params);
-
+        return new MethodSignature(targetClz, methodName, params);
     }
+
+
 
     private void printRenderFps() {
         if (!sIsFirstFrame) {

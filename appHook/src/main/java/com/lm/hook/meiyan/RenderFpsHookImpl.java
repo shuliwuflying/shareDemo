@@ -35,7 +35,6 @@ class RenderFpsHookImpl extends BaseHookImpl {
 
 
     public RenderFpsHookImpl() {
-        hookEntityList.add(getHandlerThreadHook());
         hookEntityList.add(getScissorHook());
         hookEntityList.add(getUpdateImaTxt());
     }
@@ -157,72 +156,15 @@ class RenderFpsHookImpl extends BaseHookImpl {
         return new MethodSignature(targetClz, methodName, params);
     }
 
-    private MethodSignature getHandlerInitHook() {
-        final String targetClz = android.os.Handler.class.getName();
-        final String methodName = "<init>";
-        final Object[] params = new Object[] {
-                Looper.class,
-                new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-
-                    }
-
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        if (sRenderLooper == null && sRenderThread != null) {
-                            sRenderLooper = sRenderThread.getLooper();
-                        }
-                        if (param.args[0] == sRenderLooper) {
-                            sRenderHandler = (Handler) param.thisObject;
-                            Log.e(TAG, "sRenderHandler: "+sRenderHandler.getClass().getName());
-                            MethodSignature signature = getDispatchHook("com.meitu.library.f.a.d.n$a");
-                            hookMethod(signature);
-                        }
-                    }
-                }
-        };
-        return new MethodSignature(targetClz, methodName, params);
-    }
-
-    /**
-     * 代码中搜索render
-     * 结合HandlerThread的名字
-     * @return
-     */
-    private MethodSignature getDrawFpsHook() {
-        final String targetClz = "com.meitu.library.f.a.b.c";
-        final String methodName = "run";
-        final Object[] params = new Object[] {
-                new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//                        if (!sIsFirstFrame) {
-//                            android.util.Log.e(TAG, android.util.Log.getStackTraceString(new Throwable("run")));
-//                        }
-                    }
-
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//                        sCount3++;
-//                        printRenderFps();
-                    }
-                }
-        };
-        return new MethodSignature(targetClz, methodName, params);
-    }
-
     private void printRenderFps() {
         if (!sIsFirstFrame) {
             sIsFirstFrame = true;
-//            LaunchHookImpl.recordFirstDrawFrame();
             sRecordLastFpsTs = System.currentTimeMillis();
         }
         sDrawFrameCount++;
         long timeDuration = System.currentTimeMillis() - sRecordLastFpsTs;
         if (Math.abs(timeDuration - ConstantUtils.TIME_DURATION_PRINT_FPS) < 15 || timeDuration >= ConstantUtils.TIME_DURATION_PRINT_FPS) {
             CameraAnalysis.printRenderFps(String.format("%.2f",sDrawFrameCount*1.0/ConstantUtils.TIME_STAMP_COUNT));
-            android.util.Log.e(TAG, "sRenderThread.getId: "+sRenderThread.getId() +"  currentThreadId: "+Thread.currentThread().getId());
             sRecordLastFpsTs = System.currentTimeMillis();
             sDrawFrameCount = 0;
         }

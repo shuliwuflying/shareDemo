@@ -28,11 +28,25 @@ public class ParamsHookImpl extends BaseHookImpl {
     public ParamsHookImpl() {
         initFilterList();
         initKeepList();
-        hookEntityList.add(getDefaultBufferSizeMethod());
-        hookEntityList.add(getPreviewSize());
+        hookForCameraV1();
+        hookForCameraV2();
+    }
+
+    private void hookForCameraV1() {
         hookEntityList.add(setParametersHook());
+        hookEntityList.add(setPreviewSize());
+        hookEntityList.add(setPictureSize());
         hookEntityList.add(parametersPutHook());
-        hookEntityList.add(setFlashMode());
+//        hookEntityList.add(setCameraParametersValue("setFlashMode", String.class, "flash-mode"));
+//        hookEntityList.add(setCameraParametersValue("setFocusMode", String.class, "focus-mode"));
+//        hookEntityList.add(setCameraParametersValue("setExposureCompensation", int.class, "exposure-value"));
+//        hookEntityList.add(setCameraParametersValue("setWhiteBalance", String.class, "white-balance"));
+//        hookEntityList.add(setCameraParametersValue("setJpegQuality", int.class, "jpeg-quality"));
+//        hookEntityList.add(setCameraParametersValue("setPictureFormat",int.class, "picture-format"));
+    }
+
+    private void hookForCameraV2() {
+        hookEntityList.add(getDefaultBufferSizeMethod());
         hookEntityList.add(setPictureSizeForCamera2());
         hookEntityList.add(captureRequestHook());
     }
@@ -69,7 +83,7 @@ public class ParamsHookImpl extends BaseHookImpl {
                 });
     }
 
-    private MethodSignature getPreviewSize() {
+    private MethodSignature setPreviewSize() {
         return new MethodSignature(Camera.Parameters.class.getName(),
                 "setPreviewSize",
                 new Object[]{
@@ -86,6 +100,25 @@ public class ParamsHookImpl extends BaseHookImpl {
                         }
                 });
     }
+
+    private MethodSignature setPictureSize() {
+        return new MethodSignature(Camera.Parameters.class.getName(),
+                "setPictureSize",
+                new Object[]{
+                        int.class,
+                        int.class,
+                        new XC_MethodHook() {
+                            @Override
+                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                String height = param.args[0].toString();
+                                String width = param.args[1].toString();
+                                LogUtils.e(TAG, "pictureWidth: "+width +"  pictureHeight: "+height);
+                                LogUtils.recordLog(TAG, String.format("picture-size:%s,%s",width, height));
+                            }
+                        }
+                });
+    }
+
 
     private MethodSignature parametersPutHook() {
         return new MethodSignature(Camera.Parameters.class.getName(),
@@ -160,28 +193,21 @@ public class ParamsHookImpl extends BaseHookImpl {
 
     }
 
-    private MethodSignature setFlashMode() {
+
+    private MethodSignature setCameraParametersValue(String method, Class<?> paramsClz, final String tag) {
         final String targetClass = Camera.Parameters.class.getName();
         return new MethodSignature(targetClass,
-                "setFlashMode",
+                method,
                 new Object[]{
-                        String.class,
+                        paramsClz,
                         new XC_MethodHook() {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                StringBuilder sb = new StringBuilder();
-                                for (int i = 0; i < param.args.length; i++) {
-                                    sb.append(param.args[i]);
-                                    if (i != param.args.length - 1) {
-                                        sb.append(",");
-                                    }
-                                }
-                                LogUtils.recordLog(TAG, "flash-mode: " + sb.toString());
+                                LogUtils.recordLog(TAG, tag+": " + param.args[0].toString());
                             }
                         }
                 });
     }
-
 
     private MethodSignature captureRequestHook() {
         final String targetClass = CaptureRequest.Builder.class.getName();

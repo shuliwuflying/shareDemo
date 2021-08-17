@@ -83,6 +83,9 @@ public class HdCaptureHookImpl extends BaseHookImpl {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             pictureCallback.onPictureTaken(data, camera);
+            if(data != null) {
+                LogUtils.e(TAG, "data.size: "+data.length);
+            }
             LogUtils.recordLog(TAG,"capture-cost: "+(System.currentTimeMillis() - sCaptureStart));
         }
     }
