@@ -2,6 +2,7 @@ package com.lm.hook.beautyme;
 
 import com.lm.hook.camera.CameraStageHookImpl;
 import com.lm.hook.camera.HdCaptureHookImpl;
+import com.lm.hook.camera.NormalRenderFpsHook;
 import com.lm.hook.camera.ParamsHookImpl;
 import com.lm.hook.camera.PreviewFpsHookImpl;
 
@@ -16,5 +17,6 @@ public class BeautyMeHookManager {
         new CameraStageHookImpl(launchHook).init(param);
         new HdCaptureHookImpl().init(param);
         new ComplexHookImpl().init(param);
+//        new NormalRenderFpsHook().init(param);
     }
 }

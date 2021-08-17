@@ -117,7 +117,10 @@ public class CameraStageHookImpl extends BaseHookImpl {
 
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                onCloseCameraFinish();
+                                if (cameraObj == param.thisObject) {
+                                    onCloseCameraFinish();
+                                    cameraObj = null;
+                                }
                             }
                         }
                 });
@@ -206,6 +209,7 @@ public class CameraStageHookImpl extends BaseHookImpl {
                             LogUtils.e(TAG, "createCaptureSession surface: "+surface);
                         }
                         onStartPreviewBefore(param);
+                        cameraObj = param.thisObject;
                     }
                 }
 

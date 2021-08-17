@@ -14,7 +14,8 @@ import java.util.Date;
 import java.util.Random;
 
 public class RecordLogUtils {
-    private static final String DIR = Environment.getExternalStorageDirectory()+File.separator+"analysis"+File.separator+"log";
+    private static final String TAG = "RecordLogUtils";
+//    private static final String DIR = Environment.getExternalStorageDirectory()+File.separator+"analysis"+File.separator+"log";
     private static Handler logThreadHandler;
     private static RandomAccessFile randomAccessFile;
     private static boolean isInit = false;
@@ -23,18 +24,18 @@ public class RecordLogUtils {
         if (isInit) {
             return ;
         }
+        String rootDir = Environment.getExternalStorageDirectory()+File.separator+"analysis"+File.separator+"log";
+        LogUtils.e(TAG, "rootDir: "+rootDir);
         HandlerThread handlerThread = new HandlerThread("record_thread");
         handlerThread.start();
         logThreadHandler = new LogThreadHandler(handlerThread.getLooper());
-        File dir = new File(DIR);
+        File dir = new File(rootDir);
         if (!dir.exists()) {
             dir.mkdirs();
         }
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy_MM_dd");
         String format = simpleDateFormat.format(date);
-//        Random random = new Random(System.currentTimeMillis());
-//        int randomNum = random.nextInt() % 1000;
         String fileName = packageName+"_"+format+".txt";
         File file = new File(dir, fileName);
         try {

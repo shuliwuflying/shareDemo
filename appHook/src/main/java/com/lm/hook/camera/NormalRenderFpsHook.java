@@ -3,8 +3,8 @@ package com.lm.hook.camera;
 import android.graphics.SurfaceTexture;
 
 import com.lm.hook.base.BaseHookImpl;
-import com.lm.hook.meiyan.CameraAnalysis;
 import com.lm.hook.utils.ConstantUtils;
+import com.lm.hook.utils.LogUtils;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -48,7 +48,7 @@ public class NormalRenderFpsHook extends BaseHookImpl {
         sDrawFrameCount++;
         long timeDuration = System.currentTimeMillis() - sRecordLastFpsTs;
         if (Math.abs(timeDuration - ConstantUtils.TIME_DURATION_PRINT_FPS) < 15 || timeDuration >= ConstantUtils.TIME_DURATION_PRINT_FPS) {
-            CameraAnalysis.printRenderFps(String.format("%.2f",sDrawFrameCount*1.0/ConstantUtils.TIME_STAMP_COUNT));
+            LogUtils.recordLog(TAG, String.format("updateTxtFps: %.2f",sDrawFrameCount*1.0/ConstantUtils.TIME_STAMP_COUNT));
             sRecordLastFpsTs = System.currentTimeMillis();
             sDrawFrameCount = 0;
         }
