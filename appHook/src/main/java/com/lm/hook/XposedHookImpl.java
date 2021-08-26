@@ -6,6 +6,7 @@ import com.lm.hook.bcamera.BCameraHookManager;
 import com.lm.hook.beautyme.BeautyMeHookManager;
 import com.lm.hook.dy.DyCameraHookManager;
 import com.lm.hook.kw.KWCameraHookManager;
+import com.lm.hook.kw.KWPushHookManager;
 import com.lm.hook.lv.LvCameraHookManager;
 import com.lm.hook.meiyan.MeiYanHookManager;
 import com.lm.hook.utils.ConstantUtils;
@@ -37,6 +38,8 @@ public class XposedHookImpl implements IXposedHook {
         pkgList.add(ConstantUtils.PkgName.BEAUTY_ME);
         pkgList.add(ConstantUtils.PkgName.LV_CAMERA);
         pkgList.add(ConstantUtils.PkgName.DY_CAMERA);
+        pkgList.add(ConstantUtils.PkgName.KW_CAMPAT);
+        pkgList.add(ConstantUtils.PkgName.KW_PUSH);
 
     }
 
@@ -97,7 +100,8 @@ public class XposedHookImpl implements IXposedHook {
         printList(pkgList);
         if (pkgList.contains(param.packageName)) {
             printLog("invokeHook pkg: "+param.packageName +"  processName: "+param.processName);
-            if (!param.processName.equals(param.packageName)) {
+            if (!param.processName.equals(param.packageName) && param.packageName.equals(ConstantUtils.PkgName.KW_CAMERA)) {
+                KWPushHookManager.hook(param);
                 return;
             }
             RecordLogUtils.init(param.packageName);

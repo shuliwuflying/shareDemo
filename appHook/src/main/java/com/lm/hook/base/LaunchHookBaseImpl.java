@@ -38,7 +38,7 @@ public abstract class LaunchHookBaseImpl extends BaseHookImpl {
 
     public void setFirstReceiveFrame() {
         if(!isRecord) {
-            LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "launch-cost:" + (System.currentTimeMillis() - sAppStartTs));
+            LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "launch-cost: " + (System.currentTimeMillis() - sAppStartTs));
             isRecord = true;
         }
     }

@@ -1,5 +1,7 @@
 package com.lm.hook.camera;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraDevice;
 
@@ -31,7 +33,7 @@ public class HdCaptureHookImpl extends BaseHookImpl {
                                 LogUtils.e(TAG, "takePicture");
                                 sCaptureStart = System.currentTimeMillis();
                                 CameraAnalysis.isHdCapture = true;
-                                LogUtils.recordLog(TAG, "hd-capture:true");
+                                LogUtils.recordLog(TAG, "hd-capture: true");
                                 Camera.PictureCallback callback = (Camera.PictureCallback) param.args[3];
                                 PictureCallback pictureCallback = new PictureCallback(callback);
                                 param.args[3] = pictureCallback;
@@ -57,7 +59,8 @@ public class HdCaptureHookImpl extends BaseHookImpl {
                                     Integer value = Integer.parseInt(String.valueOf(param.args[0]));
                                     if (value == CameraDevice.TEMPLATE_STILL_CAPTURE) {
                                         CameraAnalysis.isHdCapture = true;
-                                        LogUtils.recordLog(TAG, "hd-capture:true");
+                                        sCaptureStart = System.currentTimeMillis();
+                                        LogUtils.recordLog(TAG, "hd-capture: true");
                                     } else if (value == CameraDevice.TEMPLATE_PREVIEW) {
                                         CameraAnalysis.isPreviewParamsSet = false;
                                     }
@@ -83,9 +86,6 @@ public class HdCaptureHookImpl extends BaseHookImpl {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             pictureCallback.onPictureTaken(data, camera);
-            if(data != null) {
-                LogUtils.e(TAG, "data.size: "+data.length);
-            }
             LogUtils.recordLog(TAG,"capture-cost: "+(System.currentTimeMillis() - sCaptureStart));
         }
     }

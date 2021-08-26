@@ -57,9 +57,9 @@ class NormalCaptureHookImpl extends BaseHookImpl {
                                     Object ret = method.invoke(origin, args);
                                     long end = System.currentTimeMillis();
                                     if (end > sHookEndTs) {
-                                        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG,"hd-capture:false");
-                                        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "picture-size:"+param.args[1]+","+param.args[2]);
-                                        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG,"capture-cost:"+(end - sCaptureStartTs));
+                                        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG,"hd-capture: false");
+                                        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "picture-size: "+param.args[1]+","+param.args[2]);
+                                        LogUtils.recordLog(ConstantUtils.MY_LOG_TAG,"capture-cost: "+(end - sCaptureStartTs));
                                     }
                                     return ret;
                                 }

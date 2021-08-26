@@ -3,6 +3,7 @@ package com.lm.hook.beautyme;
 import android.content.Context;
 
 import com.lm.hook.base.BaseHookImpl;
+import com.lm.hook.camera.RecordHookImpl;
 import com.lm.hook.utils.LogUtils;
 
 import org.json.JSONObject;
@@ -21,11 +22,17 @@ public class ComplexHookImpl extends BaseHookImpl {
     private final String FPS_TAG = "on draw frame fps:";
     private int count = 0;
     private float fpsCount = 0;
+    private RecordHookImpl.IRecordListener recordListener;
+
     private final List<String> filterTagList = Arrays.asList(
             TAKE_PICTURE,
             VIDEO_RECORD,
             LONG_VIDEO
     );
+
+    public ComplexHookImpl(RecordHookImpl.IRecordListener listener) {
+        this.recordListener = listener;
+    }
 
 
     @Override
@@ -56,14 +63,14 @@ public class ComplexHookImpl extends BaseHookImpl {
                             LogUtils.e(TAG, "onEvent: "+param.args[2]+"  value: "+jsonObject.toString());
                             switch (tag) {
                                 case TAKE_PICTURE:
-                                    LogUtils.recordLog(TAG, "hd-picture:"+jsonObject.get("HD_take_mode"));
-                                    LogUtils.recordLog(TAG, "capture-cost:"+jsonObject.get("time_cost"));
+                                    LogUtils.recordLog(TAG, "hd-picture: "+jsonObject.get("HD_take_mode"));
+                                    LogUtils.recordLog(TAG, "capture-cost: "+jsonObject.get("time_cost"));
                                     break;
                                 case VIDEO_RECORD:
-                                    LogUtils.recordLog(TAG, "video-duration:"+jsonObject.get("duration"));
-                                    break;
                                 case LONG_VIDEO:
-                                    LogUtils.recordLog(TAG, "video-duration:"+jsonObject.get("duration"));
+                                    if (recordListener != null) {
+                                        recordListener.onRecordFinish(Long.parseLong(String.valueOf(jsonObject.get("duration"))));
+                                    }
                                     break;
                             }
                         }
@@ -84,18 +91,13 @@ public class ComplexHookImpl extends BaseHookImpl {
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         String value = param.args[1].toString();
                         if (value.contains(FPS_TAG)){
-                            count++;
                             String fps = value.substring(FPS_TAG.length()).trim();
-                            fpsCount += Float.parseFloat(fps);
-                            if (count == 5) {
-                                LogUtils.recordLog(TAG, "render-fps:"+fpsCount/5);
-                                count = 0;
-                                fpsCount = 0;
-                            }
+                            LogUtils.recordLog(TAG, "render-fps: "+fps);
                         }
                     }
                 }
         };
         return new MethodSignature(targetClz, method, params);
     }
+
 }

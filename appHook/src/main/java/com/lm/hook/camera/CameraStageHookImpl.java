@@ -31,10 +31,10 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class CameraStageHookImpl extends BaseHookImpl {
     private static final String TAG = "CameraStageHookImpl";
     private static long sOpenStart = 0;
-    private static long sPreviewStart = 0;
-    private static long sStopPreviewStart = 0;
-    private static long sCloseCameraStart = 0;
-    private static long sFirstFrameReceive = 0;
+    private volatile static long sPreviewStart = 0;
+    private volatile static long sStopPreviewStart = 0;
+    private volatile static long sCloseCameraStart = 0;
+    private volatile static long sFirstFrameReceive = 0;
     private static CameraStateCallback sCameraStateCallback;
     private static CaptureCallback captureCallback = null;
     private static Object cameraObj = null;
@@ -283,8 +283,8 @@ public class CameraStageHookImpl extends BaseHookImpl {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         ImageReader imageReader = (ImageReader) param.thisObject;
-                        int previewW = ParamsHookImpl.previewWidth;
-                        int previewH = ParamsHookImpl.previewHeight;
+                        int previewW = PreviewHookImpl.previewWidth;
+                        int previewH = PreviewHookImpl.previewHeight;
                         Object obj = param.args[0];
                         if (obj != null) {
                             if (imageReader.getHeight() == previewW && imageReader.getWidth() == previewH) {
@@ -348,14 +348,18 @@ public class CameraStageHookImpl extends BaseHookImpl {
     }
 
     private static void onStartPreviewBefore(XC_MethodHook.MethodHookParam param) {
-        LogUtils.e(TAG, "onStartPreviewBefore");
+        LogUtils.e(TAG, "onStartPreviewBefore: "+sPreviewStart);
         if (sPreviewStart == 0) {
             sPreviewStart = System.currentTimeMillis();
         }
     }
 
     private void onStartPreviewFinish() {
+        LogUtils.e(TAG, "onStartPreviewFinish sPreviewStart: "+sPreviewStart);
         LogUtils.e(TAG, "onStartPreviewFinish: "+(System.currentTimeMillis() - sPreviewStart));
+        if (sPreviewStart == 0) {
+            return;
+        }
         LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "start-preview-cost: " + (System.currentTimeMillis() - sPreviewStart));
         sPreviewStart = 0;
         if (mLaunchHookBase != null) {
@@ -368,6 +372,7 @@ public class CameraStageHookImpl extends BaseHookImpl {
     }
 
     private static void onStopPreviewFinish() {
+        sPreviewStart = 0;
         LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "stop-preview-cost: " + (System.currentTimeMillis() - sStopPreviewStart));
     }
 
@@ -377,8 +382,8 @@ public class CameraStageHookImpl extends BaseHookImpl {
             if (mLaunchHookBase != null) {
                 mLaunchHookBase.setFirstReceiveFrame();
             }
-            onStartPreviewFinish();
         }
+        onStartPreviewFinish();
     }
 
     static class CaptureCallback extends CameraCaptureSession.CaptureCallback {
@@ -446,9 +451,9 @@ public class CameraStageHookImpl extends BaseHookImpl {
 
             count++;
             long timeDuration = System.currentTimeMillis() - startTime;
-            if (Math.abs(timeDuration - ConstantUtils.TIME_DURATION_PRINT_FPS) < 15 || timeDuration >= ConstantUtils.TIME_DURATION_PRINT_FPS) {
+            if (Math.abs(timeDuration - ConstantUtils.TIME_DURATION_PRINT_FPS) < 5 || timeDuration >= ConstantUtils.TIME_DURATION_PRINT_FPS) {
                 LogUtils.e(TAG,"onFrameAvailable thread: "+Thread.currentThread());
-                CameraAnalysis.printPreviewFps(String.format("%.2f",count*1.0f/ConstantUtils.TIME_STAMP_COUNT));
+                CameraAnalysis.printPreviewFps(String.valueOf(count));
                 CameraAnalysis.isPreviewParamsSet = true;
                 count = 0;
                 startTime = System.currentTimeMillis();
@@ -457,5 +462,9 @@ public class CameraStageHookImpl extends BaseHookImpl {
                 previewCallback.onPreviewFrame(data, camera);
             }
         }
+    }
+
+    public boolean isStartPreview() {
+        return sPreviewStart > 0;
     }
 }

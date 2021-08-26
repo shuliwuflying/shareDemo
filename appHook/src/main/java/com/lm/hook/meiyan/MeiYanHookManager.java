@@ -1,11 +1,9 @@
 package com.lm.hook.meiyan;
 
 import com.lm.hook.camera.HdCaptureHookImpl;
-import com.lm.hook.camera.PreviewFpsHookImpl;
 import com.lm.hook.camera.CameraStageHookImpl;
-import com.lm.hook.camera.ParamsHookImpl;
+import com.lm.hook.camera.PreviewHookImpl;
 import com.lm.hook.base.AdHookImpl;
-import com.lm.hook.camera.RecordHookImpl;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -17,9 +15,9 @@ public class MeiYanHookManager {
     public static void hook(XC_LoadPackage.LoadPackageParam param) {
         LaunchHookImpl launchHook = new LaunchHookImpl();
         launchHook.init(param);
-        new ParamsHookImpl().init(param);
-        new PreviewFpsHookImpl(launchHook).init(param);
-        new CameraStageHookImpl(launchHook).init(param);
+        CameraStageHookImpl cameraStageHook = new CameraStageHookImpl(launchHook);
+        cameraStageHook.init(param);
+        new PreviewHookImpl(cameraStageHook).init(param);
         new HdCaptureHookImpl().init(param);
         new RenderFpsHookImpl().init(param);
         new AdHookImpl().init(param);
@@ -27,6 +25,6 @@ public class MeiYanHookManager {
         new SignatureHookImpl().init(param);
         new PictureHookImpl().init(param);
         new ReportHookImpl().init(param);
-        new RecordHookImpl().init(param);
+        new MediaLogHookImpl().init(param);
     }
 }

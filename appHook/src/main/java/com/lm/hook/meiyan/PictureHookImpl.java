@@ -45,12 +45,6 @@ class PictureHookImpl extends BaseHookImpl {
         hookEntityList.add(getNDebugHook("e"));
         hookEntityList.add(getNDebugHook("i"));
         hookEntityList.add(getNDebugHook("v"));
-
-        //mmtools
-        hookEntityList.add(getMMToolHook("a"));
-        hookEntityList.add(getMMToolHook("b"));
-        hookEntityList.add(getMMToolHook("c"));
-        hookEntityList.add(getMMToolHook("d"));
     }
 
 
@@ -320,46 +314,6 @@ class PictureHookImpl extends BaseHookImpl {
             if (values.length == 3 && values[1].contains("cost")) {
                 CameraAnalysis.printCameraCost(values[1]+":"+values[2]);
             }
-        }
-    }
-
-
-    private static MethodSignature getMMToolHook(final String methodName) {
-        final String targetClass = "com.meitu.media.tools.utils.debug.Logger";
-        return new MethodSignature(targetClass, methodName,
-                new Object[] {
-                        String.class,
-                        String.class,
-                        Throwable.class,
-                        new XC_MethodHook() {
-                            @Override
-                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                StringBuilder sb = new StringBuilder();
-                                for(int i =0;i< param.args.length; i++) {
-                                    if (param.args[i] == null) {
-                                        continue;
-                                    }
-                                    sb.append(param.args[i]);
-                                    if (i != param.args.length -1) {
-                                        sb.append(",");
-                                    }
-                                }
-                                String value = sb.toString();
-                                handleMMDebug(value);
-                                LogUtils.i(TAG, "mmtool_"+methodName+": "+value);
-                            }
-
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
-                            }
-                        }
-                });
-    }
-
-    private static void handleMMDebug(String msg) {
-        if (msg.contains("[VideoFilterEdit]mVideoWidth")) {
-            CameraAnalysis.filterVideoSize(msg);
         }
     }
 

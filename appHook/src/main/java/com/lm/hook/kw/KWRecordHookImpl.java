@@ -6,6 +6,9 @@ import com.lm.hook.utils.LogUtils;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
+/**
+ * 视频录制
+ */
 public class KWRecordHookImpl extends BaseHookImpl {
     private static final String TAG = "KWRecordHookImpl";
     private static final String TARGET_CLZ = "com.kwai.camerasdk.mediarecorder.MediaRecorderImpl";
@@ -15,6 +18,7 @@ public class KWRecordHookImpl extends BaseHookImpl {
     private static long sStartRecordTs = 0;
     private static long sStopRecordTs = 0;
     private static long sRecordDuration = 0;
+    private static String sVideoBitrate = "";
 
 
     @Override
@@ -74,7 +78,8 @@ public class KWRecordHookImpl extends BaseHookImpl {
                         sStopRecordTs = System.currentTimeMillis();
                         sRecordDuration += sStopRecordTs - sStartRecordTs;
                         LogUtils.recordLog(TAG, sVideo_resolution);
-                        LogUtils.recordLog(TAG, "video-duration:"+sRecordDuration);
+                        LogUtils.recordLog(TAG, "video-duration: "+sRecordDuration);
+                        LogUtils.recordLog(TAG, "video-bitrate: "+sVideoBitrate);
                         LogUtils.e(TAG, "sStopRecordTs: "+sStopRecordTs+"   param: "+param.args[0]+"  sRecordDuration: "+sRecordDuration);
                     }
                 }
@@ -97,6 +102,7 @@ public class KWRecordHookImpl extends BaseHookImpl {
                 new XC_MethodHook() {
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                        sVideoBitrate = String.valueOf(param.args[4]);
                         sVideo_resolution = "video-resolution: "+param.args[2]+","+param.args[3];
                     }
                 }

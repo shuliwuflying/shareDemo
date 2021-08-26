@@ -163,8 +163,9 @@ class RenderFpsHookImpl extends BaseHookImpl {
         }
         sDrawFrameCount++;
         long timeDuration = System.currentTimeMillis() - sRecordLastFpsTs;
-        if (Math.abs(timeDuration - ConstantUtils.TIME_DURATION_PRINT_FPS) < 15 || timeDuration >= ConstantUtils.TIME_DURATION_PRINT_FPS) {
-            CameraAnalysis.printRenderFps(String.format("%.2f",sDrawFrameCount*1.0/ConstantUtils.TIME_STAMP_COUNT));
+        if (Math.abs(timeDuration - ConstantUtils.TIME_DURATION_PRINT_FPS) < 5 || timeDuration >= ConstantUtils.TIME_DURATION_PRINT_FPS) {
+//            CameraAnalysis.printRenderFps(String.format("%.2f",sDrawFrameCount*1.0/ConstantUtils.TIME_STAMP_COUNT));
+            CameraAnalysis.printRenderFps(String.valueOf(sDrawFrameCount));
             sRecordLastFpsTs = System.currentTimeMillis();
             sDrawFrameCount = 0;
         }

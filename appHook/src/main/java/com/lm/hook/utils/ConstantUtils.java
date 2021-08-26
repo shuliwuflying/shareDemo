@@ -5,7 +5,7 @@ public class ConstantUtils {
 
     public static final String MY_LOG_TAG = "analysis_log";
 
-    public static final int TIME_STAMP_COUNT = 5;
+    public static final int TIME_STAMP_COUNT = 1;
 
     public static final int TIME_DURATION_PRINT_FPS = TIME_STAMP_COUNT * 1000;
 
@@ -18,5 +18,8 @@ public class ConstantUtils {
         public static final String BEAUTY_ME = "com.gorgeous.lite";
         public static final String LV_CAMERA = "com.lemon.lv";
         public static final String DY_CAMERA = "com.ss.android.ugc.aweme";
+        public static final String KW_CAMPAT = "com.kwai.m2u:cameracompatibility";
+        public static final String KW_PUSH = "com.kwai.m2u:pushservice";
+        public static final String KW_ASSIST = "com.kwai.m2u:DfpAssist";
     }
 }

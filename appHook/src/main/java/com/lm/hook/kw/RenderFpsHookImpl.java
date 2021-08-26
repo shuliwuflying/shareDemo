@@ -15,7 +15,7 @@ class RenderFpsHookImpl extends BaseHookImpl {
     private static final String TAG = "RenderFpsHookImpl";
     private static final String FPS_START = "Render Thread Stats:";
     private static final String FPS_END = "Drop";
-    private static final int COUNT_SIZE = 5;
+    private static final int COUNT_SIZE = 1;
     private static int count = 0;
     private static boolean sIsFirstFrame = false;
     private static int sDrawFrameCount = 0;

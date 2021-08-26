@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/Users/liwushu/project/bak/shareDemo/app/.cxx/cmake/debug/x86",
-  "command": "/Users/liwushu/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++ --target=i686-none-linux-android16 --gcc-toolchain=/Users/liwushu/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64 --sysroot=/Users/liwushu/Library/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/darwin-x86_64/sysroot  -Dloop_hook_EXPORTS -I/Users/liwushu/project/bak/shareDemo/app/build/bitsDepend/headerDir  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -mstackrealign -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -std=c++14 -O0 -fno-limit-debug-info  -fPIC   -Weverything -Wunused-variable -Wunneeded-internal-declaration -Wno-c++98-compat-pedantic -Wno-old-style-cast -o CMakeFiles/loop_hook.dir/loop_hook.cpp.o -c /Users/liwushu/project/bak/shareDemo/app/src/main/cpp/loop_hook.cpp",
-  "file": "/Users/liwushu/project/bak/shareDemo/app/src/main/cpp/loop_hook.cpp"
-}
-]

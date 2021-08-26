@@ -7,8 +7,10 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 
+import java.io.DataInput;
 import java.io.File;
 import java.io.RandomAccessFile;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
@@ -19,12 +21,20 @@ public class RecordLogUtils {
     private static Handler logThreadHandler;
     private static RandomAccessFile randomAccessFile;
     private static boolean isInit = false;
-
+    private static Date date = new Date();
+    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static void init(String packageName) {
         if (isInit) {
             return ;
         }
-        String rootDir = Environment.getExternalStorageDirectory()+File.separator+"analysis"+File.separator+"log";
+        String rootDir = "/sdcard";
+        try {
+            rootDir = Environment.getExternalStorageDirectory().getAbsolutePath();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        rootDir = rootDir + File.separator + "analysis" + File.separator + "log";
         LogUtils.e(TAG, "rootDir: "+rootDir);
         HandlerThread handlerThread = new HandlerThread("record_thread");
         handlerThread.start();
@@ -55,11 +65,13 @@ public class RecordLogUtils {
 
         @Override
         public void handleMessage(Message msg) {
+            String timeStamp = simpleDateFormat.format(date);
+
             String content = String.valueOf(msg.obj);
             if (TextUtils.isEmpty(content)) {
                 return;
             }
-            saveToFile(content);
+            saveToFile(timeStamp+" "+content);
         }
     }
 
