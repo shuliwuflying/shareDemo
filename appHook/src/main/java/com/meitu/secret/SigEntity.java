@@ -5,7 +5,31 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.lm.hook.utils.LogUtils;
+
 public class SigEntity {
+    private static final String sRequestUrl = "material/meimoji.json";
+    private static final String[] sRequestParams =  new String[] {
+            "1",
+            "1",
+            "46425204500897081217",
+            "CN",
+            "24",
+            "1089867608",
+            "xiaomi",
+            "8.0",
+            "d4:06:8c:35:47:02",
+            "android",
+            "1586487851",
+            "oppo32",
+            "WIFI",
+            "zh-Hans",
+            "1557549862",
+            "1557549862"
+
+    };
+    private static final String sRequestVersion = "10003";
+
 
     public String finalString;
     public String sig;
@@ -32,6 +56,12 @@ public class SigEntity {
         Log.e("sliver", "sigVersion: "+sigVersion);
         Log.e("sliver", "sig: "+sig);
         Log.e("sliver", "finalString: "+finalString);
+    }
+
+    public static SigEntity generatorSig(Context context) {
+        SigEntity sigEntity = generatorSig(sRequestUrl, sRequestParams, sRequestUrl, context);
+        LogUtils.e("sliver", "sigEntity: "+sigEntity.toString());
+        return sigEntity;
     }
 
     public static SigEntity generatorSig(@NonNull String paramString1, @NonNull String[] paramArrayOfString, @NonNull String paramString2) {

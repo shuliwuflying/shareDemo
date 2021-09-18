@@ -9,7 +9,7 @@
 
 #define HACKER_JNI_VERSION    JNI_VERSION_1_6
 #define HACKER_JNI_CLASS_NAME "com/bytedance/android/hacker/NativeHacker"
-#define HACKER_TAG            "sliver"
+#define HACKER_TAG            "native_hook"
 
 static bytehook_stub_t hacker_strlen_stub = nullptr;
 
@@ -142,31 +142,51 @@ static size_t hacker_pollInner(int timeOut)
     return result;
 }
 
+static char* hacker_isHookPMS(JNIEnv *env)
+{
+    // (1) Always call the BYTEHOOK_STACK_SCOPE() macro at the beginning of the proxy function.
+    BYTEHOOK_STACK_SCOPE();
+
+    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook pre hacker_isHookPMS");
+
+    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook post hacker_isHookPMS");
+
+    return (char *)'0';
+}
+
 
 static void addHook() {
     // hook for partial caller
 
-    bytehook_hook_all(
+//    bytehook_hook_all(
+//            nullptr,
+//            "_ZN7android6Looper9pollInnerE",
+//            reinterpret_cast<void *>(hacker_pollInner),
+//            hacker_hooked_callback,
+//            nullptr);
+
+//    bytehook_hook_all(
+//            nullptr,
+//            "epoll_wait",
+//            reinterpret_cast<void *>(hacker_epoll_wait),
+//            hacker_hooked_callback,
+//            nullptr);
+//
+//    hacker_strlen_stub = bytehook_hook_all(
+//            nullptr,
+//            "recvfrom",
+//            reinterpret_cast<void *>(hacker_recv),
+//            hacker_hooked_callback,
+//            nullptr);
+
+
+    hacker_strlen_stub = bytehook_hook_single(
+            "librelease_sig.so",
             nullptr,
-            "_ZN7android6Looper9pollInnerE",
-            reinterpret_cast<void *>(hacker_pollInner),
+            "_ZN11ValidateKey9isHookPMSE",
+            reinterpret_cast<void *>(hacker_isHookPMS),
             hacker_hooked_callback,
             nullptr);
-
-    bytehook_hook_all(
-            nullptr,
-            "epoll_wait",
-            reinterpret_cast<void *>(hacker_epoll_wait),
-            hacker_hooked_callback,
-            nullptr);
-
-    hacker_strlen_stub = bytehook_hook_all(
-            nullptr,
-            "recvfrom",
-            reinterpret_cast<void *>(hacker_recv),
-            hacker_hooked_callback,
-            nullptr);
-
 
     __android_log_print(ANDROID_LOG_ERROR, HACKER_TAG, "addHook: %ld",hacker_strlen_stub);
 
@@ -178,7 +198,7 @@ static void addHook() {
 //        hacker_hooked_callback,
 //        nullptr);
 
-      //hook populateSkPaint
+    //hook populateSkPaint
 //    hacker_strlen_stub = bytehook_hook_single(
 //            "libandroid_runtime.so",
 //            nullptr,
@@ -223,16 +243,16 @@ static void hacker_unhook(JNIEnv *env, jclass thiz)
 
 
 static JNINativeMethod hacker_jni_methods[] = {
-    {
-        "nativeHook",
-        "()V",
-        reinterpret_cast<void *>(hacker_hook)
-    },
-    {
-        "nativeUnhook",
-        "()V",
-        reinterpret_cast<void *>(hacker_unhook)
-    }
+        {
+                "nativeHook",
+                "()V",
+                reinterpret_cast<void *>(hacker_hook)
+        },
+        {
+                "nativeUnhook",
+                "()V",
+                reinterpret_cast<void *>(hacker_unhook)
+        }
 };
 
 

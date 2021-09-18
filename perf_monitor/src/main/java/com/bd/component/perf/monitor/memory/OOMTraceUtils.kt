@@ -295,6 +295,7 @@ class OOMTraceUtils {
             map["vmData"] = "${vmData}kb"
             map["vmPeak"] = "${vmPeak}kb"
             map["vmSize"] = "${vmSize}kb"
+            android.util.Log.e("sliver", "vmData: ${vmData}kb , vmPeak: ${vmPeak}kb, vmSize: ${vmSize}kb")
             return map
         } catch (e: Exception) {
         }

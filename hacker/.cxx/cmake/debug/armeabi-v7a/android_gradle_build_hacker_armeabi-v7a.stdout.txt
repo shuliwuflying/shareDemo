@@ -1,2 +1,0 @@
-[1/2] Building CXX object CMakeFiles/hacker.dir/hacker.cpp.o
-[2/2] Linking CXX shared library /Users/liwushu/project/bak/shareDemo/hacker/build/intermediates/cmake/debug/obj/armeabi-v7a/libhacker.so

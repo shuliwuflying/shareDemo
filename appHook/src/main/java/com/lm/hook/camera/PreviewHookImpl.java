@@ -2,16 +2,21 @@ package com.lm.hook.camera;
 
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.media.ImageReader;
 import android.os.Handler;
+import android.util.Log;
 
 import com.lm.hook.base.BaseHookImpl;
 import com.lm.hook.meiyan.CameraAnalysis;
 import com.lm.hook.utils.ConstantUtils;
 import com.lm.hook.utils.LogUtils;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +32,7 @@ public class PreviewHookImpl extends BaseHookImpl {
     public static int previewHeight =0;
     private CameraStageHookImpl mCameraStageBase;
     private SurfaceTexture mPreviewSurfaceTexture;
+    private volatile boolean isRecord = false;
 
 
     public PreviewHookImpl(CameraStageHookImpl hook) {
@@ -38,7 +44,7 @@ public class PreviewHookImpl extends BaseHookImpl {
     }
 
     private void hookForCameraV1() {
-        hookEntityList.add(setParametersHook());
+        hookEntityList.add(getParametersHook());
         hookEntityList.add(setPreviewSize());
         hookEntityList.add(setPictureSize());
         hookEntityList.add(parametersPutHook());
@@ -49,6 +55,7 @@ public class PreviewHookImpl extends BaseHookImpl {
         hookEntityList.add(getDefaultBufferSizeMethod());
         hookEntityList.add(setPictureSizeForCamera2());
         hookEntityList.add(captureRequestHook());
+        hookEntityList.add(getParametersHook2());
     }
 
     private void initFilterList() {
@@ -148,7 +155,7 @@ public class PreviewHookImpl extends BaseHookImpl {
                 });
     }
 
-    private MethodSignature setParametersHook() {
+    private MethodSignature getParametersHook() {
         return new MethodSignature(Camera.class.getName(),
                 "setParameters",
                 new Object[]{
@@ -156,10 +163,61 @@ public class PreviewHookImpl extends BaseHookImpl {
                         new XC_MethodHook() {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                for (Object object : param.args) {
-                                    if (object instanceof Camera.Parameters) {
-                                        //CameraAnalysis.print("setParameters params: "+((Camera.Parameters) object).flatten());
+                                if (!isRecord) {
+                                    for (Object object : param.args) {
+                                        if (object instanceof Camera.Parameters) {
+                                            String value = ((Camera.Parameters) object).flatten();
+                                            LogUtils.recordLog (TAG, "allParameters: "+value);
+                                        }
                                     }
+                                    isRecord = true;
+                                }
+                            }
+                        }
+                });
+    }
+
+    private MethodSignature getParametersHook2() {
+        return new MethodSignature(CameraManager.class.getName(),
+                "getCameraCharacteristics",
+                new Object[]{
+                        String.class,
+                        new XC_MethodHook() {
+                            @Override
+                            protected void afterHookedMethod(MethodHookParam param) {
+                                final Object retValue = param.getResult();
+                                LogUtils.e("sliver", "getParametersHook2 afterHookedMethod isRecord: "+isRecord);
+                                if (retValue != null && !isRecord) {
+                                   new Thread(new Runnable() {
+                                       @Override
+                                       public void run() {
+                                           isRecord = true;
+                                           CameraCharacteristics characteristics = ((CameraCharacteristics)retValue);
+                                           List<CameraCharacteristics.Key<?>> list = characteristics.getKeys();
+                                           StringBuilder sb = new StringBuilder();
+                                           for(CameraCharacteristics.Key<?> key: list) {
+                                               Object object= characteristics.get(key);
+                                               sb.append(key.getName());
+                                               sb.append("=");
+                                               if(object.getClass().isArray()) {
+                                                   sb.append("[");
+                                                  int size = Array.getLength(object);
+                                                  for(int i =0;i<size;i++) {
+                                                      Object value = Array.get(object, i);
+                                                      sb.append(value.toString());
+                                                      if(i < size - 1) {
+                                                          sb.append(",");
+                                                      }
+                                                  }
+                                                  sb.append("]");
+                                               } else {
+                                                   sb.append(object.toString());
+                                               }
+                                               sb.append(";");
+                                           }
+                                           LogUtils.recordLog("sliver", "allParameters: "+sb.toString());
+                                       }
+                                   }).start();
                                 }
                             }
                         }
@@ -194,21 +252,6 @@ public class PreviewHookImpl extends BaseHookImpl {
 
     }
 
-
-    private MethodSignature setCameraParametersValue(String method, Class<?> paramsClz, final String tag) {
-        final String targetClass = Camera.Parameters.class.getName();
-        return new MethodSignature(targetClass,
-                method,
-                new Object[]{
-                        paramsClz,
-                        new XC_MethodHook() {
-                            @Override
-                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                LogUtils.recordLog(TAG, tag+": " + param.args[0].toString());
-                            }
-                        }
-                });
-    }
 
     private MethodSignature captureRequestHook() {
         final String targetClass = CaptureRequest.Builder.class.getName();

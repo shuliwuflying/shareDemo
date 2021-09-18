@@ -20,6 +20,9 @@ public class ComplexHookImpl extends BaseHookImpl {
     private final String VIDEO_RECORD = "take_video_available";
     private final String LONG_VIDEO = "take_long_video_available";
     private final String FPS_TAG = "on draw frame fps:";
+    private final String PIC_SAVE_COST = "picture_save_picture";
+    private final String VIDEO_SAVE_COST = "video_save_video";
+
     private int count = 0;
     private float fpsCount = 0;
     private RecordHookImpl.IRecordListener recordListener;
@@ -27,7 +30,9 @@ public class ComplexHookImpl extends BaseHookImpl {
     private final List<String> filterTagList = Arrays.asList(
             TAKE_PICTURE,
             VIDEO_RECORD,
-            LONG_VIDEO
+            LONG_VIDEO,
+            PIC_SAVE_COST,
+            VIDEO_SAVE_COST
     );
 
     public ComplexHookImpl(RecordHookImpl.IRecordListener listener) {
@@ -71,6 +76,12 @@ public class ComplexHookImpl extends BaseHookImpl {
                                     if (recordListener != null) {
                                         recordListener.onRecordFinish(Long.parseLong(String.valueOf(jsonObject.get("duration"))));
                                     }
+                                    break;
+                                case PIC_SAVE_COST:
+                                    LogUtils.recordLog(TAG, "pic-save-cost: "+jsonObject.get("save_time"));
+                                    break;
+                                case VIDEO_SAVE_COST:
+                                    LogUtils.recordLog(TAG, "video-save-cost: "+jsonObject.get("save_time"));
                                     break;
                             }
                         }

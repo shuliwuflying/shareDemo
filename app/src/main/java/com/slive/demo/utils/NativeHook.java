@@ -14,4 +14,6 @@ public class NativeHook {
     private static native void nativeTestStrlen();
 
     public static native void nativeTestAdd();
+
+    public static native SigEntity nativeGeneratorSig(String paramString1, byte[][] paramArrayOfByte, String paramString2, Object paramObject);
 }

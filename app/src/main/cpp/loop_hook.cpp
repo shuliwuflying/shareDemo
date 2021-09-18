@@ -29,7 +29,6 @@ static void sample_strlen(JNIEnv *env, jclass thiz)
     __android_log_print(ANDROID_LOG_DEBUG, SAMPLE_TAG, "pre strlen()");
     ::strlen("my-password-12345678");
     __android_log_print(ANDROID_LOG_DEBUG, SAMPLE_TAG, "post strlen()");
-    (*env)->GetObjectClass()
 }
 
 
@@ -66,6 +65,15 @@ static void sample_test_add(JNIEnv *env, jclass thiz)
 //    } else {
 //        env->NewStringUTF("Hello world");
 //    }
+}
+
+JNIEXPORT jobject JNICALL
+Java_com_slive_demo_utils_NativeHook_nativeGeneratorSig(JNIEnv *env, jclass clazz,
+                                                        jstring param_string1,
+                                                        jobjectArray param_array_of_byte,
+                                                        jstring param_string2,
+                                                        jobject param_object) {
+    return NULL;
 }
 
 

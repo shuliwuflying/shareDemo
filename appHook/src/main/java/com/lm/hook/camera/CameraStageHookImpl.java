@@ -38,6 +38,7 @@ public class CameraStageHookImpl extends BaseHookImpl {
     private static CameraStateCallback sCameraStateCallback;
     private static CaptureCallback captureCallback = null;
     private static Object cameraObj = null;
+    private volatile static boolean isStartPreview = false;
 
     private LaunchHookBaseImpl mLaunchHookBase;
 
@@ -352,6 +353,7 @@ public class CameraStageHookImpl extends BaseHookImpl {
         if (sPreviewStart == 0) {
             sPreviewStart = System.currentTimeMillis();
         }
+        isStartPreview = true;
     }
 
     private void onStartPreviewFinish() {
@@ -373,6 +375,7 @@ public class CameraStageHookImpl extends BaseHookImpl {
 
     private static void onStopPreviewFinish() {
         sPreviewStart = 0;
+        isStartPreview = false;
         LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "stop-preview-cost: " + (System.currentTimeMillis() - sStopPreviewStart));
     }
 
@@ -465,6 +468,6 @@ public class CameraStageHookImpl extends BaseHookImpl {
     }
 
     public boolean isStartPreview() {
-        return sPreviewStart > 0;
+        return isStartPreview;
     }
 }

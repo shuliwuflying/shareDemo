@@ -73,6 +73,9 @@ class PictureHookImpl extends BaseHookImpl {
                         return;
                     }
                     handleLog(value);
+                    if(value.contains("Meitu,java.io.IOException")) {
+                        LogUtils.e(TAG, android.util.Log.getStackTraceString(new Throwable("IOException")));
+                    }
                     LogUtils.i(TAG, "Debug_"+methodName+": "+value);
                 }
 

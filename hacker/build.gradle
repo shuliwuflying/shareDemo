@@ -16,6 +16,9 @@ android {
                 arguments "-DBITS_SO_DIR=" + bitsDepend.soDir
             }
         }
+        ndk {
+            abiFilters "armeabi-v7a"
+        }
     }
 
     externalNativeBuild {

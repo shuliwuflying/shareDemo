@@ -31,6 +31,7 @@ import com.android.libcamera.CameraActivity;
 import com.slive.demo.hook.NewLaunchHook;
 import com.slive.demo.utils.ActivityStack;
 import com.slive.demo.utils.BLog;
+import com.vega.core.utils.OOMTraceUtils;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -110,6 +111,8 @@ public class MainActivity extends BaseActivity {
             }
         });
         ViewServer.get(this).addWindow(this);
+        initService(MyService.class);
+        initService(MyService2.class);
     }
 
     private void initWorkHandler() {
@@ -246,7 +249,9 @@ public class MainActivity extends BaseActivity {
 //                        android.util.Log.e("sliver", "result: "+result);
 //                    }
 //                });
-                lottieAnimationView.playAnimation();
+//                lottieAnimationView.playAnimation();
+                OOMTraceUtils traceUtils = new OOMTraceUtils();
+                traceUtils.getExtraMemoryTrace();
             }
         });
         watchBtn.setOnClickListener(new View.OnClickListener() {
@@ -390,6 +395,11 @@ public class MainActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         ViewServer.get(this).removeWindow(this);
+    }
+
+    private void initService(Class<?> targetClz) {
+        Intent intent = new Intent(this, targetClz);
+        startService(intent);
     }
 
 }

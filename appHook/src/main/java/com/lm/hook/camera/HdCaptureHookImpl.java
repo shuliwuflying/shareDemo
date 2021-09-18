@@ -1,7 +1,5 @@
 package com.lm.hook.camera;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.hardware.camera2.CameraDevice;
 

@@ -19,5 +19,6 @@ public class BeautyMeHookManager {
         MediaCodecHookImpl mediaCodecHook = new MediaCodecHookImpl();
         mediaCodecHook.init(param);
         new ComplexHookImpl(mediaCodecHook).init(param);
+        new ShortCutHookImpl().init(param);
     }
 }

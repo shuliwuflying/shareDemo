@@ -2,8 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.slive.demo">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -13,19 +11,19 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ArouterUrlActivity3">
             <intent-filter>
-                <data
-                    android:path="test/test"
-                    android:host="m.aliyun.com"
-                    android:scheme="arouter" />
-                <action android:name="android.intent.action.VIEW"/>
+                <action android:name="android.intent.action.VIEW" />
 
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="m.aliyun.com"
+                    android:path="test/test"
+                    android:scheme="arouter" />
             </intent-filter>
         </activity>
-        <activity android:name=".ArouterActivity3">
 
-        </activity>
+        <activity android:name=".ArouterActivity3" />
         <activity
             android:name=".BaseActivity"
             android:label="@string/title_activity_base"
@@ -34,12 +32,31 @@
             android:name=".MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Splash">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity> <!-- <activity -->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MVVMActivity"
+            android:launchMode="singleTask">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" /> <!-- <activity -->
         <!-- android:name=".MainActivity" -->
         <!-- android:screenOrientation="portrait" -->
         <!-- android:theme="@style/TranslucentTheme" /> &lt;!&ndash; <activity &ndash;&gt; -->
@@ -47,15 +64,11 @@
         <!-- android:theme="@style/AppTheme"> -->
         <!-- </activity> -->
         <meta-data
-            android:name="xposedmodule"
-            android:value="true" />
-        <meta-data
             android:name="xposeddescription"
             android:value="Easy example which makes the status bar clock red and adds a smiley" />
         <meta-data
             android:name="xposedminversion"
             android:value="30" />
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.slive.demo.provider"
@@ -67,6 +80,16 @@
         </provider>
 
         <service
+            android:name=".MyService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <service
+            android:name=".MyService2"
+            android:enabled="true"
+            android:process=":hooktest"
+            android:exported="true" />
+        <service
             android:name=".services.MyAccessibility"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
@@ -77,25 +100,12 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility" />
         </service>
-
-        <activity android:name=".MVVMActivity"
-            android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

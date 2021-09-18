@@ -2,10 +2,12 @@ package com.lm.hook.meiyan;
 
 import android.content.Context;
 
+import com.bytedance.android.hacker.Hacker;
 import com.lm.hook.base.BaseHookImpl;
 import com.lm.hook.utils.HookUtils;
 import com.lm.hook.utils.LogUtils;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -144,16 +146,14 @@ class SignatureHookImpl extends BaseHookImpl {
                 new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//                        LogUtils.e(TAG, "before generatorSigHook111");
-//                        for(Object obj: param.args) {
-//                            LogUtils.e(TAG, "before generatorSigHook111 obj: "+obj.toString());
-//                        }
+                        Hacker.init();
                         HookUtils.revertOrigin(hookParam.classLoader);
                     }
 
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         LogUtils.e(TAG, "after generatorSigHook111");
+                        logPrint(param);
                         HookUtils.revertProxy(hookParam.classLoader);
                     }
                 }
@@ -173,13 +173,14 @@ class SignatureHookImpl extends BaseHookImpl {
                 new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//                        LogUtils.e(TAG, "before generatorSigHook222");
+                        Hacker.init();
                         HookUtils.revertOrigin(hookParam.classLoader);
                     }
 
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                         LogUtils.e(TAG, "after generatorSigHook222: "+param.getResult());
+                        logPrint(param);
                         HookUtils.revertProxy(hookParam.classLoader);
                     }
                 }
@@ -207,5 +208,34 @@ class SignatureHookImpl extends BaseHookImpl {
                 }
         };
         return new MethodSignature(targetClz, method, params);
+    }
+
+    private static void logPrint(XC_MethodHook.MethodHookParam param) {
+        String arg1 = param.args[0].toString();
+        String[] arg2 = (String[])param.args[1];
+        StringBuilder sb = new StringBuilder();
+        if (arg2 != null) {
+            for(String value: arg2) {
+                sb.append(value+",");
+            }
+            sb.append("arg2.size:"+arg2.length);
+        }
+        String arg3 = param.args[2].toString();
+        Object arg4 = null;
+        if (param.args.length >3) {
+            arg4 = param.args[3];
+        }
+        LogUtils.e(TAG, "arg1: "+arg1+"\n arg2: "+sb.toString()+"\n arg3: "+arg3+"\n arg4: "+arg4);
+        String sig = "null";
+        try {
+            Object retValue = param.getResult();
+            Class<?> retClz = retValue.getClass();
+            Field field = retClz.getField("sig");
+            sig = field.get(retValue).toString();
+        } catch (Exception e) {
+
+        }finally {
+            LogUtils.e(TAG, "sig: "+sig);
+        }
     }
 }

@@ -184,7 +184,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-//    implementation project(":perf_monitor")
+    implementation project(":perf_monitor")
 
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly 'de.robv.android.xposed:api:82:sources'
@@ -192,13 +192,13 @@ dependencies {
     implementation 'com.creation:ultrasonic:1.8.9'
     implementation 'com.airbnb.android:lottie:3.1.0'
 
-//    implementation "com.bytedance.android:bytehook:0.0.1-alpha.18"
-//    bitsDependSo "com.bytedance.android:bytehook:0.0.1-alpha.18"
-//    implementation project(':hacker')
+    implementation "com.bytedance.android:bytehook:0.0.1-alpha.18"
+    bitsDependSo "com.bytedance.android:bytehook:0.0.1-alpha.18"
+    implementation project(':hacker')
     implementation 'com.alibaba:arouter-api:1.5.1'
     kapt 'com.alibaba:arouter-compiler:1.5.1'
     implementation project(':libcamera')
-    implementation 'com.bytedance.hubble:library:0.0.1-alpha.15'
+    implementation 'com.bytedance.hubble:library:1.0.3'
 }
 
 configurations.all {
