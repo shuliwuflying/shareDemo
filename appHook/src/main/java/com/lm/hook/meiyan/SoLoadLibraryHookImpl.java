@@ -15,7 +15,9 @@ class SoLoadLibraryHookImpl extends BaseHookImpl {
     private static final String TAG = "SoLoadLibraryHookImpl";
 
     public SoLoadLibraryHookImpl() {
-        hookEntityList.add(skipReLinkHook());
+        if (!LaunchHookImpl.isHighVersion) {
+            hookEntityList.add(skipReLinkHook());
+        }
     }
 
     private MethodSignature skipReLinkHook() {

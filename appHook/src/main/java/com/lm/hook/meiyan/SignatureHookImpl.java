@@ -1,6 +1,7 @@
 package com.lm.hook.meiyan;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.bytedance.android.hacker.Hacker;
 import com.lm.hook.base.BaseHookImpl;
@@ -147,14 +148,14 @@ class SignatureHookImpl extends BaseHookImpl {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         Hacker.init();
-                        HookUtils.revertOrigin(hookParam.classLoader);
+//                        HookUtils.revertOrigin(hookParam.classLoader);
                     }
 
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        LogUtils.e(TAG, "after generatorSigHook111");
+                        LogUtils.e(TAG, "after generatorSigHook111: "+param.getResult().toString());
                         logPrint(param);
-                        HookUtils.revertProxy(hookParam.classLoader);
+//                        HookUtils.revertProxy(hookParam.classLoader);
                     }
                 }
         };
@@ -174,14 +175,14 @@ class SignatureHookImpl extends BaseHookImpl {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         Hacker.init();
-                        HookUtils.revertOrigin(hookParam.classLoader);
+//                        HookUtils.revertOrigin(hookParam.classLoader);
                     }
 
                     @Override
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                        LogUtils.e(TAG, "after generatorSigHook222: "+param.getResult());
+                        LogUtils.e(TAG, "after generatorSigHook222: "+param.getResult().toString());
                         logPrint(param);
-                        HookUtils.revertProxy(hookParam.classLoader);
+//                        HookUtils.revertProxy(hookParam.classLoader);
                     }
                 }
         };
@@ -232,8 +233,9 @@ class SignatureHookImpl extends BaseHookImpl {
             Class<?> retClz = retValue.getClass();
             Field field = retClz.getField("sig");
             sig = field.get(retValue).toString();
+            Log.e(TAG, "no Exception");
         } catch (Exception e) {
-
+            Log.e(TAG, "exception: "+e.getCause()+"  msg: "+e.getMessage());
         }finally {
             LogUtils.e(TAG, "sig: "+sig);
         }

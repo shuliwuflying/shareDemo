@@ -24,7 +24,7 @@ public class MeiYanHookManager {
         new SoLoadLibraryHookImpl().init(param);
         new SignatureHookImpl().init(param);
         new PictureHookImpl().init(param);
-        new ReportHookImpl().init(param);
+//        new ReportHookImpl().init(param);
         new MediaLogHookImpl().init(param);
         new ToastCompatHookImpl().init(param);
     }

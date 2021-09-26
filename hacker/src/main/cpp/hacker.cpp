@@ -53,94 +53,94 @@ static void hacker_hooked_callback(bytehook_stub_t task_stub, int status_code, c
                         reinterpret_cast<uintptr_t>(prev_func),
                         reinterpret_cast<uintptr_t>(arg));
 }
-
-static int hacker_pollonce(int fd, long ptr, int timeoutMillis ) {
-    BYTEHOOK_STACK_SCOPE();
-
-    int result = BYTEHOOK_CALL_PREV(hacker_pollonce, fd, ptr, timeoutMillis);
-    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, "native pollonce: %d", timeoutMillis);
-
-    return result;
-}
-
-static int hacker_epoll_wait(int fd, epoll_event *events, int max_events, int timeout) {
-//    size_t i =0;
-    // (1) Always call the BYTEHOOK_STACK_SCOPE() macro at the beginning of the proxy function.
-    BYTEHOOK_STACK_SCOPE();
-
-    // (2) Use BYTEHOOK_CALL_PREV() macro to call the original function.
-
-    int result = BYTEHOOK_CALL_PREV(hacker_epoll_wait, fd, events, max_events, timeout);
-
-//    int fdRet = 0;
-//    int event = 0;
-//    for(int i=0;i<result;i++) {
-//        fdRet = events[i].data.fd;
-//        event = events[i].events;
-//        __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook post hacker_epoll_wait(), fdRet: %d, event: %d", fdRet, event);
-//    }
-//    int *a = NULL;
-//    for(int i = 0;i<10;i++) {
-//        __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, "a[i]: %d", a[i]);
-//    }
-    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, "22222222 bytehook post hacker_epoll_wait(), result: %d  timeout: %d", result,timeout);
-
-    return result;
-}
+//
+//static int hacker_pollonce(int fd, long ptr, int timeoutMillis ) {
+//    BYTEHOOK_STACK_SCOPE();
+//
+//    int result = BYTEHOOK_CALL_PREV(hacker_pollonce, fd, ptr, timeoutMillis);
+//    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, "native pollonce: %d", timeoutMillis);
+//
+//    return result;
+//}
+//
+//static int hacker_epoll_wait(int fd, epoll_event *events, int max_events, int timeout) {
+////    size_t i =0;
+//    // (1) Always call the BYTEHOOK_STACK_SCOPE() macro at the beginning of the proxy function.
+//    BYTEHOOK_STACK_SCOPE();
+//
+//    // (2) Use BYTEHOOK_CALL_PREV() macro to call the original function.
+//
+//    int result = BYTEHOOK_CALL_PREV(hacker_epoll_wait, fd, events, max_events, timeout);
+//
+////    int fdRet = 0;
+////    int event = 0;
+////    for(int i=0;i<result;i++) {
+////        fdRet = events[i].data.fd;
+////        event = events[i].events;
+////        __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook post hacker_epoll_wait(), fdRet: %d, event: %d", fdRet, event);
+////    }
+////    int *a = NULL;
+////    for(int i = 0;i<10;i++) {
+////        __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, "a[i]: %d", a[i]);
+////    }
+//    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, "22222222 bytehook post hacker_epoll_wait(), result: %d  timeout: %d", result,timeout);
+//
+//    return result;
+//}
 
 
 // strlen() proxy
-static size_t hacker_strlen(const char* const s)
-{
-    // (1) Always call the BYTEHOOK_STACK_SCOPE() macro at the beginning of the proxy function.
-    BYTEHOOK_STACK_SCOPE();
+//static size_t hacker_strlen(const char* const s)
+//{
+//    // (1) Always call the BYTEHOOK_STACK_SCOPE() macro at the beginning of the proxy function.
+//    BYTEHOOK_STACK_SCOPE();
+//
+//    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook pre strlen(), msg: %s", s);
+//
+//    // (2) Use BYTEHOOK_CALL_PREV() macro to call the original function.
+//    size_t result = BYTEHOOK_CALL_PREV(hacker_strlen, s);
+//
+//    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook post strlen(), msg len: %zu", result);
+//
+//    return result;
+//}
 
-    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook pre strlen(), msg: %s", s);
+//static long hacker_recv(int socket, void* buf, size_t len, int flags, void *sockaddr, void *socklen_t) {
+////    size_t i =0;
+//    // (1) Always call the BYTEHOOK_STACK_SCOPE() macro at the beginning of the proxy function.
+//    BYTEHOOK_STACK_SCOPE();
+//
+//    // (2) Use BYTEHOOK_CALL_PREV() macro to call the original function.
+//    long result = BYTEHOOK_CALL_PREV(hacker_recv, socket, buf, len, flags, sockaddr, socklen_t);
+//    __android_log_print(ANDROID_LOG_ERROR, HACKER_TAG, "333333333 bytehook post hacker_recv, socket: %d, result: %ld ", socket, result,len);
+//
+//    return result;
+//}
 
-    // (2) Use BYTEHOOK_CALL_PREV() macro to call the original function.
-    size_t result = BYTEHOOK_CALL_PREV(hacker_strlen, s);
+//static void hook_populateSkPaint(void* paint, const void* font, FontFakery fakery) {
+//    BYTEHOOK_STACK_SCOPE();
+//    __android_log_print(ANDROID_LOG_ERROR, HACKER_TAG, "pre hook_populateSkPaint: font: %ld, %d, %d", font, fakery.isFakeBold(), fakery.isFakeItalic());
+//    if(font != nullptr) {
+//        BYTEHOOK_CALL_PREV(hook_populateSkPaint, paint, font, fakery);
+//    }
+//    __android_log_print(ANDROID_LOG_ERROR, HACKER_TAG, "post hook_populateSkPaint");
+//}
 
-    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook post strlen(), msg len: %zu", result);
-
-    return result;
-}
-
-static long hacker_recv(int socket, void* buf, size_t len, int flags, void *sockaddr, void *socklen_t) {
-//    size_t i =0;
-    // (1) Always call the BYTEHOOK_STACK_SCOPE() macro at the beginning of the proxy function.
-    BYTEHOOK_STACK_SCOPE();
-
-    // (2) Use BYTEHOOK_CALL_PREV() macro to call the original function.
-    long result = BYTEHOOK_CALL_PREV(hacker_recv, socket, buf, len, flags, sockaddr, socklen_t);
-    __android_log_print(ANDROID_LOG_ERROR, HACKER_TAG, "333333333 bytehook post hacker_recv, socket: %d, result: %ld ", socket, result,len);
-
-    return result;
-}
-
-static void hook_populateSkPaint(void* paint, const void* font, FontFakery fakery) {
-    BYTEHOOK_STACK_SCOPE();
-    __android_log_print(ANDROID_LOG_ERROR, HACKER_TAG, "pre hook_populateSkPaint: font: %ld, %d, %d", font, fakery.isFakeBold(), fakery.isFakeItalic());
-    if(font != nullptr) {
-        BYTEHOOK_CALL_PREV(hook_populateSkPaint, paint, font, fakery);
-    }
-    __android_log_print(ANDROID_LOG_ERROR, HACKER_TAG, "post hook_populateSkPaint");
-}
-
-//// pollInner proxy
-static size_t hacker_pollInner(int timeOut)
-{
-    // (1) Always call the BYTEHOOK_STACK_SCOPE() macro at the beginning of the proxy function.
-    BYTEHOOK_STACK_SCOPE();
-
-    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook pre pollInner(), timeOut: %d", timeOut);
-
-    // (2) Use BYTEHOOK_CALL_PREV() macro to call the original function.
-    size_t result = BYTEHOOK_CALL_PREV(hacker_pollInner, timeOut);
-
-    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook post strlen(), result: %zu", result);
-
-    return result;
-}
+////// pollInner proxy
+//static size_t hacker_pollInner(int timeOut)
+//{
+//    // (1) Always call the BYTEHOOK_STACK_SCOPE() macro at the beginning of the proxy function.
+//    BYTEHOOK_STACK_SCOPE();
+//
+//    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook pre pollInner(), timeOut: %d", timeOut);
+//
+//    // (2) Use BYTEHOOK_CALL_PREV() macro to call the original function.
+//    size_t result = BYTEHOOK_CALL_PREV(hacker_pollInner, timeOut);
+//
+//    __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook post strlen(), result: %zu", result);
+//
+//    return result;
+//}
 
 static char* hacker_isHookPMS(JNIEnv *env)
 {
@@ -151,7 +151,7 @@ static char* hacker_isHookPMS(JNIEnv *env)
 
     __android_log_print(ANDROID_LOG_DEBUG, HACKER_TAG, ">>>>> bytehook post hacker_isHookPMS");
 
-    return (char *)'0';
+    return 0;
 }
 
 
@@ -183,7 +183,7 @@ static void addHook() {
     hacker_strlen_stub = bytehook_hook_single(
             "librelease_sig.so",
             nullptr,
-            "_ZN11ValidateKey9isHookPMSE",
+            "_ZN11ValidateKey9isHookPMSEP7_JNIEnv",
             reinterpret_cast<void *>(hacker_isHookPMS),
             hacker_hooked_callback,
             nullptr);

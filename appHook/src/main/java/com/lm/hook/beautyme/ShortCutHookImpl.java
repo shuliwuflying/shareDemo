@@ -18,7 +18,7 @@ class ShortCutHookImpl extends BaseHookImpl {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            hookEntityList.add(getShortCutHook());
 //            hookEntityList.add(getShortCutHook1());
-//            hookEntityList.add(getShortCutHook2());
+            hookEntityList.add(getShortCutHook2());
         }
     }
 
@@ -56,17 +56,18 @@ class ShortCutHookImpl extends BaseHookImpl {
     }
 
     private MethodSignature getShortCutHook2() {
-        final String targetClz = ContextWrapper.class.getName();
+        final String targetClz = "android.app.ContextImpl";
         final String method = "getSystemServiceName";
         final Object[] params = new Object[] {
                 Class.class,
                 new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        LogUtils.e(TAG, "beforeHookedMethod111 getShortCutHook2: "+param.args[0]);
-                        if ("android.content.pm.ShortcutManager".equals(param.args[0].toString())) {
+                        String name = ((Class)param.args[0]).getName();
+                        LogUtils.e(TAG, "beforeHookedMethod111 getShortCutHook2: "+name);
+                        if ("android.content.pm.ShortcutManager".equals(name)) {
                             LogUtils.e(TAG, "beforeHookedMethod111 getShortCutHook2 setResult");
-                            param.setResult(false);
+                            param.setResult(null);
                         }
                     }
                 }

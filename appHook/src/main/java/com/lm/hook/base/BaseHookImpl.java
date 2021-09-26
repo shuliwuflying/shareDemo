@@ -66,7 +66,7 @@ public class BaseHookImpl {
                     findAndHookMethod(clzName, param.classLoader, methodName, params);
                 }
                 LogUtils.e("HookImpl", "method: " + methodStr +" success");
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 LogUtils.e("HookImpl", "method: " + methodStr + " failed2222  cause: " + e.getCause());
             }
         }

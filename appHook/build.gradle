@@ -2,6 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
+if (file(getRootDir().getPath() + "/release-tools/cert.gradle").exists()) {
+    apply from: '../release-tools/cert.gradle'
+}
+
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"

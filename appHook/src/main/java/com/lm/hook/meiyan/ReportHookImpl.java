@@ -27,14 +27,11 @@ class ReportHookImpl extends BaseHookImpl {
                 new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        LogUtils.e(TAG,"onEventHook1 beforeHookedMethod111");
                         for (Object obj : param.args) {
                             LogUtils.i(TAG,  "onEvent1: " + obj);
                         }
-                    }
-
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
+                        LogUtils.e(TAG,"onEventHook1 beforeHookedMethod222");
                     }
                 }
         });
@@ -48,14 +45,11 @@ class ReportHookImpl extends BaseHookImpl {
                 new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        LogUtils.e(TAG,"onEventHook2 beforeHookedMethod111");
                         for (Object obj : param.args) {
                             LogUtils.i(TAG,  "onEvent2: " + obj);
                         }
-                    }
-
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
+                        LogUtils.e(TAG,"onEventHook2 beforeHookedMethod222");
                     }
                 }
         });
@@ -69,14 +63,11 @@ class ReportHookImpl extends BaseHookImpl {
                 new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        LogUtils.e(TAG,"onEventHook3 beforeHookedMethod111");
                         for (Object obj : param.args) {
                             LogUtils.i(TAG,  "onEvent3: " + obj);
                         }
-                    }
-
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
+                        LogUtils.e(TAG,"onEventHook3 beforeHookedMethod222");
                     }
                 }
         });

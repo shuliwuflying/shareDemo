@@ -1,0 +1,21 @@
+android {
+    signingConfigs {
+        releaseSigning {
+            storeFile file(getRootDir().getPath() + '/release-tools/beauty.keystore')
+            storePassword 'beauty'
+            keyAlias 'beautykey'
+            keyPassword 'beauty'
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.releaseSigning
+        }
+
+        debug {
+            versionNameSuffix "-debug"
+            signingConfig signingConfigs.releaseSigning
+        }
+    }
+}

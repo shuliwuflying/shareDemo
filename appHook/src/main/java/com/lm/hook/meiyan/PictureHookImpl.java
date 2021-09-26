@@ -75,13 +75,10 @@ class PictureHookImpl extends BaseHookImpl {
                     handleLog(value);
                     if(value.contains("Meitu,java.io.IOException")) {
                         LogUtils.e(TAG, android.util.Log.getStackTraceString(new Throwable("IOException")));
+                    } else if(value.contains("setIs_new_creator")) {
+                        return ;
                     }
                     LogUtils.i(TAG, "Debug_"+methodName+": "+value);
-                }
-
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
                 }
             }
         };
