@@ -8,6 +8,7 @@ public class LaunchHookImpl extends LaunchHookBaseImpl {
     private static final String className1 = "com.tencent.tinker.loader.app.TinkerApplication";
     private static final String className2 = "com.meitu.remote.hotfix.app.RemoteHotfixApplication";
     public static boolean isHighVersion = false;
+    private boolean mIsInit = false;
 
     @Override
     protected String getApplicationClass() {
@@ -22,5 +23,14 @@ public class LaunchHookImpl extends LaunchHookBaseImpl {
         }
         LogUtils.e(TAG,"applicationName: "+name);
         return name;
+    }
+
+    @Override
+    protected void onLaunchCompleted() {
+        super.onLaunchCompleted();
+        if(!mIsInit) {
+            new BitmapHookImpl().init(hookParam);
+            mIsInit = true;
+        }
     }
 }

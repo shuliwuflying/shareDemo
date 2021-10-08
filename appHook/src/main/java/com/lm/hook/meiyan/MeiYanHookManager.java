@@ -28,6 +28,5 @@ public class MeiYanHookManager {
 //        new ReportHookImpl().init(param);
         new MediaLogHookImpl().init(param);
         new ToastCompatHookImpl().init(param);
-        new BitmapHookImpl().init(param);
     }
 }

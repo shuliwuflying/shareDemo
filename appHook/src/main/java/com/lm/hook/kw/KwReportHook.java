@@ -13,19 +13,19 @@ class KwReportHook extends BaseHookImpl {
     private static boolean isFlag = true;
 
     public void prepare(XC_LoadPackage.LoadPackageParam hookParam) {
-//        try {
+        try {
             LogUtils.e(TAG,"KwReportHook prepare");
-//            hookEntityList.add(getReportHook());
-//            hookEntityList.add(getIsChannelHook());
-//            hookEntityList.add(setStatsHolderHook("onDebugInfo"));
-//
+            hookEntityList.add(getReportHook());
+            hookEntityList.add(getIsChannelHook());
+            hookEntityList.add(setStatsHolderHook("onDebugInfo"));
+
 //            hookEntityList.add(setStatsHolderHook("onReportJsonStats"));
 //            hookEntityList.add(setStatsHolderHook("onReportLiveJsonStats"));
 //
-//        } catch (ClassNotFoundException e) {
-//            LogUtils.e(TAG,"ClassNotFoundException "+e.getMessage());
-//            e.printStackTrace();
-//        }
+        } catch (ClassNotFoundException e) {
+            LogUtils.e(TAG,"ClassNotFoundException "+e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private MethodSignature getReportHook() throws ClassNotFoundException {

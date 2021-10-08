@@ -109,11 +109,12 @@ public class BitmapHookImpl extends BaseHookImpl {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                                 LogUtils.e(TAG, "bitmapSendHook beforeHookedMethod");
+                                LogUtils.e(TAG, android.util.Log.getStackTraceString(new Throwable("bitmapSendHook")));
                             }
 
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                LogUtils.e(TAG, "save cost: "+(System.currentTimeMillis() - startTime));
+                                LogUtils.e(TAG, "pic-save-cost: "+(System.currentTimeMillis() - startTime));
                             }
                         }
                 });
