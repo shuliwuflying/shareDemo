@@ -68,6 +68,7 @@ public class RecordLogUtils {
             String timeStamp = simpleDateFormat.format(date);
 
             String content = String.valueOf(msg.obj);
+//            LogUtils.e("record_log_save", content);
             if (TextUtils.isEmpty(content)) {
                 return;
             }

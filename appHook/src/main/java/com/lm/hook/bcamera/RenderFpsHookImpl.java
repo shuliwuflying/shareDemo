@@ -7,6 +7,7 @@ import com.lm.hook.base.BaseHookImpl;
 import com.lm.hook.base.LaunchHookBaseImpl;
 import com.lm.hook.meiyan.CameraAnalysis;
 import com.lm.hook.utils.ConstantUtils;
+import com.lm.hook.utils.LogUtils;
 
 import java.util.HashMap;
 
@@ -74,32 +75,32 @@ class RenderFpsHookImpl extends BaseHookImpl {
 //                });
 //    }
 
-//    private MethodSignature getOpenGlHook() {
-//        final String targetClz = "android.opengl.GLES20";
-//        final String method = "glViewport";
-//        final Object[] params = new Object[]{
-//                int.class,
-//                int.class,
-//                int.class,
-//                int.class,
-//                new XC_MethodHook() {
-//                    @Override
-//                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-//                        int height = Integer.parseInt(param.args[3].toString());
+    private MethodSignature getOpenGlHook() {
+        final String targetClz = "android.opengl.GLES20";
+        final String method = "glViewport";
+        final Object[] params = new Object[]{
+                int.class,
+                int.class,
+                int.class,
+                int.class,
+                new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        int height = Integer.parseInt(param.args[3].toString());
 //                        if (height == ParamsHookImpl.previewHeight) {
 ////                            printRenderFps();
 //                        }
-//                    }
-//
-//                    @Override
-//                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-//
-//                    }
-//                }
-//        };
-//        return new MethodSignature(targetClz, method, params);
-//
-//    }
+                    }
+
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+
+                    }
+                }
+        };
+        return new MethodSignature(targetClz, method, params);
+
+    }
 
     private MethodSignature getUpdateImaTxt() {
         final String targetClz = SurfaceTexture.class.getName();

@@ -6,6 +6,7 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.media.ImageReader;
+import android.os.Build;
 import android.os.Handler;
 import android.util.Log;
 
@@ -33,7 +34,8 @@ public class PreviewHookImpl extends BaseHookImpl {
     private CameraStageHookImpl mCameraStageBase;
     private SurfaceTexture mPreviewSurfaceTexture;
     private volatile boolean isRecord = false;
-
+    public static String sPictureHdSize = "";
+    public static String sPictureSize = "";
 
     public PreviewHookImpl(CameraStageHookImpl hook) {
         mCameraStageBase = hook;
@@ -47,14 +49,18 @@ public class PreviewHookImpl extends BaseHookImpl {
         hookEntityList.add(getParametersHook());
         hookEntityList.add(setPreviewSize());
         hookEntityList.add(setPictureSize());
-        hookEntityList.add(parametersPutHook());
+        if (!"V1950A".equals(Build.MODEL)) {
+            hookEntityList.add(parametersPutHook());
+        }
         hookEntityList.add(getSurfaceTextureHook());
     }
 
     private void hookForCameraV2() {
         hookEntityList.add(getDefaultBufferSizeMethod());
         hookEntityList.add(setPictureSizeForCamera2());
-        hookEntityList.add(captureRequestHook());
+        if (!"V1950A".equals(Build.MODEL)) {
+            hookEntityList.add(captureRequestHook());
+        }
         hookEntityList.add(getParametersHook2());
     }
 
@@ -85,7 +91,7 @@ public class PreviewHookImpl extends BaseHookImpl {
                                 mPreviewSurfaceTexture = (SurfaceTexture) param.thisObject;
                                 previewWidth = Integer.parseInt(param.args[0].toString());
                                 previewHeight = Integer.parseInt(param.args[1].toString());
-                                CameraAnalysis.printPreviewSize(String.format("preview-size: %d,%d",previewWidth, previewHeight));
+                                CameraAnalysis.printPreviewSize(String.format("preview-size-%s: %d,%d",CameraStageHookImpl.sCameraFacing, previewWidth, previewHeight));
                             }
                         }
                 });
@@ -103,7 +109,8 @@ public class PreviewHookImpl extends BaseHookImpl {
                                 previewWidth = Integer.parseInt(param.args[1].toString());
                                 previewHeight = Integer.parseInt(param.args[0].toString());
                                 LogUtils.e(TAG, "getPreviewSize previewWidth: "+previewWidth +"  previewHeight: "+previewHeight);
-                                CameraAnalysis.printPreviewSize(String.format("preview-size: %d,%d",previewWidth, previewHeight));
+                                sPictureSize = String.format("picture-size: %d,%d",previewWidth, previewHeight);
+                                CameraAnalysis.printPreviewSize(String.format("preview-size-%s: %d,%d",CameraStageHookImpl.sCameraFacing, previewWidth, previewHeight));
                             }
                         }
                 });
@@ -121,7 +128,7 @@ public class PreviewHookImpl extends BaseHookImpl {
                                 String height = param.args[0].toString();
                                 String width = param.args[1].toString();
                                 LogUtils.e(TAG, "pictureWidth: "+width +"  pictureHeight: "+height);
-                                LogUtils.recordLog(TAG, String.format("picture-size: %s,%s",width, height));
+                                sPictureHdSize = String.format("picture-size-hd: %s,%s",width, height);
                             }
                         }
                 });
@@ -136,18 +143,24 @@ public class PreviewHookImpl extends BaseHookImpl {
                         String.class,
                         new XC_MethodHook() {
                             @Override
-                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                StringBuilder sb = new StringBuilder();
-                                for (int i = 0; i < param.args.length; i++) {
-                                    sb.append(param.args[i]);
-                                    if (i != param.args.length - 1) {
-                                        sb.append(": ");
+                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                                LogUtils.e(TAG, "beforeHookedMethod put1111");
+                                try {
+                                    StringBuilder sb = new StringBuilder();
+                                    for (int i = 0; i < param.args.length; i++) {
+                                        sb.append(param.args[i]);
+                                        if (i != param.args.length - 1) {
+                                            sb.append(": ");
+                                        }
                                     }
-                                }
-                                if (filterParamList.contains(param.args[0])) {
-                                    CameraAnalysis.print(sb.toString());
-                                } else {
-                                    CameraAnalysis.printPreviewSize(sb.toString());
+                                    if (filterParamList.contains(param.args[0])) {
+                                        CameraAnalysis.print(sb.toString());
+                                    } else {
+                                        CameraAnalysis.printPreviewSize(sb.toString());
+                                    }
+                                    LogUtils.e(TAG, "beforeHookedMethod put2222");
+                                } catch (Exception e) {
+                                    LogUtils.e(TAG, "parametersPutHook e: "+e);
                                 }
 
                             }
@@ -186,6 +199,7 @@ public class PreviewHookImpl extends BaseHookImpl {
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) {
                                 final Object retValue = param.getResult();
+                                LogUtils.recordLog(TAG, "picture-format: jpeg");
                                 LogUtils.e("sliver", "getParametersHook2 afterHookedMethod isRecord: "+isRecord);
                                 if (retValue != null && !isRecord) {
                                    new Thread(new Runnable() {
@@ -245,7 +259,7 @@ public class PreviewHookImpl extends BaseHookImpl {
                                 }
                                 LogUtils.e(TAG, "ImageReader width: "+param.args[1]+"   height"+param.args[0]);
                                 LogUtils.e(TAG, "ImageReader: "+ param.getResult());
-                                LogUtils.recordLog(TAG, String.format("picture-size: %s,%s",param.args[1],param.args[0]));
+                                sPictureHdSize = String.format("picture-size-hd: %s,%s",param.args[1],param.args[0]);
                             }
                         }
                 });

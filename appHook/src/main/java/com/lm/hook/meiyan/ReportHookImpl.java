@@ -29,7 +29,7 @@ class ReportHookImpl extends BaseHookImpl {
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         LogUtils.e(TAG,"onEventHook1 beforeHookedMethod111");
                         for (Object obj : param.args) {
-                            LogUtils.i(TAG,  "onEvent1: " + obj);
+                            LogUtils.e(TAG,  "onEvent1: " + obj);
                         }
                         LogUtils.e(TAG,"onEventHook1 beforeHookedMethod222");
                     }
@@ -47,7 +47,7 @@ class ReportHookImpl extends BaseHookImpl {
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         LogUtils.e(TAG,"onEventHook2 beforeHookedMethod111");
                         for (Object obj : param.args) {
-                            LogUtils.i(TAG,  "onEvent2: " + obj);
+                            LogUtils.e(TAG,  "onEvent2: " + obj);
                         }
                         LogUtils.e(TAG,"onEventHook2 beforeHookedMethod222");
                     }
@@ -65,7 +65,7 @@ class ReportHookImpl extends BaseHookImpl {
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         LogUtils.e(TAG,"onEventHook3 beforeHookedMethod111");
                         for (Object obj : param.args) {
-                            LogUtils.i(TAG,  "onEvent3: " + obj);
+                            LogUtils.e(TAG,  "onEvent3: " + obj);
                         }
                         LogUtils.e(TAG,"onEventHook3 beforeHookedMethod222");
                     }

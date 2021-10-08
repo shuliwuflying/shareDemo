@@ -54,9 +54,14 @@ public abstract class LaunchHookBaseImpl extends BaseHookImpl {
         if(!isRecord) {
             LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "launch-cost: " + (System.currentTimeMillis() - sAppStartTs));
             isRecord = true;
+            onLaunchCompleted();
         }
     }
 
 
     protected abstract String getApplicationClass();
+
+    protected void onLaunchCompleted() {
+
+    }
 }

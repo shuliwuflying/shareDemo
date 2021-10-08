@@ -12,14 +12,21 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class BCameraHookManager {
     private static final String TAG = "BCameraHookManager";
 
-    public static void hook(XC_LoadPackage.LoadPackageParam param) {
+    public static void hook(final XC_LoadPackage.LoadPackageParam param) {
         LaunchHookImpl hook = new LaunchHookImpl();
         hook.init(param);
 
         CameraStageHookImpl cameraStageHook = new CameraStageHookImpl(hook);
         cameraStageHook.init(param);
         new RenderFpsHookImpl(hook).init(param);
-        new HdCaptureHookImpl().init(param);
+        HdCaptureHookImpl hdCaptureHook = new HdCaptureHookImpl();
+        hdCaptureHook.init(param);
+        hdCaptureHook.setCaptureCallback(new HdCaptureHookImpl.ICaptureCallback() {
+            @Override
+            public void onCaptureComplete(boolean isHdCapture) {
+
+            }
+        });
         new PreviewHookImpl(cameraStageHook).init(param);
         new LaunchHookImpl().init(param);
         new AdHookImpl().init(param);

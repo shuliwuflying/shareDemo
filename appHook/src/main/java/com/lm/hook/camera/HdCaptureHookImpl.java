@@ -12,10 +12,15 @@ import de.robv.android.xposed.XC_MethodHook;
 public class HdCaptureHookImpl extends BaseHookImpl {
     private static final String TAG = "HdCaptureHookImpl";
     private static long sCaptureStart = 0;
+    private ICaptureCallback captureCallback;
 
     public HdCaptureHookImpl() {
         hookEntityList.add(getHdCaptureForCameraV1());
         hookEntityList.add(getHdCaptureForCameraV2());
+    }
+
+    public void setCaptureCallback(ICaptureCallback callback) {
+        captureCallback = callback;
     }
 
     private MethodSignature getHdCaptureForCameraV1() {
@@ -31,7 +36,10 @@ public class HdCaptureHookImpl extends BaseHookImpl {
                                 LogUtils.e(TAG, "takePicture");
                                 sCaptureStart = System.currentTimeMillis();
                                 CameraAnalysis.isHdCapture = true;
-                                LogUtils.recordLog(TAG, "hd-capture: true");
+                                if (captureCallback == null) {
+                                    LogUtils.recordLog(TAG, "hd-capture: true");
+                                }
+                                LogUtils.recordLog(TAG, PreviewHookImpl.sPictureHdSize);
                                 Camera.PictureCallback callback = (Camera.PictureCallback) param.args[3];
                                 PictureCallback pictureCallback = new PictureCallback(callback);
                                 param.args[3] = pictureCallback;
@@ -58,7 +66,10 @@ public class HdCaptureHookImpl extends BaseHookImpl {
                                     if (value == CameraDevice.TEMPLATE_STILL_CAPTURE) {
                                         CameraAnalysis.isHdCapture = true;
                                         sCaptureStart = System.currentTimeMillis();
-                                        LogUtils.recordLog(TAG, "hd-capture: true");
+                                        if (captureCallback == null) {
+                                            LogUtils.recordLog(TAG, "hd-capture: true");
+                                        }
+                                        LogUtils.recordLog(TAG, PreviewHookImpl.sPictureHdSize);
                                     } else if (value == CameraDevice.TEMPLATE_PREVIEW) {
                                         CameraAnalysis.isPreviewParamsSet = false;
                                     }
@@ -86,5 +97,9 @@ public class HdCaptureHookImpl extends BaseHookImpl {
             pictureCallback.onPictureTaken(data, camera);
             LogUtils.recordLog(TAG,"capture-cost: "+(System.currentTimeMillis() - sCaptureStart));
         }
+    }
+
+    public static interface ICaptureCallback {
+        void onCaptureComplete(boolean isHdCapture);
     }
 }

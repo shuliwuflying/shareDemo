@@ -39,6 +39,7 @@ public class CameraStageHookImpl extends BaseHookImpl {
     private static CaptureCallback captureCallback = null;
     private static Object cameraObj = null;
     private volatile static boolean isStartPreview = false;
+    public static String sCameraFacing = "front";
 
     private LaunchHookBaseImpl mLaunchHookBase;
 
@@ -332,7 +333,8 @@ public class CameraStageHookImpl extends BaseHookImpl {
     private static void onOpenCameraBefore(XC_MethodHook.MethodHookParam param) {
         sOpenStart = System.currentTimeMillis();
         Integer value = Integer.parseInt(String.valueOf(param.args[0]));
-        CameraAnalysis.printCameraFace("facing: " + (value == 1 ? "front" : "back"));
+        sCameraFacing = value == 1 ? "front" : "back";
+        CameraAnalysis.printCameraFace("facing: " + sCameraFacing);
         HookUtils.initHandler();
     }
 

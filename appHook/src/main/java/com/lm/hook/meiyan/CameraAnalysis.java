@@ -49,6 +49,10 @@ public class CameraAnalysis {
 
     public static void filterPictureSize(String msg) {
         LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "hd-capture: "+isHdCapture);
+        String pictureTag = "picture-size";
+        if(isHdCapture) {
+            pictureTag = pictureTag+"-hd";
+        }
         Pattern p=Pattern.compile(SIZE_REX);
         Matcher m=p.matcher(msg);
         if (m.find()) {
@@ -56,9 +60,9 @@ public class CameraAnalysis {
             if (!TextUtils.isEmpty(valueStr) && valueStr.contains(",")) {
                 String[] values = valueStr.split(",");
                 sTakePictureSize = ""+values[0]+","+values[1];
-                LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "capture-size: "+sTakePictureSize);
+                LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, pictureTag+": "+sTakePictureSize);
             } else {
-                LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, "capture-size: " + valueStr);
+                LogUtils.recordLog(ConstantUtils.MY_LOG_TAG, pictureTag+": " + valueStr);
             }
         }
         isHdCapture = false;

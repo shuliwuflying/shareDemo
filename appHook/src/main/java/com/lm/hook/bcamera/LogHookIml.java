@@ -3,6 +3,8 @@ package com.lm.hook.bcamera;
 import android.content.Context;
 
 import com.lm.hook.base.BaseHookImpl;
+import com.lm.hook.camera.PreviewHookImpl;
+import com.lm.hook.meiyan.CameraAnalysis;
 import com.lm.hook.utils.LogUtils;
 
 import java.util.Map;
@@ -16,25 +18,20 @@ public class LogHookIml extends BaseHookImpl {
 //        hookEntityList.add(getMethodA());
 //        hookEntityList.add(getMethodF());
 
-        hookEntityList.add(new MethodSignature(
-                "com.linecorp.b612.android.base.util.c",
-                "c",
-                new Object[]{
-                        String.class,
-                        new XC_MethodHook() {
-                            @Override
-                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                                for (Object object : param.args) {
-                                    LogUtils.e(TAG, "c: " + object);
-                                }
-                            }
-
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
-                            }
-                        }
-                }));
+//        hookEntityList.add(new MethodSignature(
+//                "com.linecorp.b612.android.base.util.c",
+//                "c",
+//                new Object[]{
+//                        String.class,
+//                        new XC_MethodHook() {
+//                            @Override
+//                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//                                for (Object object : param.args) {
+//                                    LogUtils.e(TAG, "c: " + object);
+//                                }
+//                            }
+//                        }
+//                }));
 
         hookEntityList.add(new MethodSignature(
                 "com.tendcloud.tenddata.TCAgent",
@@ -48,13 +45,14 @@ public class LogHookIml extends BaseHookImpl {
                             @Override
                             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                                 for (Object object : param.args) {
-                                    LogUtils.e(TAG, "TCAgent.onEvent111: " + object);
+                                    LogUtils.e(TAG, "TCAgent.onEvent111: " + String.valueOf(object));
+                                    LogUtils.e(TAG, "ShutterComplete.equal: "+("ShutterComplete".equals(String.valueOf(object))));
+                                    if ("ShutterComplete".equals(String.valueOf(object))) {
+                                        LogUtils.recordLog(TAG, "hd-capture: "+ CameraAnalysis.isHdCapture);
+                                        LogUtils.recordLog(TAG, PreviewHookImpl.sPictureSize);
+                                        CameraAnalysis.isHdCapture = false;
+                                    }
                                 }
-                            }
-
-                            @Override
-                            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
                             }
                         }
                 }));
@@ -179,6 +177,26 @@ public class LogHookIml extends BaseHookImpl {
 //                            }
 //                        }
 //                });
+//    }
+
+//    public MethodSignature getMethodSig(String method) {
+//        return new MethodSignature(
+//                "o42", method,
+//                new Object[]{
+//                        String.class,
+//                        String.class,
+//                        new XC_MethodHook() {
+//                            @Override
+//                            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//                                for (Object object : param.args) {
+//                                    if ("Save".equals(String.valueOf(object))) {
+//                                        LogUtils.e(TAG, android.util.Log.getStackTraceString(new Throwable("m-save")));
+//                                    }
+//                                }
+//                            }
+//                        }
+//                }
+//        );
 //    }
 
 }

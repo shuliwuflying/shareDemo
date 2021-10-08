@@ -1,5 +1,6 @@
 package com.lm.hook.meiyan;
 
+import com.lm.hook.camera.BitmapHookImpl;
 import com.lm.hook.camera.HdCaptureHookImpl;
 import com.lm.hook.camera.CameraStageHookImpl;
 import com.lm.hook.camera.PreviewHookImpl;
@@ -27,5 +28,6 @@ public class MeiYanHookManager {
 //        new ReportHookImpl().init(param);
         new MediaLogHookImpl().init(param);
         new ToastCompatHookImpl().init(param);
+        new BitmapHookImpl().init(param);
     }
 }
