@@ -44,6 +44,7 @@ public class ComplexHookImpl extends BaseHookImpl {
     protected void prepare(XC_LoadPackage.LoadPackageParam hookParam) {
         hookEntityList.add(getAppLogHook());
         hookEntityList.add(getAlogHook());
+        hookEntityList.add(getAlogWHook());
     }
 
     private MethodSignature getAppLogHook() {
@@ -78,7 +79,7 @@ public class ComplexHookImpl extends BaseHookImpl {
                                     }
                                     break;
                                 case PIC_SAVE_COST:
-                                    LogUtils.recordLog(TAG, "pic-save-cost: "+jsonObject.get("save_time"));
+//                                    LogUtils.recordLog(TAG, "pic-save-cost: "+jsonObject.get("save_time"));
                                     break;
                                 case VIDEO_SAVE_COST:
                                     LogUtils.recordLog(TAG, "video-save-cost: "+jsonObject.get("save_time"));
@@ -104,6 +105,26 @@ public class ComplexHookImpl extends BaseHookImpl {
                         if (value.contains(FPS_TAG)){
                             String fps = value.substring(FPS_TAG.length()).trim();
                             LogUtils.recordLog(TAG, "render-fps: "+fps);
+                        }
+                    }
+                }
+        };
+        return new MethodSignature(targetClz, method, params);
+    }
+
+    private MethodSignature getAlogWHook() {
+        final String targetClz = "com.ss.android.agilelogger.ALog";
+        final String method = "w";
+        final Object[] params = new Object[] {
+                String.class,
+                String.class,
+                new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        String value = param.args[1].toString();
+                        if (value.contains(FPS_TAG)){
+                            String fps = value.substring(FPS_TAG.length()).trim();
+                            LogUtils.recordLog(TAG, "render-fps111: "+fps);
                         }
                     }
                 }

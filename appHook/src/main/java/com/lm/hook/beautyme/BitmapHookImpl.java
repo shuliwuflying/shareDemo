@@ -1,4 +1,4 @@
-package com.lm.hook.camera;
+package com.lm.hook.beautyme;
 
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 
 import com.lm.hook.base.BaseHookImpl;
+import com.lm.hook.camera.PreviewHookImpl;
 import com.lm.hook.utils.LogUtils;
 
 import java.io.OutputStream;
@@ -18,13 +19,14 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class BitmapHookImpl extends BaseHookImpl {
     private static final String TAG = "BitmapHookImpl";
     private long startTime = 0;
+    private boolean mIsSaveBitmap = false;
 
     @Override
     protected void prepare(XC_LoadPackage.LoadPackageParam hookParam) {
         hookEntityList.add(bitmapCompressHook());
-        hookEntityList.add(bitmapInsertHook());
-        hookEntityList.add(bitmapSendHook());
-        hookEntityList.add(bitmapInsertHook2());
+//        hookEntityList.add(bitmapInsertHook());
+//        hookEntityList.add(bitmapSendHook());
+//        hookEntityList.add(bitmapInsertHook2());
     }
 
 
@@ -44,13 +46,21 @@ public class BitmapHookImpl extends BaseHookImpl {
                                     int width = bitmap.getWidth();
                                     int height = bitmap.getHeight();
                                     LogUtils.e(TAG, "width: "+width+" height: "+height);
+                                    if (width< PreviewHookImpl.previewWidth) {
+                                        mIsSaveBitmap = false;
+                                    } else {
+                                        mIsSaveBitmap = true;
+                                    }
+
                                 }
 
                             }
 
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                LogUtils.e(TAG, "save cost: "+(System.currentTimeMillis() - startTime));
+                                if(mIsSaveBitmap) {
+                                    LogUtils.recordLog(TAG, "pic-save-cost: " + (System.currentTimeMillis() - startTime));
+                                }
                             }
                         }
                 });

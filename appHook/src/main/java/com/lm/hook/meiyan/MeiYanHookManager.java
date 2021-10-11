@@ -1,6 +1,5 @@
 package com.lm.hook.meiyan;
 
-import com.lm.hook.camera.BitmapHookImpl;
 import com.lm.hook.camera.HdCaptureHookImpl;
 import com.lm.hook.camera.CameraStageHookImpl;
 import com.lm.hook.camera.PreviewHookImpl;

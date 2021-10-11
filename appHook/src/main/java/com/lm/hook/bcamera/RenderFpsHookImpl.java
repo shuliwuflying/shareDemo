@@ -22,9 +22,9 @@ class RenderFpsHookImpl extends BaseHookImpl {
     private static final String TAG = "RenderFpsHookImpl";
     private static boolean sIsFirstFrame = false;
     private static long sDrawFrameCount = 0;
+    private static long sDrawFrameCount2 = 0;
     private static long sRecordLastFpsTs = 0L;
 
-    private static long sDrawFrameCount2 = 0;
     private static long sRecordLastFpsTs2 = 0L;
     private String lastValue = "";
 
@@ -36,8 +36,8 @@ class RenderFpsHookImpl extends BaseHookImpl {
     }
 
     protected void prepare(XC_LoadPackage.LoadPackageParam hookParam) {
-//        hookEntityList.add(getOpenGlHook());
         hookEntityList.add(getUpdateImaTxt());
+//        hookEntityList.add(getTransformMatrixHook());
     }
 
 //    /**
@@ -75,33 +75,6 @@ class RenderFpsHookImpl extends BaseHookImpl {
 //                });
 //    }
 
-    private MethodSignature getOpenGlHook() {
-        final String targetClz = "android.opengl.GLES20";
-        final String method = "glViewport";
-        final Object[] params = new Object[]{
-                int.class,
-                int.class,
-                int.class,
-                int.class,
-                new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        int height = Integer.parseInt(param.args[3].toString());
-//                        if (height == ParamsHookImpl.previewHeight) {
-////                            printRenderFps();
-//                        }
-                    }
-
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-
-                    }
-                }
-        };
-        return new MethodSignature(targetClz, method, params);
-
-    }
-
     private MethodSignature getUpdateImaTxt() {
         final String targetClz = SurfaceTexture.class.getName();
         final String methodName = "updateTexImage";
@@ -112,6 +85,22 @@ class RenderFpsHookImpl extends BaseHookImpl {
                     protected void afterHookedMethod(MethodHookParam param) throws Throwable {
 //                        LogUtils.e(TAG, "updateTexImage  thread: "+Thread.currentThread().getName());
                         printRenderFps();
+                    }
+                }
+        };
+        return new MethodSignature(targetClz, methodName, params);
+    }
+
+    private MethodSignature getTransformMatrixHook() {
+        final String targetClz = SurfaceTexture.class.getName();
+        final String methodName = "getTransformMatrix";
+        final Object[] params = new Object[] {
+                float[].class,
+                new XC_MethodHook() {
+
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        printRenderFps2();
                     }
                 }
         };
@@ -131,6 +120,22 @@ class RenderFpsHookImpl extends BaseHookImpl {
             CameraAnalysis.printRenderFps(String.valueOf(sDrawFrameCount));
             sRecordLastFpsTs = System.currentTimeMillis();
             sDrawFrameCount = 0;
+        }
+    }
+
+    private void printRenderFps2() {
+        if (!sIsFirstFrame) {
+            sIsFirstFrame = true;
+            sRecordLastFpsTs = System.currentTimeMillis();
+        }
+        sDrawFrameCount2++;
+        long timeDuration = System.currentTimeMillis() - sRecordLastFpsTs2;
+        LogUtils.i(TAG, "getTransformMatrix  thread: "+Thread.currentThread().getId());
+        if (Math.abs(timeDuration - ConstantUtils.TIME_DURATION_PRINT_FPS) < 5 || timeDuration >= ConstantUtils.TIME_DURATION_PRINT_FPS) {
+            LogUtils.e(TAG, "getTransformMatrix  thread: "+Thread.currentThread().getId());
+            CameraAnalysis.printRenderFps(String.valueOf(sDrawFrameCount2));
+            sRecordLastFpsTs2 = System.currentTimeMillis();
+            sDrawFrameCount2 = 0;
         }
     }
 

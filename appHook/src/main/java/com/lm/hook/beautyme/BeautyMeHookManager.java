@@ -1,7 +1,6 @@
 package com.lm.hook.beautyme;
 
 import com.lm.hook.base.MediaCodecHookImpl;
-import com.lm.hook.camera.BitmapHookImpl;
 import com.lm.hook.camera.CameraStageHookImpl;
 import com.lm.hook.camera.HdCaptureHookImpl;
 import com.lm.hook.camera.PreviewHookImpl;

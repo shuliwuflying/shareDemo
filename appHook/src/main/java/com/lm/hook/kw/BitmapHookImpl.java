@@ -40,7 +40,7 @@ public class BitmapHookImpl extends BaseHookImpl {
 
                             @Override
                             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                                LogUtils.e(TAG, "pic-save-cost: "+(System.currentTimeMillis() - startTime));
+                                LogUtils.recordLog(TAG, "pic-save-cost: "+(System.currentTimeMillis() - startTime));
                             }
                         }
                 });
