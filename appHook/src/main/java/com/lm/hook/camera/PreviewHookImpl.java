@@ -91,6 +91,7 @@ public class PreviewHookImpl extends BaseHookImpl {
                                 mPreviewSurfaceTexture = (SurfaceTexture) param.thisObject;
                                 previewWidth = Integer.parseInt(param.args[0].toString());
                                 previewHeight = Integer.parseInt(param.args[1].toString());
+                                sPictureSize = String.format("picture-size: %d,%d",previewWidth, previewHeight);
                                 CameraAnalysis.printPreviewSize(String.format("preview-size-%s: %d,%d",CameraStageHookImpl.sCameraFacing, previewWidth, previewHeight));
                             }
                         }

@@ -1,11 +1,5 @@
 package com.lm.hook.base;
 
-import android.content.Context;
-import android.os.Build;
-import android.os.Environment;
-import android.util.Log;
-
-import com.bytedance.android.hacker.Hacker;
 import com.lm.hook.utils.ConstantUtils;
 import com.lm.hook.utils.LogUtils;
 
@@ -16,7 +10,7 @@ public abstract class LaunchHookBaseImpl extends BaseHookImpl {
 
     private long sStartTs = 0;
     private boolean isRecord = false;
-    protected long sAppStartTs = 0;
+    public static long sAppStartTs = 0;
     protected boolean sIsRecordAppStart = false;
     protected String pkgName = "";
 
@@ -36,13 +30,7 @@ public abstract class LaunchHookBaseImpl extends BaseHookImpl {
                 new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                        Context context = (Context) param.thisObject;
-                        if (Build.VERSION.SDK_INT >= 29) {
-                            boolean isExternalStorageLegacy = Environment.isExternalStorageLegacy();
-                            LogUtils.e("sliver", "isExternalStorageLegacy: "+isExternalStorageLegacy);
-                        }
-                        pkgName = context.getPackageName();
-                        LogUtils.e("sliver", "pkgName: "+pkgName);
+                        LogUtils.e("sliver", "application onCreate hoook");
                         sAppStartTs = System.currentTimeMillis();
                     }
                 }

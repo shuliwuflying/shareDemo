@@ -3,6 +3,7 @@ package com.lm.hook.beautyme;
 import android.content.Context;
 
 import com.lm.hook.base.BaseHookImpl;
+import com.lm.hook.camera.PreviewHookImpl;
 import com.lm.hook.camera.RecordHookImpl;
 import com.lm.hook.utils.LogUtils;
 
@@ -69,8 +70,12 @@ public class ComplexHookImpl extends BaseHookImpl {
                             LogUtils.e(TAG, "onEvent: "+param.args[2]+"  value: "+jsonObject.toString());
                             switch (tag) {
                                 case TAKE_PICTURE:
+                                    String isHd = jsonObject.get("HD_take_mode").toString();
                                     LogUtils.recordLog(TAG, "hd-picture: "+jsonObject.get("HD_take_mode"));
                                     LogUtils.recordLog(TAG, "capture-cost: "+jsonObject.get("time_cost"));
+                                    if (isHd.equals("false")) {
+                                        LogUtils.recordLog(TAG, PreviewHookImpl.sPictureSize);
+                                    }
                                     break;
                                 case VIDEO_RECORD:
                                 case LONG_VIDEO:
