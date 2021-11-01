@@ -4,6 +4,7 @@ import com.lm.hook.base.MediaCodecHookImpl;
 import com.lm.hook.camera.CameraStageHookImpl;
 import com.lm.hook.camera.HdCaptureHookImpl;
 import com.lm.hook.camera.PreviewHookImpl;
+import com.lm.hook.base.ToastCompatHookImpl;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -21,5 +22,6 @@ public class BeautyMeHookManager {
         new ComplexHookImpl(mediaCodecHook).init(param);
         new ShortCutHookImpl().init(param);
         new BitmapHookImpl().init(param);
+        new ToastCompatHookImpl().init(param);
     }
 }

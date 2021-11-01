@@ -18,7 +18,7 @@ class ShortCutHookImpl extends BaseHookImpl {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            hookEntityList.add(getShortCutHook());
 //            hookEntityList.add(getShortCutHook1());
-            hookEntityList.add(getShortCutHook2());
+//            hookEntityList.add(getShortCutHook2());
         }
     }
 

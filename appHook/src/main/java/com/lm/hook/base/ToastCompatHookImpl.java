@@ -1,4 +1,4 @@
-package com.lm.hook.meiyan;
+package com.lm.hook.base;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -10,7 +10,7 @@ import com.lm.hook.utils.LogUtils;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-class ToastCompatHookImpl extends BaseHookImpl {
+public class ToastCompatHookImpl extends BaseHookImpl {
     private static final String TAG = "ToastCompatHookImpl";
 
     protected void prepare(XC_LoadPackage.LoadPackageParam hookParam) {

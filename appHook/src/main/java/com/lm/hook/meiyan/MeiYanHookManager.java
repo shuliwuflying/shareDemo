@@ -1,6 +1,6 @@
 package com.lm.hook.meiyan;
 
-import com.lm.hook.base.BaseHookImpl;
+import com.lm.hook.base.ToastCompatHookImpl;
 import com.lm.hook.camera.HdCaptureHookImpl;
 import com.lm.hook.camera.CameraStageHookImpl;
 import com.lm.hook.camera.PreviewHookImpl;
